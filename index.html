@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIEL</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#000;
+overflow:hidden;
+color:#fff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+.card{
+background:rgba(0,0,0,.75);
+border:2px solid #00ff55;
+border-radius:20px;
+padding:40px;
+text-align:center;
+box-shadow:0 0 25px #00ff55;
+}
+
+h1{
+font-size:60px;
+color:#00ff55;
+text-shadow:0 0 20px #00ff55;
+margin-bottom:15px;
+animation:pulse 2s infinite;
+}
+
+p{
+margin-bottom:25px;
+font-size:18px;
+}
+
+a{
+display:inline-block;
+padding:15px 35px;
+background:#00ff55;
+color:#000;
+font-weight:bold;
+text-decoration:none;
+border-radius:12px;
+transition:.3s;
+box-shadow:0 0 20px #00ff55;
+}
+
+a:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px #00ff55;
+}
+
+@keyframes pulse{
+50%{
+text-shadow:0 0 40px #00ff55;
+}
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="card">
+
+<h1>DIEL</h1>
+
+<p>Bem-vindo ao meu site.</p>
+
+<a href="https://discord.gg/B2HMpM8mX" target="_blank">
+💬 ENTRAR NO DISCORD
+</a>
+
+</div>
+
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let particles=[];
+
+for(let i=0;i<180;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+dx:(Math.random()-.5)*2,
+dy:(Math.random()-.5)*2
+});
+}
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,.2)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ff55";
+
+particles.forEach(p=>{
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width)p.dx*=-1;
+if(p.y<0||p.y>canvas.height)p.dy*=-1;
+
+});
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+onresize=()=>{
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+</script>
+
+</body>
+</html>
