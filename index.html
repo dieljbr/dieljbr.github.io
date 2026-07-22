@@ -3,149 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIEL</title>
+<title>DIEL | Cyber Edition</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+<link rel="stylesheet" href="style.css">
 
-body{
-background:#000;
-overflow:hidden;
-color:#fff;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-}
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
-.card{
-background:rgba(0,0,0,.75);
-border:2px solid #00ff55;
-border-radius:20px;
-padding:40px;
-text-align:center;
-box-shadow:0 0 25px #00ff55;
-}
-
-h1{
-font-size:60px;
-color:#00ff55;
-text-shadow:0 0 20px #00ff55;
-margin-bottom:15px;
-animation:pulse 2s infinite;
-}
-
-p{
-margin-bottom:25px;
-font-size:18px;
-}
-
-a{
-display:inline-block;
-padding:15px 35px;
-background:#00ff55;
-color:#000;
-font-weight:bold;
-text-decoration:none;
-border-radius:12px;
-transition:.3s;
-box-shadow:0 0 20px #00ff55;
-}
-
-a:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px #00ff55;
-}
-
-@keyframes pulse{
-50%{
-text-shadow:0 0 40px #00ff55;
-}
-}
-</style>
+<script src="https://kit.fontawesome.com/6b5b2c4f0d.js" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
 
-<canvas id="canvas"></canvas>
-
-<div class="card">
+<div id="loader">
 
 <h1>DIEL</h1>
 
-<p>Bem-vindo ao meu site.</p>
+<p id="loadingText">Inicializando sistema...</p>
 
-<a href="https://discord.gg/B2HMpM8mX" target="_blank">
-💬 ENTRAR NO DISCORD
-</a>
+<div class="bar">
+<div class="progress"></div>
+</div>
 
 </div>
 
-<script>
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+<canvas id="matrix"></canvas>
 
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+<div id="particles"></div>
 
-let particles=[];
+<main>
 
-for(let i=0;i<180;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3+1,
-dx:(Math.random()-.5)*2,
-dy:(Math.random()-.5)*2
-});
-}
+<div class="glass">
 
-function draw(){
+<h1 class="logo">DIEL</h1>
 
-ctx.fillStyle="rgba(0,0,0,.2)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+<p class="subtitle">
+Cyber Edition
+</p>
 
-ctx.fillStyle="#00ff55";
+<div class="buttons">
 
-particles.forEach(p=>{
+<a class="btn discord"
+href="https://discord.gg/B2HMpM8mX"
+target="_blank">
 
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fill();
+💬 Discord
 
-p.x+=p.dx;
-p.y+=p.dy;
+</a>
 
-if(p.x<0||p.x>canvas.width)p.dx*=-1;
-if(p.y<0||p.y>canvas.height)p.dy*=-1;
+<a class="btn insta"
+href="https://instagram.com/diel_ofcx7"
+target="_blank">
 
-});
+📷 Instagram
 
-requestAnimationFrame(draw);
+</a>
 
-}
+<button class="btn copy" id="copy">
 
-draw();
+📋 Copiar convite Discord
 
-onresize=()=>{
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-}
-</script>
+</button>
+
+</div>
+
+<div class="spotify">
+
+<iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/track/1b1KmtqgB4gPhrouObJh64"
+width="100%"
+height="152"
+frameborder="0"
+allowfullscreen=""
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+</div>
+
+<div class="counter">
+
+<h2>
+
+🤣 Cornos que visitaram meu site
+
+</h2>
+
+<span id="visitCount">
+
+Carregando...
+
+</span>
+
+</div>
+
+<div class="lang">
+
+<button id="pt">🇧🇷 PT</button>
+
+<button id="en">🇺🇸 EN</button>
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+© 2026 DIEL - Cyber Edition
+
+</footer>
+
+<script src="matrix.js"></script>
+
+<script src="translate.js"></script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
