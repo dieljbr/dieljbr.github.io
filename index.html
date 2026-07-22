@@ -1,42 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DIEL</title>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
-background:#111;
-color:#fff;
+}
+
+body{
+background:#000;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+color:#fff;
 }
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
 .card{
-background:#1f1f1f;
-padding:30px;
-border-radius:15px;
+background:rgba(20,20,20,.8);
+padding:35px;
+border-radius:20px;
 text-align:center;
+box-shadow:0 0 30px #8a2be2;
+backdrop-filter:blur(8px);
 width:340px;
-box-shadow:0 0 20px #000;
 }
+
+h1{
+font-size:55px;
+color:#b84dff;
+text-shadow:0 0 20px #b84dff;
+margin-bottom:15px;
+animation:pulse 2s infinite;
+}
+
 a{
 display:block;
 margin:12px 0;
-padding:12px;
-background:#5865F2;
-color:white;
+padding:14px;
+background:#8a2be2;
+color:#fff;
 text-decoration:none;
-border-radius:10px;
+border-radius:12px;
+transition:.3s;
 font-weight:bold;
 }
-h2{
+
+a:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #b84dff;
+}
+
+#contador{
 margin-top:20px;
-color:#00ff99;
+font-size:28px;
+color:#b84dff;
+font-weight:bold;
+}
+
+@keyframes pulse{
+50%{
+text-shadow:0 0 45px #b84dff;
+}
 }
 </style>
 
@@ -44,32 +85,92 @@ color:#00ff99;
 
 <body>
 
+<canvas id="bg"></canvas>
+
 <div class="card">
 
 <h1>DIEL</h1>
 
-<p>Bem-vindo ao meu site!</p>
+<p>Bem-vindo ao meu site</p>
 
-<a href="https://discord.gg/B2HMpM8mX" target="_blank">💬 Discord</a>
+<a href="https://discord.gg/B2HMpM8mX" target="_blank">
+💬 Discord
+</a>
 
-<h2>Cornos que visitaram meu site</h2>
+<a href="https://instagram.com/dieljbr" target="_blank">
+📷 Instagram
+</a>
 
-<h1 id="contador">0</h1>
+<div id="contador">
+👀 Visitantes: <span id="v">1</span>
+</div>
 
 </div>
 
 <script>
-let visitas = localStorage.getItem("visitas");
+let c=document.getElementById("bg");
+let x=c.getContext("2d");
 
-if(!visitas){
-visitas = 1;
-}else{
-visitas = parseInt(visitas) + 1;
+function r(){
+c.width=innerWidth;
+c.height=innerHeight;
+}
+r();
+onresize=r;
+
+let p=[];
+
+for(let i=0;i<180;i++){
+p.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+dx:(Math.random()-0.5)*1.5,
+dy:(Math.random()-0.5)*1.5,
+r:Math.random()*3+1
+});
 }
 
-localStorage.setItem("visitas", visitas);
+function draw(){
 
-document.getElementById("contador").innerText = visitas;
+x.fillStyle="rgba(0,0,0,.15)";
+x.fillRect(0,0,c.width,c.height);
+
+x.fillStyle="#b84dff";
+
+p.forEach(a=>{
+
+x.beginPath();
+
+x.arc(a.x,a.y,a.r,0,Math.PI*2);
+
+x.fill();
+
+a.x+=a.dx;
+a.y+=a.dy;
+
+if(a.x<0||a.x>c.width)a.dx*=-1;
+if(a.y<0||a.y>c.height)a.dy*=-1;
+
+});
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+let v=localStorage.getItem("visitas");
+
+if(!v){
+v=1;
+}else{
+v=parseInt(v)+1;
+}
+
+localStorage.setItem("visitas",v);
+
+document.getElementById("v").innerText=v;
+
 </script>
 
 </body>
