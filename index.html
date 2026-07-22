@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +16,11 @@ font-family:Arial,sans-serif;
 body{
 background:#000;
 overflow:hidden;
-color:#fff;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+color:#fff;
 }
 
 canvas{
@@ -33,105 +33,123 @@ z-index:-1;
 }
 
 .card{
-background:rgba(0,0,0,.75);
-border:2px solid #00ff55;
+background:rgba(20,20,20,.8);
+padding:35px;
 border-radius:20px;
-padding:40px;
 text-align:center;
-box-shadow:0 0 25px #00ff55;
+box-shadow:0 0 30px #8a2be2;
+backdrop-filter:blur(8px);
+width:340px;
 }
 
 h1{
-font-size:60px;
-color:#00ff55;
-text-shadow:0 0 20px #00ff55;
+font-size:55px;
+color:#b84dff;
+text-shadow:0 0 20px #b84dff;
 margin-bottom:15px;
 animation:pulse 2s infinite;
 }
 
-p{
-margin-bottom:25px;
-font-size:18px;
-}
-
 a{
-display:inline-block;
-padding:15px 35px;
-background:#00ff55;
-color:#000;
-font-weight:bold;
+display:block;
+margin:12px 0;
+padding:14px;
+background:#8a2be2;
+color:#fff;
 text-decoration:none;
 border-radius:12px;
 transition:.3s;
-box-shadow:0 0 20px #00ff55;
+font-weight:bold;
 }
 
 a:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px #00ff55;
+transform:scale(1.05);
+box-shadow:0 0 20px #b84dff;
+}
+
+#contador{
+margin-top:20px;
+font-size:28px;
+color:#b84dff;
+font-weight:bold;
 }
 
 @keyframes pulse{
 50%{
-text-shadow:0 0 40px #00ff55;
+text-shadow:0 0 45px #b84dff;
 }
 }
 </style>
 
 </head>
+
 <body>
 
-<canvas id="canvas"></canvas>
+<canvas id="bg"></canvas>
 
 <div class="card">
 
-<h1>DIEL ROLUDO</h1>
+<h1>DIEL</h1>
 
-<p>Bem-vindo ao meu site.</p>
+<p>Bem-vindo ao meu site</p>
 
 <a href="https://discord.gg/B2HMpM8mX" target="_blank">
-💬 ENTRAR NO DISCORD
+💬 Discord
 </a>
+
+<a href="https://instagram.com/dieljbr" target="_blank">
+📷 Instagram
+</a>
+
+<div id="contador">
+👀 Visitantes: <span id="v">1</span>
+</div>
 
 </div>
 
 <script>
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+let c=document.getElementById("bg");
+let x=c.getContext("2d");
 
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+function r(){
+c.width=innerWidth;
+c.height=innerHeight;
+}
+r();
+onresize=r;
 
-let particles=[];
+let p=[];
 
 for(let i=0;i<180;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3+1,
-dx:(Math.random()-.5)*2,
-dy:(Math.random()-.5)*2
+p.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+dx:(Math.random()-0.5)*1.5,
+dy:(Math.random()-0.5)*1.5,
+r:Math.random()*3+1
 });
 }
 
 function draw(){
 
-ctx.fillStyle="rgba(0,0,0,.2)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+x.fillStyle="rgba(0,0,0,.15)";
+x.fillRect(0,0,c.width,c.height);
 
-ctx.fillStyle="#00ff55";
+x.fillStyle="#b84dff";
 
-particles.forEach(p=>{
+p.forEach(a=>{
 
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fill();
+x.beginPath();
 
-p.x+=p.dx;
-p.y+=p.dy;
+x.arc(a.x,a.y,a.r,0,Math.PI*2);
 
-if(p.x<0||p.x>canvas.width)p.dx*=-1;
-if(p.y<0||p.y>canvas.height)p.dy*=-1;
+x.fill();
+
+a.x+=a.dx;
+a.y+=a.dy;
+
+if(a.x<0||a.x>c.width)a.dx*=-1;
+if(a.y<0||a.y>c.height)a.dy*=-1;
 
 });
 
@@ -141,10 +159,18 @@ requestAnimationFrame(draw);
 
 draw();
 
-onresize=()=>{
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+let v=localStorage.getItem("visitas");
+
+if(!v){
+v=1;
+}else{
+v=parseInt(v)+1;
 }
+
+localStorage.setItem("visitas",v);
+
+document.getElementById("v").innerText=v;
+
 </script>
 
 </body>
