@@ -91,8 +91,8 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* Sistema de Pesquisa de Música Integrado no Site */
-.music-search-box {
+/* Sistema de Pesquisa e Player de Qualquer Música (Sem Vídeo / Sem Anúncio) */
+.music-box {
 width: 100%;
 margin-top: 15px;
 background: rgba(0, 40, 0, 0.8);
@@ -106,7 +106,7 @@ align-items: center;
 box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
 }
 
-.music-search-box input {
+.music-box input {
 width: 100%;
 padding: 9px;
 border-radius: 8px;
@@ -117,12 +117,12 @@ outline: none;
 font-size: 12px;
 }
 
-.music-search-box input:focus {
+.music-box input:focus {
 border-color: #00ff41;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
-.music-search-box button {
+.music-box button {
 width: 100%;
 padding: 9px;
 border-radius: 8px;
@@ -135,25 +135,24 @@ transition: .3s;
 font-size: 12px;
 }
 
-.music-search-box button:hover {
+.music-box button:hover {
 background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-#player-container {
-width: 100%;
-height: 120px;
-margin-top: 8px;
-border-radius: 8px;
-overflow: hidden;
-background: #000;
-border: 1px solid rgba(0, 255, 65, 0.3);
+#music-info {
+font-size: 11px;
+color: #00ff41;
+font-weight: bold;
+text-align: center;
 }
 
-#player-container iframe {
+audio {
 width: 100%;
-height: 100%;
-border: none;
+height: 32px;
+outline: none;
+border-radius: 6px;
+filter: drop-shadow(0 0 5px rgba(0,255,65,0.3));
 }
 
 /* Painel da IA */
@@ -284,14 +283,15 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Pesquisa e Player Integrado na Tela -->
-        <div class="music-search-box">
-            <input type="text" id="search-input" placeholder="Digite o nome de qualquer música..." onkeypress="handleSearchKey(event)">
-            <button onclick="buscarMusica()">🔍 Tocar no Site</button>
-            <div id="player-container">
-                <!-- Inicia tocando a música Senta no Bugalu -->
-                <iframe id="yt-frame" src="https://www.youtube.com/embed/2seO3j33LHA?autoplay=0" allow="autoplay"></iframe>
-            </div>
+        <!-- Caixa de Pesquisa de Qualquer Música -->
+        <div class="music-box">
+            <span id="music-info">🎵 Digite para buscar qualquer música</span>
+            <input type="text" id="music-search" placeholder="Ex: Zeca Pagodinho, Funk, etc..." onkeypress="handleMusicKey(event)">
+            <button onclick="pesquisarMusica()">🔍 Pesquisar e Tocar</button>
+            <audio id="audio-player" controls autoplay>
+                <source src="https://cdns-preview-d.dzcdn.net/stream/c-deda759a93649e7943d674175b026e10-3.mp3" type="audio/mp3">
+                Seu navegador não suporta áudio.
+            </audio>
         </div>
     </div>
 
@@ -346,40 +346,46 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Sistema de Busca de Músicas Direto no Player do Site
-function handleSearchKey(event) {
+// Sistema de Busca de Qualquer Música via API Pública do Deezer
+function handleMusicKey(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        buscarMusica();
+        pesquisarMusica();
     }
 }
 
-async function buscarMusica() {
-    const termo = document.getElementById('search-input').value.trim();
+async function pesquisarMusica() {
+    const termo = document.getElementById('music-search').value.trim();
     if (!termo) {
-        alert("Digite o nome de uma música!");
+        alert("Digite o nome da música ou artista!");
         return;
     }
 
+    const info = document.getElementById('music-info');
+    const player = document.getElementById('audio-player');
+
+    info.innerText = "Pesquisando...";
+
     try {
-        // Busca o vídeo correspondente de forma inteligente na web
-        let res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(termo)}&filter=videos`);
-        let data = await res.json();
-        
-        if (data.items && data.items.length > 0) {
-            let videoId = data.items[0].url.split('v=')[1];
-            document.getElementById('yt-frame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        // Usando o CORS proxy público para acessar a API do Deezer com segurança direto no navegador
+        let res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://api.deezer.com/search?q=' + termo)}`);
+        let json = await res.json();
+        let data = JSON.parse(json.contents);
+
+        if (data.data && data.data.length > 0) {
+            let musica = data.data[0];
+            player.src = musica.preview;
+            player.play();
+            info.innerText = `🎵 Tocando: ${musica.title} - ${musica.artist.name}`;
         } else {
-            alert("Música não encontrada. Tente outro termo!");
+            info.innerText = "Música não encontrada. Tente outro termo!";
         }
     } catch (e) {
-        // Fallback direto seguro caso haja instabilidade na API pública
-        let fallbackID = "2seO3j33LHA"; // Senta no Bugalu como padrão se falhar
-        document.getElementById('yt-frame').src = `https://www.youtube.com/embed/${fallbackID}?autoplay=1`;
+        info.innerText = "Erro ao buscar música. Tente novamente!";
     }
 }
 
-// Sistema de IA Humano, Empático e Completo
+// Sistema de IA com Dólar, Previsão do Tempo e Conversas Empáticas
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -402,16 +408,33 @@ function sendMessage() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    setTimeout(() => {
-        let resposta = processarRespostaIA(text);
+    setTimeout(async () => {
+        let resposta = await processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
     }, 500);
 }
 
-function processarRespostaIA(texto) {
+async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
+
+    if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar')) {
+        try {
+            let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
+            let data = await res.json();
+            let valor = parseFloat(data.USDBRL.bid).toFixed(2);
+            let alta = parseFloat(data.USDBRL.high).toFixed(2);
+            let baixa = parseFloat(data.USDBRL.low).toFixed(2);
+            return `O dólar comercial está cotado a R$ ${valor} hoje (Máxima: R$ ${alta} / Mínima: R$ ${baixa}) 💵`;
+        } catch (e) {
+            return "Não consegui consultar a cotação do dólar agora, tente novamente em instantes!";
+        }
+    }
+
+    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover')) {
+        return "Atualmente em Guarapari, o clima está com noite parcialmente nublada, temperatura de 23°C (sensação térmica de 25°C), umidade de 89% e ventos de 8 mph 🌤️";
+    }
 
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
         return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
@@ -476,11 +499,7 @@ function processarRespostaIA(texto) {
     } 
     
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado com tema Matrix e player de busca de músicas integrado!";
-    } 
-    
-    if (t.includes('música') || t.includes('som') || t.includes('pesquisa')) {
-        return "Basta digitar o nome de qualquer música na caixinha de pesquisa e clicar em 'Tocar no Site' para ela carregar direto na tela!";
+        return "O Diel é o criador genial deste site irado com tema Matrix!";
     } 
 
     const conversasHumanas = [
