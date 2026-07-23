@@ -91,7 +91,7 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* Sistema de Pesquisa e Player de Áudio Integrado */
+/* Sistema de Pesquisa de Música Integrado no Site */
 .music-search-box {
 width: 100%;
 margin-top: 15px;
@@ -140,20 +140,20 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-audio {
+#player-container {
 width: 100%;
-height: 30px;
-margin-top: 5px;
-outline: none;
-border-radius: 6px;
-filter: drop-shadow(0 0 5px rgba(0,255,65,0.3));
+height: 120px;
+margin-top: 8px;
+border-radius: 8px;
+overflow: hidden;
+background: #000;
+border: 1px solid rgba(0, 255, 65, 0.3);
 }
 
-#current-song-title {
-font-size: 11px;
-color: #00ff41;
-font-weight: bold;
-text-align: center;
+#player-container iframe {
+width: 100%;
+height: 100%;
+border: none;
 }
 
 /* Painel da IA */
@@ -284,15 +284,14 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Barra de Pesquisa de Música Direta no Site -->
+        <!-- Pesquisa e Player Integrado na Tela -->
         <div class="music-search-box">
-            <span id="current-song-title">🎵 Tocando: Senta no Bugalu</span>
-            <input type="text" id="search-input" placeholder="Pesquisar qualquer música..." onkeypress="handleSearchKey(event)">
-            <button onclick="buscarMusica()">🔍 Buscar e Tocar</button>
-            <audio id="audio-player" controls autoplay loop>
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-                Seu navegador não suporta áudio.
-            </audio>
+            <input type="text" id="search-input" placeholder="Digite o nome de qualquer música..." onkeypress="handleSearchKey(event)">
+            <button onclick="buscarMusica()">🔍 Tocar no Site</button>
+            <div id="player-container">
+                <!-- Inicia tocando a música Senta no Bugalu -->
+                <iframe id="yt-frame" src="https://www.youtube.com/embed/2seO3j33LHA?autoplay=0" allow="autoplay"></iframe>
+            </div>
         </div>
     </div>
 
@@ -347,7 +346,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Pesquisa de Música Integrada
+// Sistema de Busca de Músicas Direto no Player do Site
 function handleSearchKey(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
@@ -355,32 +354,32 @@ function handleSearchKey(event) {
     }
 }
 
-function buscarMusica() {
+async function buscarMusica() {
     const termo = document.getElementById('search-input').value.trim();
     if (!termo) {
-        alert("Digite o nome da música!");
+        alert("Digite o nome de uma música!");
         return;
     }
 
-    const audioPlayer = document.getElementById('audio-player');
-    const songTitle = document.getElementById('current-song-title');
-
-    // Simula a troca para a música pesquisada buscando em fontes livres de áudio compatíveis com web
-    songTitle.innerText = `🎵 Tocando: ${termo}`;
-    
-    // Lista de faixas de exemplo dinâmicas baseadas na busca
-    const audiosExemplo = [
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
-    ];
-    
-    let randomSong = audiosExemplo[Math.floor(Math.random() * audiosExemplo.length)];
-    audioPlayer.src = randomSong;
-    audioPlayer.play();
+    try {
+        // Busca o vídeo correspondente de forma inteligente na web
+        let res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(termo)}&filter=videos`);
+        let data = await res.json();
+        
+        if (data.items && data.items.length > 0) {
+            let videoId = data.items[0].url.split('v=')[1];
+            document.getElementById('yt-frame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        } else {
+            alert("Música não encontrada. Tente outro termo!");
+        }
+    } catch (e) {
+        // Fallback direto seguro caso haja instabilidade na API pública
+        let fallbackID = "2seO3j33LHA"; // Senta no Bugalu como padrão se falhar
+        document.getElementById('yt-frame').src = `https://www.youtube.com/embed/${fallbackID}?autoplay=1`;
+    }
 }
 
-// Sistema de IA Humanizado e Empático
+// Sistema de IA Humano, Empático e Completo
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -477,11 +476,11 @@ function processarRespostaIA(texto) {
     } 
     
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado com tema Matrix e player de música integrado!";
+        return "O Diel é o criador genial deste site irado com tema Matrix e player de busca de músicas integrado!";
     } 
     
     if (t.includes('música') || t.includes('som') || t.includes('pesquisa')) {
-        return "Basta digitar o nome do som na caixinha de pesquisa ali no card e clicar em 'Buscar e Tocar'!";
+        return "Basta digitar o nome de qualquer música na caixinha de pesquisa e clicar em 'Tocar no Site' para ela carregar direto na tela!";
     } 
 
     const conversasHumanas = [
