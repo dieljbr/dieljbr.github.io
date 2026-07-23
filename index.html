@@ -23,7 +23,7 @@ height:100vh;
 color:#fff;
 }
 
-canvas{
+canvas.bg-matrix{
 position:fixed;
 top:0;
 left:0;
@@ -35,7 +35,7 @@ pointer-events:none;
 
 .main-container {
 display: flex;
-gap: 25px;
+gap: 20px;
 align-items: center;
 z-index: 10;
 position: relative;
@@ -48,7 +48,7 @@ border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter:blur(10px);
-width:320px;
+width:280px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -56,7 +56,7 @@ align-items: center;
 }
 
 h1{
-font-size:45px;
+font-size:40px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
 margin-bottom:5px;
@@ -64,7 +64,7 @@ letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 14px;
+font-size: 13px;
 color: #bbb;
 margin-bottom: 15px;
 }
@@ -75,7 +75,7 @@ align-items:center;
 justify-content:center;
 gap: 10px;
 margin:8px 0;
-padding:12px;
+padding:10px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
@@ -84,7 +84,7 @@ transition:.3s;
 font-weight:bold;
 width: 100%;
 box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
-font-size: 13px;
+font-size: 12px;
 }
 
 a:hover{
@@ -98,7 +98,7 @@ align-items:center;
 justify-content:center;
 gap: 10px;
 margin-top: 10px;
-padding: 12px;
+padding: 10px;
 background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
 border: 1px solid rgba(0, 255, 65, 0.4);
@@ -107,7 +107,7 @@ cursor: pointer;
 font-weight: bold;
 width: 100%;
 transition: .3s;
-font-size: 13px;
+font-size: 12px;
 }
 
 .music-btn:hover {
@@ -123,8 +123,8 @@ padding: 20px;
 border-radius: 20px;
 box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter: blur(10px);
-width: 320px;
-height: 440px;
+width: 280px;
+height: 420px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -132,7 +132,7 @@ justify-content: space-between;
 }
 
 .ai-header {
-font-size: 16px;
+font-size: 15px;
 color: #00ff41;
 font-weight: bold;
 text-align: center;
@@ -155,7 +155,7 @@ border: 1px solid rgba(0, 255, 65, 0.2);
 .msg {
 padding: 7px 10px;
 border-radius: 8px;
-font-size: 12px;
+font-size: 11px;
 max-width: 85%;
 line-height: 1.4;
 word-break: break-word;
@@ -183,13 +183,13 @@ margin-top: 10px;
 
 .ai-input-box input {
 flex: 1;
-padding: 9px;
+padding: 8px;
 border-radius: 8px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 background: rgba(0, 0, 0, 0.8);
 color: #fff;
 outline: none;
-font-size: 12px;
+font-size: 11px;
 }
 
 .ai-input-box input:focus {
@@ -198,7 +198,7 @@ box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
 .ai-input-box button {
-padding: 9px 12px;
+padding: 8px 10px;
 border-radius: 8px;
 border: none;
 background: #00ff41;
@@ -206,7 +206,7 @@ color: #000;
 font-weight: bold;
 cursor: pointer;
 transition: .3s;
-font-size: 12px;
+font-size: 11px;
 }
 
 .ai-input-box button:hover {
@@ -214,7 +214,7 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-/* Jogo da Velha */
+/* Jogo do Dinossauro */
 .game-card {
 background: rgba(0, 20, 0, 0.85);
 padding: 20px;
@@ -229,72 +229,32 @@ align-items: center;
 }
 
 .game-header {
-font-size: 16px;
+font-size: 15px;
 color: #00ff41;
 font-weight: bold;
-margin-bottom: 10px;
+margin-bottom: 8px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+text-align: center;
 }
 
-.board {
-display: grid;
-grid-template-columns: repeat(3, 70px);
-grid-template-rows: repeat(3, 70px);
-gap: 6px;
-margin-bottom: 12px;
-}
-
-.cell {
-background: rgba(0, 0, 0, 0.8);
+#dinoCanvas {
+background: #000;
 border: 1px solid rgba(0, 255, 65, 0.4);
 border-radius: 8px;
-font-size: 32px;
-font-weight: bold;
-color: #00ff41;
-display: flex;
-align-items: center;
-justify-content: center;
 cursor: pointer;
-transition: .2s;
-}
-
-.cell:hover {
-background: rgba(0, 50, 0, 0.8);
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
-}
-
-.cell.x {
-color: #ff4444;
 }
 
 .game-status {
-font-size: 12px;
-color: #fff;
-margin-bottom: 8px;
-height: 18px;
-}
-
-.reset-btn {
-padding: 8px 15px;
-border-radius: 8px;
-border: none;
-background: #00ff41;
-color: #000;
-font-weight: bold;
-cursor: pointer;
-font-size: 12px;
-transition: .3s;
-}
-
-.reset-btn:hover {
-background: #00cc33;
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+font-size: 11px;
+color: #bbb;
+margin-top: 8px;
+text-align: center;
 }
 
 @media (max-width: 1024px) {
 .main-container {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 body {
     overflow: auto;
@@ -307,7 +267,7 @@ body {
 
 <body>
 
-<canvas id="bg"></canvas>
+<canvas class="bg-matrix" id="bg"></canvas>
 
 <div id="youtube-player" style="display:none;"></div>
 
@@ -342,33 +302,22 @@ body {
         </div>
     </div>
 
-    <!-- Jogo da Velha Inteligente -->
+    <!-- Jogo do Dinossauro -->
     <div class="game-card">
-        <div class="game-header">🎮 Jogo da Velha vs IA</div>
-        <div class="game-status" id="game-status">Sua vez (X)</div>
-        <div class="board" id="board">
-            <div class="cell" onclick="fazerJogada(0)"></div>
-            <div class="cell" onclick="fazerJogada(1)"></div>
-            <div class="cell" onclick="fazerJogada(2)"></div>
-            <div class="cell" onclick="fazerJogada(3)"></div>
-            <div class="cell" onclick="fazerJogada(4)"></div>
-            <div class="cell" onclick="fazerJogada(5)"></div>
-            <div class="cell" onclick="fazerJogada(6)"></div>
-            <div class="cell" onclick="fazerJogada(7)"></div>
-            <div class="cell" onclick="fazerJogada(8)"></div>
-        </div>
-        <button class="reset-btn" onclick="reiniciarJogo()">Reiniciar Jogo</button>
+        <div class="game-header">🦖 Jogo do Dinossauro</div>
+        <canvas id="dinoCanvas" width="260" height="130"></canvas>
+        <div class="game-status" id="dino-status">Pressione ESPAÇO ou Clique para Pular</div>
     </div>
 </div>
 
 <script>
 // Efeito Matrix Verde Fluido
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
+const canvasBg = document.getElementById("bg");
+const ctxBg = canvasBg.getContext("2d");
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvasBg.width = window.innerWidth;
+    canvasBg.height = window.innerHeight;
 }
 resizeCanvas();
 window.onresize = resizeCanvas;
@@ -378,21 +327,21 @@ const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const alphabet = katakana + latin;
 
 const fontSize = 16;
-let columns = canvas.width / fontSize;
+let columns = canvasBg.width / fontSize;
 const rainDrops = [];
 for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
 
 function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00FF41';
-    ctx.font = fontSize + 'px monospace';
+    ctxBg.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctxBg.fillRect(0, 0, canvasBg.width, canvasBg.height);
+    ctxBg.fillStyle = '#00FF41';
+    ctxBg.font = fontSize + 'px monospace';
 
     for (let i = 0; i < rainDrops.length; i++) {
         const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+        ctxBg.fillText(text, i * fontSize, rainDrops[i] * fontSize);
 
-        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        if (rainDrops[i] * fontSize > canvasBg.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
         rainDrops[i]++;
@@ -447,112 +396,145 @@ function toggleMusic() {
     }
 }
 
-// Lógica do Jogo da Velha Inteligente (Minimax / Heurística Avançada)
-let tabuleiro = ['', '', '', '', '', '', '', '', ''];
-let jogoAtivo = true;
+// Jogo do Dinossauro (Estilo Google)
+const dCanvas = document.getElementById("dinoCanvas");
+const dCtx = dCanvas.getContext("2d");
 
-function fazerJogada(index) {
-    if (tabuleiro[index] === '' && jogoAtivo) {
-        tabuleiro[index] = 'X';
-        atualizarTabuleiro();
-        
-        if (verificarFimDeJogo('X')) return;
-        
-        document.getElementById('game-status').innerText = "IA pensando...";
-        jogoAtivo = false;
-        
-        setTimeout(() => {
-            let jogadaIA = escolherJogadaIA();
-            if (jogadaIA !== -1) {
-                tabuleiro[jogadaIA] = 'O';
-            }
-            atualizarTabuleiro();
-            if (!verificarFimDeJogo('O')) {
-                document.getElementById('game-status').innerText = "Sua vez (X)";
-                jogoAtivo = true;
-            }
-        }, 400);
+let dino = {
+    x: 20,
+    y: 85,
+    width: 18,
+    height: 22,
+    vy: 0,
+    gravity: 0.6,
+    jump: -9,
+    isJumping: false
+};
+
+let obstaculo = {
+    x: 280,
+    y: 90,
+    width: 12,
+    height: 18,
+    speed: 4
+};
+
+let score = 0;
+let gameOver = false;
+
+function pularDino() {
+    if (gameOver) {
+        reiniciarDino();
+        return;
+    }
+    if (!dino.isJumping) {
+        dino.vy = dino.jump;
+        dino.isJumping = true;
     }
 }
 
-function atualizarTabuleiro() {
-    const cells = document.getElementsByClassName('cell');
-    for (let i = 0; i < cells.length; i++) {
-        cells[i].innerText = tabuleiro[i];
-        if (tabuleiro[i] === 'X') {
-            cells[i].classList.add('x');
-        } else {
-            cells[i].classList.remove('x');
-        }
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space" || e.code === "ArrowUp") {
+        e.preventDefault();
+        pularDino();
+    }
+});
+
+dCanvas.addEventListener("click", function() {
+    pularDino();
+});
+
+function atualizarDino() {
+    if (gameOver) return;
+
+    // Física do Pulo
+    dino.vy += dino.gravity;
+    dino.y += dino.vy;
+
+    if (dino.y > 85) {
+        dino.y = 85;
+        dino.vy = 0;
+        dino.isJumping = false;
+    }
+
+    // Movimento do Obstáculo
+    obstaculo.x -= obstaculo.speed;
+    if (obstaculo.x < -20) {
+        obstaculo.x = 280;
+        score += 10;
+        obstaculo.speed = 4 + Math.floor(score / 50); // Aumenta a velocidade progressivamente
+    }
+
+    // Colisão
+    if (
+        dino.x < obstaculo.x + obstaculo.width &&
+        dino.x + dino.width > obstaculo.x &&
+        dino.y < obstaculo.y + obstaculo.height &&
+        dino.y + dino.height > obstaculo.y
+    ) {
+        gameOver = true;
+        document.getElementById("dino-status").innerText = "Game Over! Clique para Reiniciar";
     }
 }
 
-function escolherJogadaIA() {
-    // 1. Tentar vencer
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') {
-            tabuleiro[i] = 'O';
-            if (checarVitoria('O')) { tabuleiro[i] = ''; return i; }
-            tabuleiro[i] = '';
-        }
+function desenharDino() {
+    dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
+
+    // Chão
+    dCtx.strokeStyle = "#00FF41";
+    dCtx.lineWidth = 2;
+    dCtx.beginPath();
+    dCtx.moveTo(0, 108);
+    dCtx.lineTo(260, 108);
+    dCtx.stroke();
+
+    // Dinossauro (Verde Fluido Matrix)
+    dCtx.fillStyle = "#00FF41";
+    dCtx.fillRect(dino.x, dino.y, dino.width, dino.height);
+
+    // Obstáculo (Vermelho Matrix)
+    dCtx.fillStyle = "#FF0000";
+    dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+
+    // Placar
+    dCtx.fillStyle = "#FFFFFF";
+    dCtx.font = "11px monospace";
+    dCtx.fillText("SCORE: " + score, 190, 20);
+
+    if (gameOver) {
+        dCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+        dCtx.fillStyle = "#FF4444";
+        dCtx.font = "bold 13px monospace";
+        dCtx.textAlign = "center";
+        dCtx.fillText("GAME OVER", dCanvas.width / 2, 55);
+        dCtx.fillStyle = "#00FF41";
+        dCtx.font = "10px monospace";
+        dCtx.fillText("Clique para jogar de novo", dCanvas.width / 2, 75);
+        dCtx.textAlign = "left";
     }
-    // 2. Bloquear o jogador
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') {
-            tabuleiro[i] = 'X';
-            if (checarVitoria('X')) { tabuleiro[i] = ''; return i; }
-            tabuleiro[i] = '';
-        }
-    }
-    // 3. Pegar o centro se estiver livre
-    if (tabuleiro[4] === '') return 4;
-    
-    // 4. Pegar qualquer espaço livre
-    let vazias = [];
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') vazias.push(i);
-    }
-    if (vazias.length > 0) {
-        return vazias[Math.floor(Math.random() * vazias.length)];
-    }
-    return -1;
 }
 
-function checarVitoria(jogador) {
-    const combinacoes = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
-    return combinacoes.some(comb => 
-        tabuleiro[comb[0]] === jogador && 
-        tabuleiro[comb[1]] === jogador && 
-        tabuleiro[comb[2]] === jogador
-    );
+function loopJogoDino() {
+    atualizarDino();
+    desenharDino();
+    requestAnimationFrame(loopJogoDino);
 }
 
-function verificarFimDeJogo(jogador) {
-    if (checarVitoria(jogador)) {
-        document.getElementById('game-status').innerText = jogador === 'X' ? "Você venceu! 🎉" : "A IA venceu! 🤖";
-        jogoAtivo = false;
-        return true;
-    }
-    if (!tabuleiro.includes('')) {
-        document.getElementById('game-status').innerText = "Empate! 🤝";
-        jogoAtivo = false;
-        return true;
-    }
-    return false;
+function reiniciarDino() {
+    dino.y = 85;
+    dino.vy = 0;
+    dino.isJumping = false;
+    obstaculo.x = 280;
+    obstaculo.speed = 4;
+    score = 0;
+    gameOver = false;
+    document.getElementById("dino-status").innerText = "Pressione ESPAÇO ou Clique para Pular";
 }
 
-function reiniciarJogo() {
-    tabuleiro = ['', '', '', '', '', '', '', '', ''];
-    jogoAtivo = true;
-    document.getElementById('game-status').innerText = "Sua vez (X)";
-    atualizarTabuleiro();
-}
+loopJogoDino();
 
-// Sistema de IA do Chat (Dólar, Previsão do Tempo e Diálogo)
+// Sistema de IA do Chat
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
