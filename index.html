@@ -35,7 +35,7 @@ pointer-events:none;
 
 .main-container {
 display: flex;
-gap: 30px;
+gap: 25px;
 align-items: center;
 z-index: 10;
 position: relative;
@@ -43,12 +43,12 @@ position: relative;
 
 .card{
 background:rgba(0,20,0,.85);
-padding:35px;
+padding:25px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter:blur(10px);
-width:360px;
+width:320px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -56,18 +56,17 @@ align-items: center;
 }
 
 h1{
-font-size:55px;
+font-size:45px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:8px;
+margin-bottom:5px;
 letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 15px;
+font-size: 14px;
 color: #bbb;
-margin-bottom: 25px;
-margin-top: 5px;
+margin-bottom: 15px;
 }
 
 a{
@@ -75,8 +74,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin:12px 0;
-padding:14px;
+margin:8px 0;
+padding:12px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
@@ -85,6 +84,7 @@ transition:.3s;
 font-weight:bold;
 width: 100%;
 box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
+font-size: 13px;
 }
 
 a:hover{
@@ -97,7 +97,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin-top: 15px;
+margin-top: 10px;
 padding: 12px;
 background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
@@ -107,6 +107,7 @@ cursor: pointer;
 font-weight: bold;
 width: 100%;
 transition: .3s;
+font-size: 13px;
 }
 
 .music-btn:hover {
@@ -118,11 +119,11 @@ color: #fff;
 /* Painel da IA */
 .ai-card {
 background: rgba(0, 20, 0, 0.85);
-padding: 25px;
+padding: 20px;
 border-radius: 20px;
 box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter: blur(10px);
-width: 360px;
+width: 320px;
 height: 440px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
@@ -131,11 +132,11 @@ justify-content: space-between;
 }
 
 .ai-header {
-font-size: 18px;
+font-size: 16px;
 color: #00ff41;
 font-weight: bold;
 text-align: center;
-margin-bottom: 12px;
+margin-bottom: 8px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
@@ -143,18 +144,18 @@ text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 flex: 1;
 background: rgba(0, 0, 0, 0.6);
 border-radius: 10px;
-padding: 10px;
+padding: 8px;
 overflow-y: auto;
 display: flex;
 flex-direction: column;
-gap: 10px;
+gap: 8px;
 border: 1px solid rgba(0, 255, 65, 0.2);
 }
 
 .msg {
-padding: 8px 12px;
+padding: 7px 10px;
 border-radius: 8px;
-font-size: 13px;
+font-size: 12px;
 max-width: 85%;
 line-height: 1.4;
 word-break: break-word;
@@ -176,19 +177,19 @@ border: 1px solid rgba(255, 0, 0, 0.3);
 
 .ai-input-box {
 display: flex;
-gap: 8px;
-margin-top: 12px;
+gap: 6px;
+margin-top: 10px;
 }
 
 .ai-input-box input {
 flex: 1;
-padding: 10px;
+padding: 9px;
 border-radius: 8px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 background: rgba(0, 0, 0, 0.8);
 color: #fff;
 outline: none;
-font-size: 13px;
+font-size: 12px;
 }
 
 .ai-input-box input:focus {
@@ -197,7 +198,7 @@ box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
 .ai-input-box button {
-padding: 10px 15px;
+padding: 9px 12px;
 border-radius: 8px;
 border: none;
 background: #00ff41;
@@ -205,6 +206,7 @@ color: #000;
 font-weight: bold;
 cursor: pointer;
 transition: .3s;
+font-size: 12px;
 }
 
 .ai-input-box button:hover {
@@ -212,7 +214,84 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-@media (max-width: 768px) {
+/* Jogo da Velha */
+.game-card {
+background: rgba(0, 20, 0, 0.85);
+padding: 20px;
+border-radius: 20px;
+box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter: blur(10px);
+width: 300px;
+border: 1px solid rgba(0, 255, 65, 0.3);
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.game-header {
+font-size: 16px;
+color: #00ff41;
+font-weight: bold;
+margin-bottom: 10px;
+text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.board {
+display: grid;
+grid-template-columns: repeat(3, 70px);
+grid-template-rows: repeat(3, 70px);
+gap: 6px;
+margin-bottom: 12px;
+}
+
+.cell {
+background: rgba(0, 0, 0, 0.8);
+border: 1px solid rgba(0, 255, 65, 0.4);
+border-radius: 8px;
+font-size: 32px;
+font-weight: bold;
+color: #00ff41;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: .2s;
+}
+
+.cell:hover {
+background: rgba(0, 50, 0, 0.8);
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.cell.x {
+color: #ff4444;
+}
+
+.game-status {
+font-size: 12px;
+color: #fff;
+margin-bottom: 8px;
+height: 18px;
+}
+
+.reset-btn {
+padding: 8px 15px;
+border-radius: 8px;
+border: none;
+background: #00ff41;
+color: #000;
+font-weight: bold;
+cursor: pointer;
+font-size: 12px;
+transition: .3s;
+}
+
+.reset-btn:hover {
+background: #00cc33;
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+@media (max-width: 1024px) {
 .main-container {
     flex-direction: column;
     gap: 20px;
@@ -230,10 +309,10 @@ body {
 
 <canvas id="bg"></canvas>
 
-<!-- Player do YouTube Oculto para o Zeca Pagodinho -->
 <div id="youtube-player" style="display:none;"></div>
 
 <div class="main-container">
+    <!-- Perfil e Música -->
     <div class="card">
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
@@ -251,15 +330,34 @@ body {
         </button>
     </div>
 
+    <!-- Assistente IA (Com Dólar e Previsão do Tempo) -->
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">Olá, bem-vindo! Diel me programou, o que posso ajudar?</div>
+            <div class="msg ai">Olá! Pergunte sobre o dólar, o clima em Copacabana ou peça um conselho!</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
+    </div>
+
+    <!-- Jogo da Velha Inteligente -->
+    <div class="game-card">
+        <div class="game-header">🎮 Jogo da Velha vs IA</div>
+        <div class="game-status" id="game-status">Sua vez (X)</div>
+        <div class="board" id="board">
+            <div class="cell" onclick="fazerJogada(0)"></div>
+            <div class="cell" onclick="fazerJogada(1)"></div>
+            <div class="cell" onclick="fazerJogada(2)"></div>
+            <div class="cell" onclick="fazerJogada(3)"></div>
+            <div class="cell" onclick="fazerJogada(4)"></div>
+            <div class="cell" onclick="fazerJogada(5)"></div>
+            <div class="cell" onclick="fazerJogada(6)"></div>
+            <div class="cell" onclick="fazerJogada(7)"></div>
+            <div class="cell" onclick="fazerJogada(8)"></div>
+        </div>
+        <button class="reset-btn" onclick="reiniciarJogo()">Reiniciar Jogo</button>
     </div>
 </div>
 
@@ -302,7 +400,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube para o Zeca Pagodinho (ID: eFQCPE9uDy0)
+// API do YouTube para o Zeca Pagodinho
 let player;
 let apiLoaded = false;
 
@@ -330,12 +428,10 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
-    
     if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
         alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
         return;
     }
-
     try {
         let estado = player.getPlayerState();
         if (estado === YT.PlayerState.PLAYING) {
@@ -351,7 +447,112 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA com Dólar, Previsão do Tempo (Copacabana, RJ) e Conversas Empáticas
+// Lógica do Jogo da Velha Inteligente (Minimax / Heurística Avançada)
+let tabuleiro = ['', '', '', '', '', '', '', '', ''];
+let jogoAtivo = true;
+
+function fazerJogada(index) {
+    if (tabuleiro[index] === '' && jogoAtivo) {
+        tabuleiro[index] = 'X';
+        atualizarTabuleiro();
+        
+        if (verificarFimDeJogo('X')) return;
+        
+        document.getElementById('game-status').innerText = "IA pensando...";
+        jogoAtivo = false;
+        
+        setTimeout(() => {
+            let jogadaIA = escolherJogadaIA();
+            if (jogadaIA !== -1) {
+                tabuleiro[jogadaIA] = 'O';
+            }
+            atualizarTabuleiro();
+            if (!verificarFimDeJogo('O')) {
+                document.getElementById('game-status').innerText = "Sua vez (X)";
+                jogoAtivo = true;
+            }
+        }, 400);
+    }
+}
+
+function atualizarTabuleiro() {
+    const cells = document.getElementsByClassName('cell');
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].innerText = tabuleiro[i];
+        if (tabuleiro[i] === 'X') {
+            cells[i].classList.add('x');
+        } else {
+            cells[i].classList.remove('x');
+        }
+    }
+}
+
+function escolherJogadaIA() {
+    // 1. Tentar vencer
+    for (let i = 0; i < 9; i++) {
+        if (tabuleiro[i] === '') {
+            tabuleiro[i] = 'O';
+            if (checarVitoria('O')) { tabuleiro[i] = ''; return i; }
+            tabuleiro[i] = '';
+        }
+    }
+    // 2. Bloquear o jogador
+    for (let i = 0; i < 9; i++) {
+        if (tabuleiro[i] === '') {
+            tabuleiro[i] = 'X';
+            if (checarVitoria('X')) { tabuleiro[i] = ''; return i; }
+            tabuleiro[i] = '';
+        }
+    }
+    // 3. Pegar o centro se estiver livre
+    if (tabuleiro[4] === '') return 4;
+    
+    // 4. Pegar qualquer espaço livre
+    let vazias = [];
+    for (let i = 0; i < 9; i++) {
+        if (tabuleiro[i] === '') vazias.push(i);
+    }
+    if (vazias.length > 0) {
+        return vazias[Math.floor(Math.random() * vazias.length)];
+    }
+    return -1;
+}
+
+function checarVitoria(jogador) {
+    const combinacoes = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
+    return combinacoes.some(comb => 
+        tabuleiro[comb[0]] === jogador && 
+        tabuleiro[comb[1]] === jogador && 
+        tabuleiro[comb[2]] === jogador
+    );
+}
+
+function verificarFimDeJogo(jogador) {
+    if (checarVitoria(jogador)) {
+        document.getElementById('game-status').innerText = jogador === 'X' ? "Você venceu! 🎉" : "A IA venceu! 🤖";
+        jogoAtivo = false;
+        return true;
+    }
+    if (!tabuleiro.includes('')) {
+        document.getElementById('game-status').innerText = "Empate! 🤝";
+        jogoAtivo = false;
+        return true;
+    }
+    return false;
+}
+
+function reiniciarJogo() {
+    tabuleiro = ['', '', '', '', '', '', '', '', ''];
+    jogoAtivo = true;
+    document.getElementById('game-status').innerText = "Sua vez (X)";
+    atualizarTabuleiro();
+}
+
+// Sistema de IA do Chat (Dólar, Previsão do Tempo e Diálogo)
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
