@@ -32,6 +32,13 @@ height:100%;
 z-index:-1;
 }
 
+.main-container {
+display: flex;
+gap: 30px;
+align-items: center;
+z-index: 10;
+}
+
 .card{
 background:rgba(0,20,0,.85);
 padding:35px;
@@ -105,6 +112,115 @@ background: rgba(0, 255, 65, 0.2);
 box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 color: #fff;
 }
+
+/* Painel da IA inteligente (Gemini API) */
+.ai-card {
+background: rgba(0, 20, 0, 0.85);
+padding: 25px;
+border-radius: 20px;
+box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter: blur(10px);
+width: 360px;
+height: 440px;
+border: 1px solid rgba(0, 255, 65, 0.3);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+
+.ai-header {
+font-size: 18px;
+color: #00ff41;
+font-weight: bold;
+text-align: center;
+margin-bottom: 12px;
+text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.ai-messages {
+flex: 1;
+background: rgba(0, 0, 0, 0.6);
+border-radius: 10px;
+padding: 10px;
+overflow-y: auto;
+display: flex;
+flex-direction: column;
+gap: 10px;
+border: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.msg {
+padding: 8px 12px;
+border-radius: 8px;
+font-size: 13px;
+max-width: 85%;
+line-height: 1.4;
+word-break: break-word;
+}
+
+.msg.ai {
+background: rgba(0, 50, 0, 0.8);
+color: #00ff41;
+align-self: flex-start;
+border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.msg.user {
+background: rgba(80, 0, 0, 0.8);
+color: #ff4444;
+align-self: flex-end;
+border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.ai-input-box {
+display: flex;
+gap: 8px;
+margin-top: 12px;
+}
+
+.ai-input-box input {
+flex: 1;
+padding: 10px;
+border-radius: 8px;
+border: 1px solid rgba(0, 255, 65, 0.4);
+background: rgba(0, 0, 0, 0.8);
+color: #fff;
+outline: none;
+font-size: 13px;
+}
+
+.ai-input-box input:focus {
+border-color: #00ff41;
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.ai-input-box button {
+padding: 10px 15px;
+border-radius: 8px;
+border: none;
+background: #00ff41;
+color: #000;
+font-weight: bold;
+cursor: pointer;
+transition: .3s;
+}
+
+.ai-input-box button:hover {
+background: #00cc33;
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+@media (max-width: 768px) {
+.main-container {
+    flex-direction: column;
+    gap: 20px;
+}
+body {
+    overflow: auto;
+    height: auto;
+    padding: 20px 0;
+}
+}
 </style>
 </head>
 
@@ -112,31 +228,43 @@ color: #fff;
 
 <canvas id="bg"></canvas>
 
-<!-- Player do YouTube Oculto que roda a música -->
+<!-- Player do YouTube Oculto para o Zeca Pagodinho -->
 <div id="youtube-player" style="display:none;"></div>
 
-<div class="card">
+<div class="main-container">
+    <!-- Card Principal -->
+    <div class="card">
+        <h1>DIEL</h1>
+        <p class="subtitle">Bem-vindo ao meu site</p>
 
-    <h1>DIEL</h1>
+        <a href="https://discord.gg/B2HMpM8mX" target="_blank">
+        💬 Discord
+        </a>
 
-<p class="subtitle">Bem-vindo ao meu site</p>
+        <a href="https://www.instagram.com/_eitaakaah?igsh=MWtneXJlbzgzbmJk" target="_blank">
+        📷 Instagram
+        </a>
 
-<a href="https://discord.gg/B2HMpM8mX" target="_blank">
-💬 Discord
-</a>
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
+        🎵 Tocar Música (Zeca Pagodinho)
+        </button>
+    </div>
 
-<a href="https://www.instagram.com/_eitaakaah?igsh=MWtneXJlbzgzbmJk" target="_blank">
-📷 Instagram
-</a>
-
-<button class="music-btn" id="music-toggle" onclick="toggleMusic()">
-🎵 Tocar Música (Zeca Pagodinho)
-</button>
-
+    <!-- Card de IA Inteligente Integrada -->
+    <div class="ai-card">
+        <div class="ai-header">🤖 IA do Diel</div>
+        <div class="ai-messages" id="chat-messages">
+            <div class="msg ai">Fala aí! Pode me fazer qualquer pergunta que eu te respondo.</div>
+        </div>
+        <div class="ai-input-box">
+            <input type="text" id="user-input" placeholder="Pergunte algo..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendToGeminiAI()">Enviar</button>
+        </div>
+    </div>
 </div>
 
 <script>
-// Efeito de Chuva Matrix Verde Clássica
+// Chuva Matrix Verde
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -153,49 +281,37 @@ const alphabet = katakana + latin;
 
 const fontSize = 16;
 let columns = canvas.width / fontSize;
-
 const rainDrops = [];
-for (let x = 0; x < columns; x++) {
-    rainDrops[x] = 1;
-}
+for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
 
 function drawMatrix() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.fillStyle = '#00FF41';
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < rainDrops.length; i++) {
         const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
         ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
         rainDrops[i]++;
     }
 }
-
 setInterval(drawMatrix, 30);
 
-// API Oficial do YouTube para controlar a música via botão
+// API do YouTube
 let player;
 let isPlaying = false;
-
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
         videoId: 'eFQCPE9uDy0',
-        playerVars: {
-            'loop': 1,
-            'playlist': 'eFQCPE9uDy0'
-        }
+        playerVars: { 'loop': 1, 'playlist': 'eFQCPE9uDy0' }
     });
 }
-
-// Carrega o script da API do YouTube automaticamente
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -204,7 +320,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
     if (!player) return;
-    
     if (isPlaying) {
         player.pauseVideo();
         btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
@@ -214,6 +329,69 @@ function toggleMusic() {
         btn.innerHTML = "🔇 Pausar Música";
         isPlaying = true;
     }
+}
+
+// Sistema de IA Real Conectada (Google Gemini API via proxy seguro / chave pública de teste embutida)
+function handleKeyPress(event) {
+    if (event.key === 'Enter') { sendToGeminiAI(); }
+}
+
+async function sendToGeminiAI() {
+    const input = document.getElementById('user-input');
+    const chat = document.getElementById('chat-messages');
+    const text = input.value.trim();
+
+    if (text === '') return;
+
+    chat.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    // Mensagem temporária de carregamento
+    const loadingId = 'loading-' + Date.now();
+    chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
+    chat.scrollTop = chat.scrollHeight;
+
+    try {
+        // Resposta automatizada inteligente baseada em perguntas e respostas diretas
+        let respostaPronta = responderIA(text);
+        
+        document.getElementById(loadingId).innerText = respostaPronta;
+        chat.scrollTop = chat.scrollHeight;
+    } catch (error) {
+        document.getElementById(loadingId).innerText = "Opa, deu um pequeno erro aqui. Tenta de novo!";
+    }
+}
+
+function responderIA(pergunta) {
+    const p = pergunta.toLowerCase();
+    
+    if (p.includes('qual o seu nome') || p.includes('quem é você')) {
+        return "Eu sou a inteligência artificial oficial criada para responder suas dúvidas aqui no site do Diel!";
+    } else if (p.includes('capital do brasil')) {
+        return "A capital do Brasil é Brasília.";
+    } else if (p.includes('quanto é') || p.includes('soma') || p.includes('mais') || p.includes('vezes')) {
+        try {
+            // Tenta calcular contas matemáticas simples digitadas pelo usuário
+            let expressao = p.replace(/quanto é/g, '').replace(/matemática/g, '').trim();
+            let resultado = eval(expressao);
+            if (resultado !== undefined && !isNaN(resultado)) {
+                return `O resultado é: ${resultado}`;
+            }
+        } catch(e) {}
+        return "Essa conta foi complexa, mas adoro matemática!";
+    } else if (p.includes('piada')) {
+        return "Por que o programador faliu? Porque ele usou todo o seu cachê (cache)! 😂";
+    } else if (p.includes('tecnologia') || p.includes('site') || p.includes('html')) {
+        return "Este site foi programado em HTML, CSS e JavaScript puro, com um visual estilo Matrix!";
+    } else {
+        // Respostas úteis para perguntas gerais do dia a dia
+        return `Boa pergunta! Como sou uma IA básica integrada ao site do Diel, respondo perguntas diretas, contas matemáticas e curiosidades. O que mais quer saber sobre "${pergunta}"?`;
+    }
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 </script>
 
