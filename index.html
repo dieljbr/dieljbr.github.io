@@ -230,6 +230,7 @@ body {
 
 <canvas id="bg"></canvas>
 
+<!-- Player do YouTube Oculto -->
 <div id="youtube-player" style="display:none;"></div>
 
 <div class="main-container">
@@ -237,7 +238,7 @@ body {
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
 
-        <a href="https://discord.gg/P4d9w2FGw" target="_blank">
+        <a href="https://discord.gg/B2HMpM8mX" target="_blank">
         💬 Discord
         </a>
 
@@ -246,7 +247,7 @@ body {
         </a>
 
         <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
-        🎵 Tocar Música 
+        🎵 Tocar Música (Senta no Bugalu)
         </button>
     </div>
 
@@ -301,18 +302,24 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube
+// API do YouTube Otimizada e Sem Bug
 let player;
-let isPlaying = false;
 let apiLoaded = false;
 
 function onYouTubeIframeAPIReady() {
-    apiLoaded = true;
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: 'eFQCPE9uDy0',
-        playerVars: { 'loop': 1, 'playlist': 'eFQCPE9uDy0' }
+        videoId: '2seO3j33LHA', // Música Senta no Bugalu
+        playerVars: { 
+            'autoplay': 0,
+            'controls': 0,
+            'loop': 1, 
+            'playlist': '2seO3j33LHA' 
+        },
+        events: {
+            'onReady': () => { apiLoaded = true; }
+        }
     });
 }
 
@@ -323,19 +330,25 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
-    if (!apiLoaded || !player || typeof player.playVideo !== 'function') {
-        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
+    
+    if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
+        alert("O player ainda está carregando, aguarde 2 segundos e tente de novo!");
         return;
     }
-    
-    if (isPlaying) {
-        player.pauseVideo();
-        btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
-        isPlaying = false;
-    } else {
+
+    try {
+        let estado = player.getPlayerState();
+        // Se estiver tocando (1), pausa. Caso contrário, dá play.
+        if (estado === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+            btn.innerHTML = "🎵 Tocar Música (Senta no Bugalu)";
+        } else {
+            player.playVideo();
+            btn.innerHTML = "🔇 Pausar Música";
+        }
+    } catch (e) {
         player.playVideo();
         btn.innerHTML = "🔇 Pausar Música";
-        isPlaying = true;
     }
 }
 
@@ -444,12 +457,12 @@ function processarRespostaIA(texto) {
     
     // Sobre o Diel
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado com tema Matrix e som do Zeca Pagodinho!";
+        return "O Diel é o criador genial deste site irado com tema Matrix e som do Senta no Bugalu!";
     } 
     
     // Música
-    if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
-        return "Para curtir o som, clica ali no botão 'Tocar Música' no card verde para relaxar um pouco!";
+    if (t.includes('música') || t.includes('som') || t.includes('bugalu') || t.includes('funk')) {
+        return "Para curtir o som, clica ali no botão 'Tocar Música (Senta no Bugalu)' no card verde!";
     } 
 
     // Diálogo aberto e natural para qualquer outro assunto
