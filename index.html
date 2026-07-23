@@ -41,21 +41,42 @@ box-shadow:0 0 35px rgba(255, 0, 0, 0.4);
 backdrop-filter:blur(10px);
 width:360px;
 border: 1px solid rgba(255, 0, 0, 0.3);
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
-h1{
-font-size:48px;
-color:#ff0000;
-text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:8px;
-animation:pulse 2s infinite;
-letter-spacing: 2px;
+/* Estilo do Título com Fogo */
+.fire-text {
+    font-size: 70px;
+    font-weight: bold;
+    font-family: 'Impact', sans-serif;
+    color: #fff200;
+    position: relative;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    filter: drop-shadow(0 0 20px #ff0000) 
+            drop-shadow(0 0 10px #ff4500) 
+            drop-shadow(0 0 5px #ffffff);
+}
+
+.fire-text::before {
+    content: "DIEL";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #ff4500;
+    filter: blur(8px) opacity(0.8);
+    z-index: -1;
 }
 
 .subtitle {
 font-size: 15px;
 color: #bbb;
 margin-bottom: 25px;
+margin-top: 10px;
 }
 
 a{
@@ -71,6 +92,7 @@ text-decoration:none;
 border-radius:12px;
 transition:.3s;
 font-weight:bold;
+width: 100%;
 box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
 }
 
@@ -101,13 +123,6 @@ background: rgba(255, 0, 0, 0.2);
 box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
 color: #fff;
 }
-
-@keyframes pulse{
-50%{
-text-shadow:0 0 40px #ff4444;
-transform: scale(1.02);
-}
-}
 </style>
 </head>
 
@@ -115,15 +130,16 @@ transform: scale(1.02);
 
 <canvas id="bg"></canvas>
 
-<!-- Elemento de áudio com música eletrônica em loop via API pública -->
-<audio id="bg-music" loop>
+<!-- Elemento de áudio configurado corretamente -->
+<audio id="bg-music" preload="auto" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=cyberpunk-2099-10701.mp3" type="audio/mpeg">
   Seu navegador não suporta áudio.
 </audio>
 
 <div class="card">
 
-<h1>DIEL</h1>
+    <div class="fire-text">DIEL</div>
+
 <p class="subtitle">Bem-vindo ao meu site</p>
 
 <a href="https://discord.gg/B2HMpM8mX" target="_blank">
@@ -168,7 +184,7 @@ function drawMatrix() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = '#FF0000'; // Vermelho Matrix
+    ctx.fillStyle = '#FF0000';
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < rainDrops.length; i++) {
@@ -184,7 +200,7 @@ function drawMatrix() {
 
 setInterval(drawMatrix, 30);
 
-// Controle de Música
+// Controle de Música Otimizado
 const music = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-toggle");
 let isPlaying = false;
@@ -199,21 +215,10 @@ function toggleMusic() {
             musicBtn.innerHTML = "🔇 Pausar Música";
             isPlaying = true;
         }).catch(error => {
-            console.log("Erro ao reproduzir áudio automaticamente:", error);
-            alert("Clique em qualquer lugar da página ou tente novamente para ativar o áudio.");
+            console.log("Erro de reprodução:", error);
         });
     }
 }
-
-// Tenta iniciar a música automaticamente ao carregar (alguns navegadores bloqueiam autoplay sem interação)
-window.addEventListener('click', () => {
-    if (!isPlaying) {
-        music.play().then(() => {
-            musicBtn.innerHTML = "🔇 Pausar Música";
-            isPlaying = true;
-        }).catch(() => {});
-    }
-}, { once: true });
 </script>
 
 </body>
