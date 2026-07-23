@@ -82,6 +82,29 @@ a:hover{
 transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
+
+.music-btn {
+display:flex;
+align-items:center;
+justify-content:center;
+gap: 10px;
+margin-top: 20px;
+padding: 12px;
+background: rgba(0, 40, 0, 0.8);
+color: #00ff41;
+border: 1px solid rgba(0, 255, 65, 0.4);
+border-radius: 12px;
+cursor: pointer;
+font-weight: bold;
+width: 100%;
+transition: .3s;
+}
+
+.music-btn:hover {
+background: rgba(0, 255, 65, 0.2);
+box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+color: #fff;
+}
 </style>
 </head>
 
@@ -89,15 +112,8 @@ box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 
 <canvas id="bg"></canvas>
 
-<!-- Player de Música Flutuante no Canto da Tela -->
-<div style="position:fixed; bottom:20px; right:20px; z-index:999; background:rgba(0,0,0,0.9); padding:12px; border-radius:12px; border:1px solid #00ff41; box-shadow: 0 0 15px rgba(0,255,65,0.4);">
-  <p style="color:#00ff41; font-size:13px; margin-bottom:6px; text-align:center; font-weight:bold;">🎵 Zeca Pagodinho - Caviar</p>
-  <audio controls loop preload="auto" style="width:240px; height:40px;">
-    <source src="https://www.youtube.com/watch?v=eFQCPE9uDy0" type="audio/mp4">
-    <source src="http://www.youtube.com/watch?v=eFQCPE9uDy0" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-</div>
+<!-- Player do YouTube Oculto que roda a música -->
+<div id="youtube-player" style="display:none;"></div>
 
 <div class="card">
 
@@ -112,6 +128,10 @@ box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 <a href="https://www.instagram.com/_eitaakaah?igsh=MWtneXJlbzgzbmJk" target="_blank">
 📷 Instagram
 </a>
+
+<button class="music-btn" id="music-toggle" onclick="toggleMusic()">
+🎵 Tocar Música (Zeca Pagodinho)
+</button>
 
 </div>
 
@@ -158,6 +178,43 @@ function drawMatrix() {
 }
 
 setInterval(drawMatrix, 30);
+
+// API Oficial do YouTube para controlar a música via botão
+let player;
+let isPlaying = false;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'eFQCPE9uDy0',
+        playerVars: {
+            'loop': 1,
+            'playlist': 'eFQCPE9uDy0'
+        }
+    });
+}
+
+// Carrega o script da API do YouTube automaticamente
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function toggleMusic() {
+    const btn = document.getElementById("music-toggle");
+    if (!player) return;
+    
+    if (isPlaying) {
+        player.pauseVideo();
+        btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
+        isPlaying = false;
+    } else {
+        player.playVideo();
+        btn.innerHTML = "🔇 Pausar Música";
+        isPlaying = true;
+    }
+}
 </script>
 
 </body>
