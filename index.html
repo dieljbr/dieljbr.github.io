@@ -43,7 +43,7 @@ position: relative;
 
 .card{
 background:rgba(0,20,0,.85);
-padding:35px;
+padding:30px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
@@ -56,18 +56,17 @@ align-items: center;
 }
 
 h1{
-font-size:55px;
+font-size:50px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:8px;
+margin-bottom:5px;
 letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 15px;
+font-size: 14px;
 color: #bbb;
-margin-bottom: 25px;
-margin-top: 5px;
+margin-bottom: 15px;
 }
 
 a{
@@ -75,8 +74,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin:12px 0;
-padding:14px;
+margin:8px 0;
+padding:12px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
@@ -92,27 +91,50 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-.music-btn {
-display:flex;
-align-items:center;
-justify-content:center;
-gap: 10px;
-margin-top: 15px;
-padding: 12px;
-background: rgba(0, 40, 0, 0.8);
-color: #00ff41;
-border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 12px;
-cursor: pointer;
-font-weight: bold;
+/* Sistema de Pesquisa de Música */
+.music-box {
 width: 100%;
-transition: .3s;
+margin-top: 15px;
+background: rgba(0, 40, 0, 0.6);
+padding: 12px;
+border-radius: 12px;
+border: 1px solid rgba(0, 255, 65, 0.4);
+display: flex;
+flex-direction: column;
+gap: 8px;
 }
 
-.music-btn:hover {
-background: rgba(0, 255, 65, 0.2);
-box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+.music-box input {
+width: 100%;
+padding: 10px;
+border-radius: 8px;
+border: 1px solid rgba(0, 255, 65, 0.4);
+background: rgba(0, 0, 0, 0.8);
 color: #fff;
+outline: none;
+font-size: 12px;
+}
+
+.music-box input:focus {
+border-color: #00ff41;
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.music-box button {
+padding: 10px;
+border-radius: 8px;
+border: none;
+background: #00ff41;
+color: #000;
+font-weight: bold;
+cursor: pointer;
+transition: .3s;
+font-size: 13px;
+}
+
+.music-box button:hover {
+background: #00cc33;
+box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
 /* Painel da IA */
@@ -230,8 +252,8 @@ body {
 
 <canvas id="bg"></canvas>
 
-<!-- Player do YouTube Oculto -->
-<div id="youtube-player" style="display:none;"></div>
+<!-- Elemento onde o player do YouTube carrega -->
+<div id="youtube-player"></div>
 
 <div class="main-container">
     <div class="card">
@@ -246,9 +268,11 @@ body {
         📷 Instagram
         </a>
 
-        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
-        🎵 Tocar Música (Senta no Bugalu)
-        </button>
+        <!-- Barra de Pesquisa de Música Customizada -->
+        <div class="music-box">
+            <input type="text" id="search-music-input" placeholder="Digite o nome da música ou artista..." onkeypress="handleMusicKey(event)">
+            <button onclick="buscarEColocarMusica()">🔍 Tocar Música Pesquisada</button>
+        </div>
     </div>
 
     <div class="ai-card">
@@ -257,7 +281,7 @@ body {
             <div class="msg ai">Olá, bem-vindo! Diel me programou, o que posso ajudar?</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleAIKey(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
@@ -302,7 +326,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube Otimizada e Sem Bug
+// API do YouTube Dinâmica
 let player;
 let apiLoaded = false;
 
@@ -310,12 +334,11 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: '2seO3j33LHA', // Música Senta no Bugalu
+        videoId: '2seO3j33LHA', // Música padrão inicial (Senta no Bugalu)
         playerVars: { 
             'autoplay': 0,
             'controls': 0,
-            'loop': 1, 
-            'playlist': '2seO3j33LHA' 
+            'loop': 1 
         },
         events: {
             'onReady': () => { apiLoaded = true; }
@@ -328,32 +351,47 @@ tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-function toggleMusic() {
-    const btn = document.getElementById("music-toggle");
-    
-    if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
-        alert("O player ainda está carregando, aguarde 2 segundos e tente de novo!");
+function handleMusicKey(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        buscarEColocarMusica();
+    }
+}
+
+async function buscarEColocarMusica() {
+    const termo = document.getElementById('search-music-input').value.trim();
+    if (!termo) {
+        alert("Digite o nome de uma música para procurar!");
+        return;
+    }
+
+    if (!apiLoaded || !player) {
+        alert("O player ainda está carregando, aguarde um segundo e tente de novo!");
         return;
     }
 
     try {
-        let estado = player.getPlayerState();
-        // Se estiver tocando (1), pausa. Caso contrário, dá play.
-        if (estado === YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-            btn.innerHTML = "🎵 Tocar Música (Senta no Bugalu)";
-        } else {
+        // Usa a API pública do YouTube Search / Noembed para achar o ID do primeiro vídeo correspondente à busca
+        let res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(termo)}&filter=videos`);
+        let data = await res.json();
+        
+        if (data.items && data.items.length > 0) {
+            let videoId = data.items[0].url.split('v=')[1];
+            player.loadVideoById(videoId);
             player.playVideo();
-            btn.innerHTML = "🔇 Pausar Música";
+            alert(`Tocando agora: ${data.items[0].title}`);
+        } else {
+            // Fallback caso a busca direta precise abrir direto no YouTube se der bloqueio de CORS
+            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(termo)}`, '_blank');
         }
     } catch (e) {
-        player.playVideo();
-        btn.innerHTML = "🔇 Pausar Música";
+        // Se houver bloqueio de rede, abre a busca em uma aba segura ou redireciona
+        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(termo)}`, '_blank');
     }
 }
 
-// Sistema de IA Humanizado, Empático e Completo
-function handleKeyPress(event) {
+// Sistema de IA Humano, Empático e Completo
+function handleAIKey(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
         sendMessage(); 
@@ -386,17 +424,14 @@ function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    // Traição / Desabafo / Relacionamento (Empatia total e conselhos)
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
         return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
     }
 
-    // Problemas gerais / Conselhos de vida
     if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
         return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
     }
 
-    // Calculadora Matemática Avançada
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
@@ -415,13 +450,11 @@ function processarRespostaIA(texto) {
         } catch(e) {}
     }
 
-    // Horas
     if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
         const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         return `Agora são exatamente ${horaAtual} ⏰`;
     }
 
-    // Datas / Dias
     if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
         const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
         const diaHoje = dias[agora.getDay()];
@@ -439,7 +472,6 @@ function processarRespostaIA(texto) {
         }
     } 
 
-    // Múltiplas Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
             "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
@@ -450,22 +482,18 @@ function processarRespostaIA(texto) {
         return piadas[Math.floor(Math.random() * piadas.length)];
     } 
 
-    // Saudações
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
         return "Salve! Tudo tranquilo por aqui. E com você, como estão as coisas? Pode mandar a letra!";
     } 
     
-    // Sobre o Diel
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado com tema Matrix e som do Senta no Bugalu!";
+        return "O Diel é o criador genial deste site irado com tema Matrix e sistema de busca de músicas!";
     } 
     
-    // Música
-    if (t.includes('música') || t.includes('som') || t.includes('bugalu') || t.includes('funk')) {
-        return "Para curtir o som, clica ali no botão 'Tocar Música (Senta no Bugalu)' no card verde!";
+    if (t.includes('música') || t.includes('som') || t.includes('pesquisar')) {
+        return "Para escutar qualquer som, basta digitar o nome da música na caixinha ali no card e clicar em 'Tocar Música Pesquisada'!";
     } 
 
-    // Diálogo aberto e natural para qualquer outro assunto
     const conversasHumanas = [
         `Entendi o que você quis dizer sobre "${texto}". Na vida a gente aprende muito com essas situações. Me conta mais sobre isso, como você tá lidando com essa situação?`,
         `Pô, interessante isso que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô aqui para trocar ideia e te ouvir.`,
