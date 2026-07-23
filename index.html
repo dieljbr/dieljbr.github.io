@@ -370,11 +370,11 @@ body {
         <button class="reset-btn" onclick="reiniciarJogo()">Reiniciar Jogo</button>
     </div>
 
-    <!-- Jogo do D -->
+    <!-- Jogo do Diel -->
     <div class="game-card">
-        <div class="game-header">🎮 Jogo do D</div>
+        <div class="game-header">🎮 Jogo do Diel</div>
         <canvas id="dinoCanvas" width="220" height="80" onclick="pularDino()"></canvas>
-        <div class="game-status" id="dino-status">Clique ou Pressione Espaço</div>
+        <div class="game-status" id="dino-status">Clique em Começar</div>
         <button class="reset-btn" id="start-btn" onclick="pularDino()">▶ Começar / Pular</button>
     </div>
 </div>
@@ -565,7 +565,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Jogo do "D" Pulando
+// Jogo do Diel
 const dCanvas = document.getElementById("dinoCanvas");
 const dCtx = dCanvas.getContext("2d");
 
@@ -654,7 +654,7 @@ function atualizarDino() {
         gameOver = true;
         jogoRodando = false;
         if (score > recorde) recorde = score;
-        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score} (Recorde: ${recorde})`;
+        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score}`;
         document.getElementById("start-btn").innerText = "Jogar de Novo";
     }
 }
@@ -662,7 +662,6 @@ function atualizarDino() {
 function desenharDino() {
     dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
 
-    // Chão
     dCtx.strokeStyle = "#00FF41";
     dCtx.lineWidth = 2;
     dCtx.beginPath();
@@ -670,16 +669,13 @@ function desenharDino() {
     dCtx.lineTo(220, 66);
     dCtx.stroke();
 
-    // Boneco "D"
     dCtx.fillStyle = "#00FF41";
     dCtx.font = "bold 18px monospace";
     dCtx.fillText("D", dino.x, dino.y + 14);
 
-    // Obstáculo
     dCtx.fillStyle = "#FF0000";
     dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
 
-    // Placar
     dCtx.fillStyle = "#FFFFFF";
     dCtx.font = "9px monospace";
     dCtx.fillText("PTS: " + score, 10, 15);
@@ -740,43 +736,54 @@ function sendMessage() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    setTimeout(async () => {
-        let resposta = await processarRespostaIA(text);
+    setTimeout(() => {
+        let resposta = processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 500);
+    }, 300);
 }
 
-async function processarRespostaIA(texto) {
+function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
     if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar')) {
-        try {
-            let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
-            let data = await res.json();
-            let valor = parseFloat(data.USDBRL.bid).toFixed(2);
-            let alta = parseFloat(data.USDBRL.high).toFixed(2);
-            let baixa = parseFloat(data.USDBRL.low).toFixed(2);
-            return `O dólar comercial está cotado a R$ ${valor} hoje (Máxima: R$ ${alta} / Mínima: R$ ${baixa}) 💵`;
-        } catch (e) {
-            return "Não consegui consultar a cotação do dólar agora, tente novamente em instantes!";
-        }
+        return "O dólar comercial está cotado em média a R$ 5,50 hoje 💵";
     }
 
     if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover')) {
-        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
+        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves e céu limpo 🌴☀️";
     }
 
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça. Tente respirar fundo, você merece alguém que te valorize de verdade. Se quiser desabafar, tô aqui!";
     }
 
     if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
+        return "Olha, na vida a gente passa por vários baques, mas o segredo é focar nos corres, nos projetos e em quem tá com você de verdade!";
     }
 
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
-        
+                        .replace('mais', '+')
+                        .replace('menos', '-')
+                        .replace('vezes', '*')
+                        .replace('dividido por', '/')
+                        .replace(/[^0-9+\-*/().]/g, '')
+                        .trim();
+            if (expr.length > 0) {
+                let res = Function('"use strict";return (' + expr + ')')();
+                if (res !== undefined && !isNaN(res)) {
+                    return `O resultado da conta é: ${res} 🔢`;
+                }
+            }
+        } catch(e) {}
+    }
+
+    if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
+        const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Agora são exatamente ${horaAtual} ⏰`;
+    }
+
+    if (t.includes('piada') || t.inclu
