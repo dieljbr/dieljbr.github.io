@@ -253,7 +253,7 @@ body {
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">E aí! Sou o assistente do Diel. Manda sua pergunta ou dúvida aí!</div>
+            <div class="msg ai">E aí! Agora tenho um monte de piadas novas guardadas. É só pedir para contar uma!</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
@@ -339,7 +339,7 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA Inteligente e Variada
+// Sistema de IA com Múltiplas Piadas e Funções
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -366,49 +366,71 @@ function sendMessage() {
         let resposta = processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 600);
+    }, 500);
 }
 
 function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
+    const agora = new Date();
 
-    // Identifica perguntas sobre dias da semana ou tempo
+    // Horas
+    if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
+        const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Agora são exatamente ${horaAtual} ⏰`;
+    }
+
+    // Datas / Dias
     if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
         const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-        const hoje = new Date();
-        const diaHoje = dias[hoje.getDay()];
-        const amanha = new Date(hoje);
-        amanha.setDate(hoje.getDate() + 1);
+        const diaHoje = dias[agora.getDay()];
+        const amanha = new Date(agora);
+        amanha.setDate(agora.getDate() + 1);
         const diaAmanha = dias[amanha.getDay()];
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
         
         if (t.includes('amanhã')) {
-            return `Amanhã será ${diaAmanha}! Quer saber mais alguma coisa?`;
+            return `Amanhã será ${diaAmanha}! 📅`;
+        } else if (t.includes('data') || t.includes('dia de hoje')) {
+            return `Hoje é ${diaHoje}, dia ${dataFormatada}! 🗓️`;
         } else {
-            return `Hoje é ${diaHoje}! Se precisar conferir datas ou prazos, é só falar.`;
+            return `Hoje é ${diaHoje}! 🗓️`;
         }
+    } 
+
+    // Múltiplas Piadas Aleatórias
+    if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
+        const piadas = [
+            "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
+            "O que o zero disse para o oito? — Belo cinto! 🤣",
+            "Por que a galeria de arte foi presa? Porque ela era suspeita de armação! 🖼️😂",
+            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑",
+            "Por que o jacaré tirou o filho da escola? Porque elereptil de ano! 🐊📚",
+            "O que um pingo d'água disse para o outro? — Poxa, vida, hoje estou pingando de sono! 💧😴"
+        ];
+        return piadas[Math.floor(Math.random() * piadas.length)];
     } 
     
     // Saudações
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
-        return "E aí! Tudo ótimo por aqui na Matrix. Como posso te ajudar hoje?";
+        forneceResps = [
+            "E aí! Tudo ótimo por aqui na Matrix.",
+            "Salve, Diel! Pronto para mais uma?",
+            "Fala aí! Como posso te ajudar hoje?"
+        ];
+        return forneceResps[Math.floor(Math.random() * forneceResps.length)];
     } 
     
-    // Sobre o Diel ou o site
+    // Sobre o Diel
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador deste site incrível com tema Matrix e som do Zeca Pagodinho!";
+        return "O Diel é o criador deste site irado com tema Matrix e som do Zeca Pagodinho!";
     } 
     
-    // Sobre música
+    // Música
     if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
-        return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde. O som rola direto do YouTube!";
+        return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde!";
     } 
     
-    // Piadas
-    if (t.includes('piada') || t.includes('rir')) {
-        return "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++ (C sharp)! 👓😂";
-    } 
-    
-    // Matemática básica
+    // Matemática
     if (t.includes('quanto é') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '').trim();
@@ -417,15 +439,8 @@ function processarRespostaIA(texto) {
         } catch(e) {}
     }
 
-    // Respostas genéricas inteligentes baseadas no que foi digitado
-    const padroes = [
-        interessante => `Entendi sobre "${interessante}". Esse assunto é bem legal, tem mais detalhes que gostaria de ver por aqui?`,
-        interessante => `Boa questão sobre "${interessante}"! Como assistente do Diel, estou focado em manter o site rápido e interativo.`,
-        interessante => `Interessante você mencionar "${interessante}". Quer explorar alguma outra função do site, como o som ou as redes sociais?`
-    ];
-
-    let escolha = padroes[Math.floor(Math.random() * padroes.length)];
-    return escolha(texto);
+    // Respostas genéricas dinâmicas
+    return `Boa pergunta sobre "${texto}"! Quer pedir uma piada, ver as horas ou escutar um som?`;
 }
 
 function escapeHtml(text) {
