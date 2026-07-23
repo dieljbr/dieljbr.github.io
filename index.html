@@ -339,7 +339,7 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA Inteligente e Fluido para o Site
+// Sistema de IA Humanizado, Empático e Completo
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -366,12 +366,22 @@ function sendMessage() {
         let resposta = processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 400);
+    }, 500);
 }
 
 function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
+
+    // Traição / Desabafo / Relacionamento (Empatia total e conselhos)
+    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
+    }
+
+    // Problemas gerais / Conselhos de vida
+    if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
+        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
+    }
 
     // Calculadora Matemática Avançada
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
@@ -429,7 +439,7 @@ function processarRespostaIA(texto) {
 
     // Saudações
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
-        return "Olá, bem-vindo! Diel me programou, o que posso ajudar?";
+        return "Salve! Tudo tranquilo por aqui. E com você, como estão as coisas? Pode mandar a letra!";
     } 
     
     // Sobre o Diel
@@ -439,18 +449,17 @@ function processarRespostaIA(texto) {
     
     // Música
     if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
-        return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde!";
+        return "Para curtir o som, clica ali no botão 'Tocar Música' no card verde para relaxar um pouco!";
     } 
 
-    // Respostas dinâmicas inteligentes e variadas para conversas livres
-    const conversasLivres = [
-        `Essa é uma excelente pergunta sobre "${texto}". A vida é cheia de mistérios, mas o importante é seguir em frente aprendendo sempre!`,
-        `Compreendo seu ponto sobre "${texto}". Conversar sobre isso nos faz refletir bastante. Quer explorar mais sobre esse assunto?`,
-        `Olha só, "${texto}" é um tema bem interessante. O Diel me programou justamente para a gente trocar ideia sobre tudo o que você quiser!`,
-        `Interessante você trazer isso! Na minha visão de IA criada pelo Diel, cada conversa é uma nova descoberta. O que mais gostaria de saber?`
+    // Diálogo aberto e natural para qualquer outro assunto
+    const conversasHumanas = [
+        `Entendi o que você quis dizer sobre "${texto}". Na vida a gente aprende muito com essas situações. Me conta mais sobre isso, como você tá lidando com essa situação?`,
+        `Pô, interessante isso que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô aqui para trocar ideia e te ouvir.`,
+        `Com certeza! Sobre "${texto}", o importante é manter a mente firme. Quer que eu te dê um conselho ou prefere só trocar uma ideia livre?`
     ];
 
-    return conversasLivres[Math.floor(Math.random() * conversasLivres.length)];
+    return conversasHumanas[Math.floor(Math.random() * conversasHumanas.length)];
 }
 
 function escapeHtml(text) {
