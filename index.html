@@ -113,7 +113,7 @@ box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 color: #fff;
 }
 
-/* Painel da IA inteligente (Gemini API) */
+/* Painel da IA Real */
 .ai-card {
 background: rgba(0, 20, 0, 0.85);
 padding: 25px;
@@ -222,13 +222,22 @@ body {
 }
 }
 </style>
+
+<!-- Biblioteca Google Generative AI (Gemini SDK) -->
+<script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.run/@google/genai"
+    }
+  }
+</script>
 </head>
 
 <body>
 
 <canvas id="bg"></canvas>
 
-<!-- Player do YouTube Oculto para o Zeca Pagodinho -->
+<!-- Player do YouTube Oculto -->
 <div id="youtube-player" style="display:none;"></div>
 
 <div class="main-container">
@@ -250,14 +259,14 @@ body {
         </button>
     </div>
 
-    <!-- Card de IA Inteligente Integrada -->
+    <!-- Card de IA Real -->
     <div class="ai-card">
-        <div class="ai-header">🤖 IA do Diel</div>
+        <div class="ai-header">🤖 IA Inteligente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">Fala aí! Pode me fazer qualquer pergunta que eu te respondo.</div>
+            <div class="msg ai">E aí! Pode perguntar qualquer coisa que agora eu penso de verdade e te respondo certo.</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Pergunte algo..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="user-input" placeholder="Faça uma pergunta inteligente..." onkeypress="handleKeyPress(event)">
             <button onclick="sendToGeminiAI()">Enviar</button>
         </div>
     </div>
@@ -331,7 +340,12 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA Real Conectada (Google Gemini API via proxy seguro / chave pública de teste embutida)
+// Conexão com o Google Gemini (IA Real e Pensante)
+import { GoogleGenAI } from "@google/genai";
+
+// Insira sua chave de API do Gemini aqui dentro das aspas caso queira que funcione online na web
+const ai = new GoogleGenAI({ apiKey: "COLOQUE_SUA_API_KEY_AQUI" });
+
 function handleKeyPress(event) {
     if (event.key === 'Enter') { sendToGeminiAI(); }
 }
@@ -347,46 +361,23 @@ async function sendToGeminiAI() {
     input.value = '';
     chat.scrollTop = chat.scrollHeight;
 
-    // Mensagem temporária de carregamento
     const loadingId = 'loading-' + Date.now();
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
     try {
-        // Resposta automatizada inteligente baseada em perguntas e respostas diretas
-        let respostaPronta = responderIA(text);
-        
-        document.getElementById(loadingId).innerText = respostaPronta;
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: text,
+            config: {
+                systemInstruction: "Você é um assistente de IA amigável e inteligente integrado ao site pessoal de Diel. Responda de forma clara, prestativa e direta em português.",
+            }
+        });
+
+        document.getElementById(loadingId).innerText = response.text;
         chat.scrollTop = chat.scrollHeight;
     } catch (error) {
-        document.getElementById(loadingId).innerText = "Opa, deu um pequeno erro aqui. Tenta de novo!";
-    }
-}
-
-function responderIA(pergunta) {
-    const p = pergunta.toLowerCase();
-    
-    if (p.includes('qual o seu nome') || p.includes('quem é você')) {
-        return "Eu sou a inteligência artificial oficial criada para responder suas dúvidas aqui no site do Diel!";
-    } else if (p.includes('capital do brasil')) {
-        return "A capital do Brasil é Brasília.";
-    } else if (p.includes('quanto é') || p.includes('soma') || p.includes('mais') || p.includes('vezes')) {
-        try {
-            // Tenta calcular contas matemáticas simples digitadas pelo usuário
-            let expressao = p.replace(/quanto é/g, '').replace(/matemática/g, '').trim();
-            let resultado = eval(expressao);
-            if (resultado !== undefined && !isNaN(resultado)) {
-                return `O resultado é: ${resultado}`;
-            }
-        } catch(e) {}
-        return "Essa conta foi complexa, mas adoro matemática!";
-    } else if (p.includes('piada')) {
-        return "Por que o programador faliu? Porque ele usou todo o seu cachê (cache)! 😂";
-    } else if (p.includes('tecnologia') || p.includes('site') || p.includes('html')) {
-        return "Este site foi programado em HTML, CSS e JavaScript puro, com um visual estilo Matrix!";
-    } else {
-        // Respostas úteis para perguntas gerais do dia a dia
-        return `Boa pergunta! Como sou uma IA básica integrada ao site do Diel, respondo perguntas diretas, contas matemáticas e curiosidades. O que mais quer saber sobre "${pergunta}"?`;
+        document.getElementById(loadingId).innerText = "Erro: Para usar a IA real, insira uma chave de API válida do Gemini no código.";
     }
 }
 
