@@ -115,7 +115,7 @@ box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 color: #fff;
 }
 
-/* Painel da IA Real */
+/* Painel da IA */
 .ai-card {
 background: rgba(0, 20, 0, 0.85);
 padding: 25px;
@@ -257,7 +257,7 @@ body {
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendToGeminiAI()">Enviar</button>
+            <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 </div>
@@ -339,15 +339,15 @@ function toggleMusic() {
     }
 }
 
-// Conexão via API REST do Gemini com a chave configurada
+// Sistema de IA Inteligente e Fluido para o Site
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
-        sendToGeminiAI(); 
+        sendMessage(); 
     }
 }
 
-async function sendToGeminiAI() {
+function sendMessage() {
     const input = document.getElementById('user-input');
     const chat = document.getElementById('chat-messages');
     const text = input.value.trim();
@@ -362,40 +362,95 @@ async function sendToGeminiAI() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    const apiKey = "AQ.Ab8RN6Lvh5ZNZ7sf7-o37usLmfnf7Kcj-sVibS-YydcAeYA8Yw";
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
-    const payload = {
-        contents: [{
-            parts: [{ text: text }]
-        }],
-        systemInstruction: {
-            parts: [{ text: "Você é um assistente de IA amigável, inteligente e humano, criado pelo Diel. Responda de forma natural, empática e dinâmica em português. Você pode conversar sobre a vida, dar conselhos, responder dúvidas complexas, calcular matemática e bater papo livremente." }]
-        }
-    };
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            let respostaAI = data.candidates[0].content.parts[0].text;
-            document.getElementById(loadingId).innerText = respostaAI;
-        } else {
-            document.getElementById(loadingId).innerText = "Ocorreu um erro ao processar a resposta da IA.";
-        }
+    setTimeout(() => {
+        let resposta = processarRespostaIA(text);
+        document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    } catch (error) {
-        console.error(error);
-        document.getElementById(loadingId).innerText = "Erro de conexão com a API do Gemini.";
+    }, 400);
+}
+
+function processarRespostaIA(texto) {
+    const t = texto.toLowerCase();
+    const agora = new Date();
+
+    // Calculadora Matemática Avançada
+    if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
+        try {
+            let expr = t.replace('quanto é', '')
+                        .replace('mais', '+')
+                        .replace('menos', '-')
+                        .replace('vezes', '*')
+                        .replace('dividido por', '/')
+                        .replace(/[^0-9+\-*/().]/g, '')
+                        .trim();
+            if (expr.length > 0) {
+                let res = Function('"use strict";return (' + expr + ')')();
+                if (res !== undefined && !isNaN(res)) {
+                    return `O resultado da conta é: ${res} 🔢`;
+                }
+            }
+        } catch(e) {}
     }
+
+    // Horas
+    if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
+        const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Agora são exatamente ${horaAtual} ⏰`;
+    }
+
+    // Datas / Dias
+    if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
+        const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        const diaHoje = dias[agora.getDay()];
+        const amanha = new Date(agora);
+        amanha.setDate(agora.getDate() + 1);
+        const diaAmanha = dias[amanha.getDay()];
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
+        
+        if (t.includes('amanhã')) {
+            return `Amanhã será ${diaAmanha}! 📅`;
+        } else if (t.includes('data') || t.includes('dia de hoje')) {
+            return `Hoje é ${diaHoje}, dia ${dataFormatada}! 🗓️`;
+        } else {
+            return `Hoje é ${diaHoje}! 🗓️`;
+        }
+    } 
+
+    // Múltiplas Piadas
+    if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
+        const piadas = [
+            "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
+            "O que o zero disse para o oito? — Belo cinto! 🤣",
+            "Por que a galeria de arte foi presa? Porque ela era suspeita de armação! 🖼️😂",
+            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑"
+        ];
+        return piadas[Math.floor(Math.random() * piadas.length)];
+    } 
+
+    // Saudações
+    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
+        return "Olá, bem-vindo! Diel me programou, o que posso ajudar?";
+    } 
+    
+    // Sobre o Diel
+    if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
+        return "O Diel é o criador genial deste site irado com tema Matrix e som do Zeca Pagodinho!";
+    } 
+    
+    // Música
+    if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
+        return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde!";
+    } 
+
+    // Respostas dinâmicas inteligentes e variadas para conversas livres
+    const conversasLivres = [
+        `Essa é uma excelente pergunta sobre "${texto}". A vida é cheia de mistérios, mas o importante é seguir em frente aprendendo sempre!`,
+        `Compreendo seu ponto sobre "${texto}". Conversar sobre isso nos faz refletir bastante. Quer explorar mais sobre esse assunto?`,
+        `Olha só, "${texto}" é um tema bem interessante. O Diel me programou justamente para a gente trocar ideia sobre tudo o que você quiser!`,
+        `Interessante você trazer isso! Na minha visão de IA criada pelo Diel, cada conversa é uma nova descoberta. O que mais gostaria de saber?`
+    ];
+
+    return conversasLivres[Math.floor(Math.random() * conversasLivres.length)];
 }
 
 function escapeHtml(text) {
