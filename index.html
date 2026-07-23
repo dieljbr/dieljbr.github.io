@@ -66,31 +66,8 @@ letter-spacing: 2px;
 .subtitle {
 font-size: 15px;
 color: #bbb;
-margin-bottom: 20px;
+margin-bottom: 25px;
 margin-top: 5px;
-}
-
-.visitor-counter {
-background: rgba(0, 40, 0, 0.7);
-border: 1px solid rgba(0, 255, 65, 0.4);
-padding: 10px 15px;
-border-radius: 10px;
-font-size: 13px;
-color: #00ff41;
-margin-bottom: 20px;
-width: 100%;
-display: flex;
-justify-content: space-between;
-align-items: center;
-box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
-}
-
-.visitor-counter span {
-font-weight: bold;
-color: #fff;
-background: rgba(0, 255, 65, 0.2);
-padding: 3px 8px;
-border-radius: 6px;
 }
 
 a{
@@ -98,7 +75,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin:10px 0;
+margin:12px 0;
 padding:14px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
@@ -247,9 +224,6 @@ body {
 }
 }
 </style>
-
-<!-- SDK do Google Gemini -->
-<script src="https://esm.run/@google/genai"></script>
 </head>
 
 <body>
@@ -262,10 +236,6 @@ body {
     <div class="card">
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
-
-        <div class="visitor-counter">
-            👁️ Suas visitas: <span id="total-count">Carregando...</span>
-        </div>
 
         <a href="https://discord.gg/B2HMpM8mX" target="_blank">
         💬 Discord
@@ -293,19 +263,6 @@ body {
 </div>
 
 <script>
-// Contador de Visitas Real
-function registrarVisitaReal() {
-    let visitas = localStorage.getItem('diel_visitas_reais');
-    if (!visitas) {
-        visitas = 1;
-    } else {
-        visitas = parseInt(visitas) + 1;
-    }
-    localStorage.setItem('diel_visitas_reais', visitas);
-    document.getElementById('total-count').innerText = visitas.toLocaleString();
-}
-registrarVisitaReal();
-
 // Efeito Matrix Verde Fluido
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
@@ -382,7 +339,7 @@ function toggleMusic() {
     }
 }
 
-// Conexão com a IA Real (Gemini) com a nova chave inserida
+// Conexão via API REST do Gemini com a chave configurada
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -405,23 +362,39 @@ async function sendToGeminiAI() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    try {
-        const { GoogleGenAI } = window.GoogleGenAI;
-        const ai = new GoogleGenAI({ apiKey: "AQ.Ab8RN6Lvh5ZNZ7sf7-o37usLmfnf7Kcj-sVibS-YydcAeYA8Yw" });
+    const apiKey = "AQ.Ab8RN6Lvh5ZNZ7sf7-o37usLmfnf7Kcj-sVibS-YydcAeYA8Yw";
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: text,
-            config: {
-                systemInstruction: "Você é um assistente de IA amigável, inteligente e humano, criado pelo Diel. Responda de forma natural, empática e dinâmica em português. Você pode conversar sobre a vida, dar conselhos, responder dúvidas complexas, calcular matemática e bater papo livremente.",
-            }
+    const payload = {
+        contents: [{
+            parts: [{ text: text }]
+        }],
+        systemInstruction: {
+            parts: [{ text: "Você é um assistente de IA amigável, inteligente e humano, criado pelo Diel. Responda de forma natural, empática e dinâmica em português. Você pode conversar sobre a vida, dar conselhos, responder dúvidas complexas, calcular matemática e bater papo livremente." }]
+        }
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         });
 
-        document.getElementById(loadingId).innerText = response.text;
+        const data = await response.json();
+        
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            let respostaAI = data.candidates[0].content.parts[0].text;
+            document.getElementById(loadingId).innerText = respostaAI;
+        } else {
+            document.getElementById(loadingId).innerText = "Ocorreu um erro ao processar a resposta da IA.";
+        }
         chat.scrollTop = chat.scrollHeight;
     } catch (error) {
         console.error(error);
-        document.getElementById(loadingId).innerText = "Erro ao conectar com a IA real. Verifique sua conexão com a internet.";
+        document.getElementById(loadingId).innerText = "Erro de conexão com a API do Gemini.";
     }
 }
 
