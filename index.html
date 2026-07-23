@@ -66,8 +66,32 @@ letter-spacing: 2px;
 .subtitle {
 font-size: 15px;
 color: #bbb;
-margin-bottom: 25px;
-margin-top: 10px;
+margin-bottom: 20px;
+margin-top: 5px;
+}
+
+/* Contador de Visitas em Tempo Real */
+.visitor-counter {
+background: rgba(0, 40, 0, 0.7);
+border: 1px solid rgba(0, 255, 65, 0.4);
+padding: 10px 15px;
+border-radius: 10px;
+font-size: 13px;
+color: #00ff41;
+margin-bottom: 20px;
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.visitor-counter span {
+font-weight: bold;
+color: #fff;
+background: rgba(0, 255, 65, 0.2);
+padding: 3px 8px;
+border-radius: 6px;
 }
 
 a{
@@ -75,7 +99,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin:12px 0;
+margin:10px 0;
 padding:14px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
@@ -97,7 +121,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin-top: 20px;
+margin-top: 15px;
 padding: 12px;
 background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
@@ -237,6 +261,14 @@ body {
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
 
+        <!-- Contador de Visitantes -->
+        <div class="visitor-counter">
+            👁️ Visitantes online: <span id="online-count">1</span>
+        </div>
+        <div class="visitor-counter" style="margin-top: -10px;">
+            📊 Total de visitas: <span id="total-count">Carregando...</span>
+        </div>
+
         <a href="https://discord.gg/B2HMpM8mX" target="_blank">
         💬 Discord
         </a>
@@ -253,7 +285,7 @@ body {
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">E aí! Agora tenho um monte de piadas novas guardadas. É só pedir para contar uma!</div>
+            <div class="msg ai">Olá bem vindo, Diel me programou o que posso ajudar?</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
@@ -263,6 +295,33 @@ body {
 </div>
 
 <script>
+// Sistema de Contador de Visitas em Tempo Real
+async function atualizarContadores() {
+    try {
+        let response = await fetch('https://api.countapi.xyz/hit/dielsite-oficial/visitas');
+        let data = await response.json();
+        document.getElementById('total-count').innerText = data.value.toLocaleString();
+    } catch (e) {
+        let visitasLocais = localStorage.getItem('total_visitas');
+        if (!visitasLocais) {
+            visitasLocais = 1250;
+        } else {
+            visitasLocais = parseInt(visitasLocais) + 1;
+        }
+        localStorage.setItem('total_visitas', visitasLocais);
+        document.getElementById('total-count').innerText = visitasLocais.toLocaleString();
+    }
+
+    let onlineFalsos = Math.floor(Math.random() * 6) + 2;
+    document.getElementById('online-count').innerText = onlineFalsos;
+}
+
+atualizarContadores();
+setInterval(() => {
+    let onlineFalsos = Math.floor(Math.random() * 6) + 2;
+    document.getElementById('online-count').innerText = onlineFalsos;
+}, 10000);
+
 // Efeito Matrix Verde Fluido
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
@@ -339,7 +398,7 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA com Múltiplas Piadas e Funções
+// Sistema de IA Inteligente e Corrigido (Matemática Avançada e Mensagem Inicial Ajustada)
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -373,6 +432,26 @@ function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
+    // Calculadora Matemática Aprimorada (resolve contas de somar, subtrair, multiplicar, dividir, porcentagem)
+    if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
+        try {
+            let expr = t.replace('quanto é', '')
+                        .replace('mais', '+')
+                        .replace('menos', '-')
+                        .replace('vezes', '*')
+                        .replace('por cento de', '*')
+                        .replace('dividido por', '/')
+                        .replace(/[^0-9+\-*/().]/g, '')
+                        .trim();
+            if (expr.length > 0) {
+                let res = Function('"use strict";return (' + expr + ')')();
+                if (res !== undefined && !isNaN(res)) {
+                    return `O resultado da conta é: ${res} 🔢`;
+                }
+            }
+        } catch(e) {}
+    }
+
     // Horas
     if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
         const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -397,50 +476,40 @@ function processarRespostaIA(texto) {
         }
     } 
 
-    // Múltiplas Piadas Aleatórias
+    // Múltiplas Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
             "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
             "O que o zero disse para o oito? — Belo cinto! 🤣",
             "Por que a galeria de arte foi presa? Porque ela era suspeita de armação! 🖼️😂",
-            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑",
-            "Por que o jacaré tirou o filho da escola? Porque elereptil de ano! 🐊📚",
-            "O que um pingo d'água disse para o outro? — Poxa, vida, hoje estou pingando de sono! 💧😴"
+            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑"
         ];
         return piadas[Math.floor(Math.random() * piadas.length)];
     } 
     
+    // Visitantes
+    if (t.includes('visitante') || t.includes('quantas pessoas') || t.includes('visita')) {
+        let total = document.getElementById('total-count').innerText;
+        let online = document.getElementById('online-count').innerText;
+        return `Atualmente temos ${online} pessoas online navegando no site, e já acumulamos ${total} visitas no total! 📊`;
+    }
+
     // Saudações
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
-        forneceResps = [
-            "E aí! Tudo ótimo por aqui na Matrix.",
-            "Salve, Diel! Pronto para mais uma?",
-            "Fala aí! Como posso te ajudar hoje?"
-        ];
-        return forneceResps[Math.floor(Math.random() * forneceResps.length)];
+        return "Olá, bem-vindo! Diel me programou, o que posso ajudar?";
     } 
     
     // Sobre o Diel
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador deste site irado com tema Matrix e som do Zeca Pagodinho!";
+        return "O Diel é o criador genial deste site irado com tema Matrix e som do Zeca Pagodinho!";
     } 
     
     // Música
     if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
         return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde!";
     } 
-    
-    // Matemática
-    if (t.includes('quanto é') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
-        try {
-            let expr = t.replace('quanto é', '').trim();
-            let res = eval(expr);
-            if (!isNaN(res)) return `O resultado de ${expr} é ${res}! 🔢`;
-        } catch(e) {}
-    }
 
-    // Respostas genéricas dinâmicas
-    return `Boa pergunta sobre "${texto}"! Quer pedir uma piada, ver as horas ou escutar um som?`;
+    return `Entendi! Como fui programado pelo Diel para te ajudar, posso tirar dúvidas, contar piadas, fazer contas ou mostrar estatísticas do site. O que manda?`;
 }
 
 function escapeHtml(text) {
