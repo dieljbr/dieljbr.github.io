@@ -43,7 +43,7 @@ position: relative;
 
 .card{
 background:rgba(0,20,0,.85);
-padding:30px;
+padding:35px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
@@ -56,17 +56,18 @@ align-items: center;
 }
 
 h1{
-font-size:50px;
+font-size:55px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:5px;
+margin-bottom:8px;
 letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 14px;
+font-size: 15px;
 color: #bbb;
-margin-bottom: 15px;
+margin-bottom: 25px;
+margin-top: 5px;
 }
 
 a{
@@ -74,8 +75,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap: 10px;
-margin:8px 0;
-padding:12px;
+margin:12px 0;
+padding:14px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
@@ -91,68 +92,27 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* Player de Áudio Limpo e Sem Anúncios */
-.music-box {
-width: 100%;
+.music-btn {
+display:flex;
+align-items:center;
+justify-content:center;
+gap: 10px;
 margin-top: 15px;
-background: rgba(0, 40, 0, 0.8);
 padding: 12px;
-border-radius: 12px;
-border: 1px solid rgba(0, 255, 65, 0.4);
-display: flex;
-flex-direction: column;
-gap: 8px;
-align-items: center;
-box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
-}
-
-.music-box input {
-width: 100%;
-padding: 9px;
-border-radius: 8px;
-border: 1px solid rgba(0, 255, 65, 0.4);
-background: rgba(0, 0, 0, 0.8);
-color: #fff;
-outline: none;
-font-size: 12px;
-}
-
-.music-box input:focus {
-border-color: #00ff41;
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
-}
-
-.music-box button {
-width: 100%;
-padding: 9px;
-border-radius: 8px;
-border: none;
-background: #00ff41;
-color: #000;
-font-weight: bold;
-cursor: pointer;
-transition: .3s;
-font-size: 12px;
-}
-
-.music-box button:hover {
-background: #00cc33;
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
-}
-
-#music-info {
-font-size: 11px;
+background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
+border: 1px solid rgba(0, 255, 65, 0.4);
+border-radius: 12px;
+cursor: pointer;
 font-weight: bold;
-text-align: center;
+width: 100%;
+transition: .3s;
 }
 
-audio {
-width: 100%;
-height: 32px;
-outline: none;
-border-radius: 6px;
-filter: drop-shadow(0 0 5px rgba(0,255,65,0.3));
+.music-btn:hover {
+background: rgba(0, 255, 65, 0.2);
+box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+color: #fff;
 }
 
 /* Painel da IA */
@@ -270,6 +230,9 @@ body {
 
 <canvas id="bg"></canvas>
 
+<!-- Player do YouTube Oculto para o Zeca Pagodinho -->
+<div id="youtube-player" style="display:none;"></div>
+
 <div class="main-container">
     <div class="card">
         <h1>DIEL</h1>
@@ -283,16 +246,9 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Player de Áudio Direto (Livre de Anúncios) -->
-        <div class="music-box">
-            <span id="music-info">🎵 Player Direto (100% Sem Anúncios)</span>
-            <input type="text" id="music-search" placeholder="Digite o nome da música..." onkeypress="handleMusicKey(event)">
-            <button onclick="tocarMusicaDireta()">🔍 Tocar Som Limpo</button>
-            <audio id="audio-player" controls autoplay>
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-                Seu navegador não suporta áudio.
-            </audio>
-        </div>
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
+        🎵 Tocar Música (Zeca Pagodinho)
+        </button>
     </div>
 
     <div class="ai-card">
@@ -346,37 +302,53 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Sistema de Áudio Limpo por Stream Direto
-function handleMusicKey(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        tocarMusicaDireta();
-    }
+// API do YouTube para o Zeca Pagodinho (ID: eFQCPE9uDy0)
+let player;
+let apiLoaded = false;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'eFQCPE9uDy0',
+        playerVars: { 
+            'autoplay': 0,
+            'controls': 0,
+            'loop': 1,
+            'playlist': 'eFQCPE9uDy0'
+        },
+        events: {
+            'onReady': () => { apiLoaded = true; }
+        }
+    });
 }
 
-function tocarMusicaDireta() {
-    const termo = document.getElementById('music-search').value.trim();
-    if (!termo) {
-        alert("Digite o nome da música!");
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function toggleMusic() {
+    const btn = document.getElementById("music-toggle");
+    
+    if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
+        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
         return;
     }
 
-    const info = document.getElementById('music-info');
-    const player = document.getElementById('audio-player');
-    
-    info.innerText = `🎵 Tocando: ${termo} (Livre de Anúncios)`;
-    
-    // Lista de fontes de áudio limpas e sem propagandas comerciais para reprodução fluida
-    const streamsLivres = [
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
-    ];
-    
-    let randomStream = streamsLivres[Math.floor(Math.random() * streamsLivres.length)];
-    player.src = randomStream;
-    player.play();
+    try {
+        let estado = player.getPlayerState();
+        if (estado === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+            btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
+        } else {
+            player.playVideo();
+            btn.innerHTML = "🔇 Pausar Música";
+        }
+    } catch (e) {
+        player.playVideo();
+        btn.innerHTML = "🔇 Pausar Música";
+    }
 }
 
 // Sistema de IA com Dólar, Previsão do Tempo (Copacabana, RJ) e Conversas Empáticas
