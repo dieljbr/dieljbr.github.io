@@ -301,25 +301,6 @@ cursor: pointer;
 margin-bottom: 6px;
 }
 
-.nick-box {
-display: flex;
-flex-direction: column;
-gap: 5px;
-width: 100%;
-margin-bottom: 6px;
-}
-
-.nick-box input {
-padding: 5px;
-border-radius: 5px;
-border: 1px solid rgba(0, 255, 65, 0.4);
-background: rgba(0, 0, 0, 0.8);
-color: #fff;
-font-size: 10px;
-outline: none;
-text-align: center;
-}
-
 @media (max-width: 1100px) {
 .main-container {
     flex-direction: column;
@@ -389,14 +370,12 @@ body {
         <button class="reset-btn" onclick="reiniciarJogo()">Reiniciar Jogo</button>
     </div>
 
-    <!-- Jogo do D Pulando com Nick / Rank -->
+    <!-- Jogo do D -->
     <div class="game-card">
-        <div class="game-header">🏆 Rank do "D" Pulando</div>
-        <div class="nick-box">
-            <input type="text" id="player-nick" placeholder="Digite seu Nick..." value="Jogador">
-        </div>
-        <canvas id="dinoCanvas" width="220" height="85"></canvas>
-        <div class="game-status" id="dino-status">Clique ou Espaço para Pular</div>
+        <div class="game-header">🎮 Jogo do D</div>
+        <canvas id="dinoCanvas" width="220" height="80" onclick="pularDino()"></canvas>
+        <div class="game-status" id="dino-status">Clique ou Pressione Espaço</div>
+        <button class="reset-btn" id="start-btn" onclick="pularDino()">▶ Começar / Pular</button>
     </div>
 </div>
 
@@ -586,37 +565,37 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Jogo do "D" Pulando com Sistema de Nick e Recorde (Rank)
+// Jogo do "D" Pulando
 const dCanvas = document.getElementById("dinoCanvas");
 const dCtx = dCanvas.getContext("2d");
 
 let dino = {
     x: 20,
-    y: 52,
+    y: 48,
     width: 16,
     height: 18,
     vy: 0,
-    gravity: 0.55,
-    jump: -8,
+    gravity: 0.5,
+    jump: -7.5,
     isJumping: false
 };
 
 let obstaculo = {
     x: 220,
-    y: 54,
+    y: 50,
     width: 10,
     height: 16,
-    speed: 4
+    speed: 3.5
 };
 
 let score = 0;
 let recorde = 0;
-let melhorNick = "Nenhum";
+let jogoRodando = false;
 let gameOver = false;
 
 function pularDino() {
-    if (gameOver) {
-        reiniciarDino();
+    if (!jogoRodando || gameOver) {
+        iniciarOuReiniciarJogoD();
         return;
     }
     if (!dino.isJumping) {
@@ -627,25 +606,34 @@ function pularDino() {
 
 document.addEventListener("keydown", function(e) {
     if (e.code === "Space" || e.code === "ArrowUp") {
-        if (document.activeElement.id !== 'player-nick' && document.activeElement.id !== 'user-input') {
+        if (document.activeElement.id !== 'user-input') {
             e.preventDefault();
             pularDino();
         }
     }
 });
 
-dCanvas.addEventListener("click", function() {
-    pularDino();
-});
+function iniciarOuReiniciarJogoD() {
+    dino.y = 48;
+    dino.vy = 0;
+    dino.isJumping = false;
+    obstaculo.x = 220;
+    obstaculo.speed = 3.5;
+    score = 0;
+    gameOver = false;
+    jogoRodando = true;
+    document.getElementById("dino-status").innerText = "Pulando... Vamos lá!";
+    document.getElementById("start-btn").innerText = "Pular";
+}
 
 function atualizarDino() {
-    if (gameOver) return;
+    if (!jogoRodando || gameOver) return;
 
     dino.vy += dino.gravity;
     dino.y += dino.vy;
 
-    if (dino.y > 52) {
-        dino.y = 52;
+    if (dino.y > 48) {
+        dino.y = 48;
         dino.vy = 0;
         dino.isJumping = false;
     }
@@ -654,7 +642,7 @@ function atualizarDino() {
     if (obstaculo.x < -20) {
         obstaculo.x = 220;
         score += 10;
-        obstaculo.speed = 4 + Math.floor(score / 40);
+        obstaculo.speed = 3.5 + Math.floor(score / 50);
     }
 
     if (
@@ -664,12 +652,10 @@ function atualizarDino() {
         dino.y + dino.height > obstaculo.y
     ) {
         gameOver = true;
-        let nickAtual = document.getElementById("player-nick").value.trim() || "Jogador";
-        if (score > recorde) {
-            recorde = score;
-            melhorNick = nickAtual;
-        }
-        document.getElementById("dino-status").innerText = `Fim de Jogo! Recorde: ${melhorNick} (${recorde} pts)`;
+        jogoRodando = false;
+        if (score > recorde) recorde = score;
+        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score} (Recorde: ${recorde})`;
+        document.getElementById("start-btn").innerText = "Jogar de Novo";
     }
 }
 
@@ -680,8 +666,8 @@ function desenharDino() {
     dCtx.strokeStyle = "#00FF41";
     dCtx.lineWidth = 2;
     dCtx.beginPath();
-    dCtx.moveTo(0, 70);
-    dCtx.lineTo(220, 70);
+    dCtx.moveTo(0, 66);
+    dCtx.lineTo(220, 66);
     dCtx.stroke();
 
     // Boneco "D"
@@ -693,11 +679,21 @@ function desenharDino() {
     dCtx.fillStyle = "#FF0000";
     dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
 
-    // Placar Atual e Recorde na Tela
+    // Placar
     dCtx.fillStyle = "#FFFFFF";
     dCtx.font = "9px monospace";
     dCtx.fillText("PTS: " + score, 10, 15);
-    dCtx.fillText(`TOP: ${melhorNick} (${recorde})`, 110, 15);
+    dCtx.fillText("TOP: " + recorde, 140, 15);
+
+    if (!jogoRodando && !gameOver) {
+        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+        dCtx.fillStyle = "#00FF41";
+        dCtx.font = "bold 11px monospace";
+        dCtx.textAlign = "center";
+        dCtx.fillText("CLIQUE EM COMEÇAR", dCanvas.width / 2, 45);
+        dCtx.textAlign = "left";
+    }
 
     if (gameOver) {
         dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
@@ -708,7 +704,7 @@ function desenharDino() {
         dCtx.fillText("GAME OVER", dCanvas.width / 2, 38);
         dCtx.fillStyle = "#00FF41";
         dCtx.font = "8px monospace";
-        dCtx.fillText("Clique para jogar de novo", dCanvas.width / 2, 55);
+        dCtx.fillText("Clique em Jogar de Novo", dCanvas.width / 2, 55);
         dCtx.textAlign = "left";
     }
 }
@@ -717,18 +713,6 @@ function loopJogoDino() {
     atualizarDino();
     desenharDino();
     requestAnimationFrame(loopJogoDino);
-}
-
-function reiniciarDino() {
-    dino.y = 52;
-    dino.vy = 0;
-    dino.isJumping = false;
-    obstaculo.x = 220;
-    obstaculo.speed = 4;
-    score = 0;
-    gameOver = false;
-    let nickAtual = document.getElementById("player-nick").value.trim() || "Jogador";
-    document.getElementById("dino-status").innerText = `Jogando com Nick: ${nickAtual}`;
 }
 
 loopJogoDino();
@@ -792,4 +776,7 @@ async function processarRespostaIA(texto) {
         return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
     }
 
-    if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vez
+    if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
+        try {
+            let expr = t.replace('quanto é', '')
+        
