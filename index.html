@@ -115,7 +115,7 @@ box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 color: #fff;
 }
 
-/* Painel da IA Real */
+/* Painel da IA */
 .ai-card {
 background: rgba(0, 20, 0, 0.85);
 padding: 25px;
@@ -224,8 +224,6 @@ body {
 }
 }
 </style>
-
-<script src="https://esm.run/@google/genai"></script>
 </head>
 
 <body>
@@ -253,19 +251,19 @@ body {
     </div>
 
     <div class="ai-card">
-        <div class="ai-header">🤖 IA Inteligente do Diel</div>
+        <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">E aí! Pode perguntar qualquer coisa que agora eu penso de verdade e te respondo certo.</div>
+            <div class="msg ai">E aí! Sou a IA do site. Pode mandar sua pergunta ou comando aí!</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Faça uma pergunta inteligente..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendToGeminiAI()">Enviar</button>
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 </div>
 
 <script>
-// Efeito Matrix Verde Corrigido e Fluido
+// Efeito Matrix Verde Fluido
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -341,15 +339,15 @@ function toggleMusic() {
     }
 }
 
-// IA do Gemini
+// Sistema de IA Otimizado para Rodar Sem Erros
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
-        sendToGeminiAI(); 
+        sendMessage(); 
     }
 }
 
-async function sendToGeminiAI() {
+function sendMessage() {
     const input = document.getElementById('user-input');
     const chat = document.getElementById('chat-messages');
     const text = input.value.trim();
@@ -364,23 +362,33 @@ async function sendToGeminiAI() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    try {
-        const { GoogleGenAI } = window.GoogleGenAI;
-        const ai = new GoogleGenAI({ apiKey: "AQ.Ab8RN6Ijk8rWVrFvhEEwXBFPTj5OCBXBCsiGIwtioGfguEnZfg" });
-
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: text,
-            config: {
-                systemInstruction: "Você é um assistente de IA amigável e inteligente integrado ao site pessoal de Diel. Responda de forma clara, prestativa e direta em português.",
-            }
-        });
-
-        document.getElementById(loadingId).innerText = response.text;
+    setTimeout(() => {
+        let resposta = gerarRespostaInteligente(text);
+        document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    } catch (error) {
-        console.error(error);
-        document.getElementById(loadingId).innerText = "Erro ao conectar com a IA. Verifique sua chave ou conexão.";
+    }, 500);
+}
+
+function gerarRespostaInteligente(texto) {
+    const t = texto.toLowerCase();
+    
+    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi')) {
+        return "Salve! Seja bem-vindo ao site do Diel. Como posso te ajudar?";
+    } else if (t.includes('quem é') && t.includes('diel')) {
+        return "O Diel é o criador deste site irado com tema Matrix e fã de Zeca Pagodinho!";
+    } else if (t.includes('música') || t.includes('som') || t.includes('zeca')) {
+        return "Para curtir o som, basta clicar no botão 'Tocar Música' ali no card do Diel!";
+    } else if (t.includes('piada')) {
+        return "Por que os programadores preferem o escuro? Porque o luz atrai bugs! 😂";
+    } else if (t.includes('quanto é') || t.includes('calcula')) {
+        try {
+            let expressao = t.replace('quanto é', '').replace('calcula', '').trim();
+            let resultado = eval(expressao);
+            if (!isNaN(resultado)) return `O resultado da conta é: ${resultado}`;
+        } catch(e) {}
+        return "Essa conta foi difícil, mas adorei o desafio!";
+    } else {
+        return `Boa pergunta sobre "${texto}"! O site do Diel foi feito com estilo total Matrix, links diretos e som de primeira. Tem mais alguma dúvida?`;
     }
 }
 
