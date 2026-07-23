@@ -253,7 +253,7 @@ body {
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">E aí! Sou a IA do site. Pode mandar sua pergunta ou comando aí!</div>
+            <div class="msg ai">E aí! Sou o assistente do Diel. Manda sua pergunta ou dúvida aí!</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
@@ -339,7 +339,7 @@ function toggleMusic() {
     }
 }
 
-// Sistema de IA Otimizado para Rodar Sem Erros
+// Sistema de IA Inteligente e Variada
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -363,33 +363,69 @@ function sendMessage() {
     chat.scrollTop = chat.scrollHeight;
 
     setTimeout(() => {
-        let resposta = gerarRespostaInteligente(text);
+        let resposta = processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 500);
+    }, 600);
 }
 
-function gerarRespostaInteligente(texto) {
+function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
+
+    // Identifica perguntas sobre dias da semana ou tempo
+    if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
+        const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        const hoje = new Date();
+        const diaHoje = dias[hoje.getDay()];
+        const amanha = new Date(hoje);
+        amanha.setDate(hoje.getDate() + 1);
+        const diaAmanha = dias[amanha.getDay()];
+        
+        if (t.includes('amanhã')) {
+            return `Amanhã será ${diaAmanha}! Quer saber mais alguma coisa?`;
+        } else {
+            return `Hoje é ${diaHoje}! Se precisar conferir datas ou prazos, é só falar.`;
+        }
+    } 
     
-    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi')) {
-        return "Salve! Seja bem-vindo ao site do Diel. Como posso te ajudar?";
-    } else if (t.includes('quem é') && t.includes('diel')) {
-        return "O Diel é o criador deste site irado com tema Matrix e fã de Zeca Pagodinho!";
-    } else if (t.includes('música') || t.includes('som') || t.includes('zeca')) {
-        return "Para curtir o som, basta clicar no botão 'Tocar Música' ali no card do Diel!";
-    } else if (t.includes('piada')) {
-        return "Por que os programadores preferem o escuro? Porque o luz atrai bugs! 😂";
-    } else if (t.includes('quanto é') || t.includes('calcula')) {
+    // Saudações
+    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
+        return "E aí! Tudo ótimo por aqui na Matrix. Como posso te ajudar hoje?";
+    } 
+    
+    // Sobre o Diel ou o site
+    if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
+        return "O Diel é o criador deste site incrível com tema Matrix e som do Zeca Pagodinho!";
+    } 
+    
+    // Sobre música
+    if (t.includes('música') || t.includes('som') || t.includes('zeca') || t.includes('pagodinho')) {
+        return "Para curtir o som, clique no botão 'Tocar Música' ali no card verde. O som rola direto do YouTube!";
+    } 
+    
+    // Piadas
+    if (t.includes('piada') || t.includes('rir')) {
+        return "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++ (C sharp)! 👓😂";
+    } 
+    
+    // Matemática básica
+    if (t.includes('quanto é') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
-            let expressao = t.replace('quanto é', '').replace('calcula', '').trim();
-            let resultado = eval(expressao);
-            if (!isNaN(resultado)) return `O resultado da conta é: ${resultado}`;
+            let expr = t.replace('quanto é', '').trim();
+            let res = eval(expr);
+            if (!isNaN(res)) return `O resultado de ${expr} é ${res}! 🔢`;
         } catch(e) {}
-        return "Essa conta foi difícil, mas adorei o desafio!";
-    } else {
-        return `Boa pergunta sobre "${texto}"! O site do Diel foi feito com estilo total Matrix, links diretos e som de primeira. Tem mais alguma dúvida?`;
     }
+
+    // Respostas genéricas inteligentes baseadas no que foi digitado
+    const padroes = [
+        interessante => `Entendi sobre "${interessante}". Esse assunto é bem legal, tem mais detalhes que gostaria de ver por aqui?`,
+        interessante => `Boa questão sobre "${interessante}"! Como assistente do Diel, estou focado em manter o site rápido e interativo.`,
+        interessante => `Interessante você mencionar "${interessante}". Quer explorar alguma outra função do site, como o som ou as redes sociais?`
+    ];
+
+    let escolha = padroes[Math.floor(Math.random() * padroes.length)];
+    return escolha(texto);
 }
 
 function escapeHtml(text) {
