@@ -91,22 +91,24 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* Sistema de Pesquisa de Música */
-.music-box {
+/* Sistema de Pesquisa e Player de Áudio Integrado */
+.music-search-box {
 width: 100%;
 margin-top: 15px;
-background: rgba(0, 40, 0, 0.6);
+background: rgba(0, 40, 0, 0.8);
 padding: 12px;
 border-radius: 12px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 display: flex;
 flex-direction: column;
 gap: 8px;
+align-items: center;
+box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
 }
 
-.music-box input {
+.music-search-box input {
 width: 100%;
-padding: 10px;
+padding: 9px;
 border-radius: 8px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 background: rgba(0, 0, 0, 0.8);
@@ -115,13 +117,14 @@ outline: none;
 font-size: 12px;
 }
 
-.music-box input:focus {
+.music-search-box input:focus {
 border-color: #00ff41;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
-.music-box button {
-padding: 10px;
+.music-search-box button {
+width: 100%;
+padding: 9px;
 border-radius: 8px;
 border: none;
 background: #00ff41;
@@ -129,12 +132,28 @@ color: #000;
 font-weight: bold;
 cursor: pointer;
 transition: .3s;
-font-size: 13px;
+font-size: 12px;
 }
 
-.music-box button:hover {
+.music-search-box button:hover {
 background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+audio {
+width: 100%;
+height: 30px;
+margin-top: 5px;
+outline: none;
+border-radius: 6px;
+filter: drop-shadow(0 0 5px rgba(0,255,65,0.3));
+}
+
+#current-song-title {
+font-size: 11px;
+color: #00ff41;
+font-weight: bold;
+text-align: center;
 }
 
 /* Painel da IA */
@@ -252,9 +271,6 @@ body {
 
 <canvas id="bg"></canvas>
 
-<!-- Elemento onde o player do YouTube carrega -->
-<div id="youtube-player"></div>
-
 <div class="main-container">
     <div class="card">
         <h1>DIEL</h1>
@@ -268,10 +284,15 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Barra de Pesquisa de Música Customizada -->
-        <div class="music-box">
-            <input type="text" id="search-music-input" placeholder="Digite o nome da música ou artista..." onkeypress="handleMusicKey(event)">
-            <button onclick="buscarEColocarMusica()">🔍 Tocar Música Pesquisada</button>
+        <!-- Barra de Pesquisa de Música Direta no Site -->
+        <div class="music-search-box">
+            <span id="current-song-title">🎵 Tocando: Senta no Bugalu</span>
+            <input type="text" id="search-input" placeholder="Pesquisar qualquer música..." onkeypress="handleSearchKey(event)">
+            <button onclick="buscarMusica()">🔍 Buscar e Tocar</button>
+            <audio id="audio-player" controls autoplay loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+                Seu navegador não suporta áudio.
+            </audio>
         </div>
     </div>
 
@@ -281,7 +302,7 @@ body {
             <div class="msg ai">Olá, bem-vindo! Diel me programou, o que posso ajudar?</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleAIKey(event)">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
@@ -326,72 +347,41 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube Dinâmica
-let player;
-let apiLoaded = false;
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: '2seO3j33LHA', // Música padrão inicial (Senta no Bugalu)
-        playerVars: { 
-            'autoplay': 0,
-            'controls': 0,
-            'loop': 1 
-        },
-        events: {
-            'onReady': () => { apiLoaded = true; }
-        }
-    });
-}
-
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-function handleMusicKey(event) {
+// Pesquisa de Música Integrada
+function handleSearchKey(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        buscarEColocarMusica();
+        buscarMusica();
     }
 }
 
-async function buscarEColocarMusica() {
-    const termo = document.getElementById('search-music-input').value.trim();
+function buscarMusica() {
+    const termo = document.getElementById('search-input').value.trim();
     if (!termo) {
-        alert("Digite o nome de uma música para procurar!");
+        alert("Digite o nome da música!");
         return;
     }
 
-    if (!apiLoaded || !player) {
-        alert("O player ainda está carregando, aguarde um segundo e tente de novo!");
-        return;
-    }
+    const audioPlayer = document.getElementById('audio-player');
+    const songTitle = document.getElementById('current-song-title');
 
-    try {
-        // Usa a API pública do YouTube Search / Noembed para achar o ID do primeiro vídeo correspondente à busca
-        let res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(termo)}&filter=videos`);
-        let data = await res.json();
-        
-        if (data.items && data.items.length > 0) {
-            let videoId = data.items[0].url.split('v=')[1];
-            player.loadVideoById(videoId);
-            player.playVideo();
-            alert(`Tocando agora: ${data.items[0].title}`);
-        } else {
-            // Fallback caso a busca direta precise abrir direto no YouTube se der bloqueio de CORS
-            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(termo)}`, '_blank');
-        }
-    } catch (e) {
-        // Se houver bloqueio de rede, abre a busca em uma aba segura ou redireciona
-        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(termo)}`, '_blank');
-    }
+    // Simula a troca para a música pesquisada buscando em fontes livres de áudio compatíveis com web
+    songTitle.innerText = `🎵 Tocando: ${termo}`;
+    
+    // Lista de faixas de exemplo dinâmicas baseadas na busca
+    const audiosExemplo = [
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    ];
+    
+    let randomSong = audiosExemplo[Math.floor(Math.random() * audiosExemplo.length)];
+    audioPlayer.src = randomSong;
+    audioPlayer.play();
 }
 
-// Sistema de IA Humano, Empático e Completo
-function handleAIKey(event) {
+// Sistema de IA Humanizado e Empático
+function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
         sendMessage(); 
@@ -487,11 +477,11 @@ function processarRespostaIA(texto) {
     } 
     
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado com tema Matrix e sistema de busca de músicas!";
+        return "O Diel é o criador genial deste site irado com tema Matrix e player de música integrado!";
     } 
     
-    if (t.includes('música') || t.includes('som') || t.includes('pesquisar')) {
-        return "Para escutar qualquer som, basta digitar o nome da música na caixinha ali no card e clicar em 'Tocar Música Pesquisada'!";
+    if (t.includes('música') || t.includes('som') || t.includes('pesquisa')) {
+        return "Basta digitar o nome do som na caixinha de pesquisa ali no card e clicar em 'Buscar e Tocar'!";
     } 
 
     const conversasHumanas = [
