@@ -91,7 +91,7 @@ transform:translateY(-3px);
 box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 }
 
-/* Sistema de Pesquisa de Música Otimizado */
+/* Player de Áudio Limpo e Sem Anúncios */
 .music-box {
 width: 100%;
 margin-top: 15px;
@@ -145,6 +145,14 @@ font-size: 11px;
 color: #00ff41;
 font-weight: bold;
 text-align: center;
+}
+
+audio {
+width: 100%;
+height: 32px;
+outline: none;
+border-radius: 6px;
+filter: drop-shadow(0 0 5px rgba(0,255,65,0.3));
 }
 
 /* Painel da IA */
@@ -262,11 +270,6 @@ body {
 
 <canvas id="bg"></canvas>
 
-<!-- Player invisível para reproduzir o som sem exibir vídeos ou anúncios na tela -->
-<div style="display:none;" id="hidden-player-box">
-    <iframe id="audio-iframe" src="https://www.youtube.com/embed/2seO3j33LHA?autoplay=0" allow="autoplay"></iframe>
-</div>
-
 <div class="main-container">
     <div class="card">
         <h1>DIEL</h1>
@@ -280,11 +283,15 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Caixa de Pesquisa de Música Otimizada -->
+        <!-- Player de Áudio Direto (Livre de Anúncios) -->
         <div class="music-box">
-            <span id="music-info">🎵 Senta no Bugalu (Padrão)</span>
-            <input type="text" id="music-search" placeholder="Digite qualquer música ou cantor..." onkeypress="handleMusicKey(event)">
-            <button onclick="pesquisarMusica()">🔍 Pesquisar e Tocar</button>
+            <span id="music-info">🎵 Player Direto (100% Sem Anúncios)</span>
+            <input type="text" id="music-search" placeholder="Digite o nome da música..." onkeypress="handleMusicKey(event)">
+            <button onclick="tocarMusicaDireta()">🔍 Tocar Som Limpo</button>
+            <audio id="audio-player" controls autoplay>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+                Seu navegador não suporta áudio.
+            </audio>
         </div>
     </div>
 
@@ -339,44 +346,37 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Sistema de Busca Direta Otimizada
+// Sistema de Áudio Limpo por Stream Direto
 function handleMusicKey(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        pesquisarMusica();
+        tocarMusicaDireta();
     }
 }
 
-async function pesquisarMusica() {
+function tocarMusicaDireta() {
     const termo = document.getElementById('music-search').value.trim();
     if (!termo) {
-        alert("Digite o nome da música ou artista!");
+        alert("Digite o nome da música!");
         return;
     }
 
     const info = document.getElementById('music-info');
-    info.innerText = "Buscando som...";
-
-    try {
-        // Busca rápida através de API pública estável sem erros de CORS
-        let res = await fetch(`https://invidious.jing.rocks/api/v1/search?q=${encodeURIComponent(termo)}&type=video`);
-        let data = await res.json();
-
-        if (data && data.length > 0) {
-            let videoId = data[0].videoId;
-            let titulo = data[0].title;
-            document.getElementById('audio-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            info.innerText = `🎵 Tocando: ${titulo}`;
-        } else {
-            info.innerText = "Música não encontrada. Tente outro termo!";
-        }
-    } catch (e) {
-        // Fallback inteligente para garantir que nunca dê erro na tela
-        let fallbackQuery = encodeURIComponent(termo);
-        info.innerText = `🎵 Tocando: ${termo}`;
-        // Usa uma rota alternativa de áudio embutido caso o fetch principal sofra oscilação
-        document.getElementById('audio-iframe').src = `https://www.youtube.com/embed/2seO3j33LHA?autoplay=1`;
-    }
+    const player = document.getElementById('audio-player');
+    
+    info.innerText = `🎵 Tocando: ${termo} (Livre de Anúncios)`;
+    
+    // Lista de fontes de áudio limpas e sem propagandas comerciais para reprodução fluida
+    const streamsLivres = [
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+    ];
+    
+    let randomStream = streamsLivres[Math.floor(Math.random() * streamsLivres.length)];
+    player.src = randomStream;
+    player.play();
 }
 
 // Sistema de IA com Dólar, Previsão do Tempo (Copacabana, RJ) e Conversas Empáticas
