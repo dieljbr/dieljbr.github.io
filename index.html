@@ -29,7 +29,8 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-z-index:-1;
+z-index:0;
+pointer-events:none;
 }
 
 .main-container {
@@ -37,6 +38,7 @@ display: flex;
 gap: 30px;
 align-items: center;
 z-index: 10;
+position: relative;
 }
 
 .card{
@@ -223,25 +225,16 @@ body {
 }
 </style>
 
-<!-- Biblioteca Google Generative AI (Gemini SDK) -->
-<script type="importmap">
-  {
-    "imports": {
-      "@google/genai": "https://esm.run/@google/genai"
-    }
-  }
-</script>
+<script src="https://esm.run/@google/genai"></script>
 </head>
 
 <body>
 
 <canvas id="bg"></canvas>
 
-<!-- Player do YouTube Oculto -->
 <div id="youtube-player" style="display:none;"></div>
 
 <div class="main-container">
-    <!-- Card Principal -->
     <div class="card">
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
@@ -259,7 +252,6 @@ body {
         </button>
     </div>
 
-    <!-- Card de IA Real -->
     <div class="ai-card">
         <div class="ai-header">🤖 IA Inteligente do Diel</div>
         <div class="ai-messages" id="chat-messages">
@@ -273,7 +265,7 @@ body {
 </div>
 
 <script>
-// Chuva Matrix Verde
+// Efeito Matrix Verde Corrigido e Fluido
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -294,7 +286,7 @@ const rainDrops = [];
 for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
 
 function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#00FF41';
     ctx.font = fontSize + 'px monospace';
@@ -302,18 +294,22 @@ function drawMatrix() {
     for (let i = 0; i < rainDrops.length; i++) {
         const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
         ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
         rainDrops[i]++;
     }
 }
-setInterval(drawMatrix, 30);
+setInterval(drawMatrix, 35);
 
 // API do YouTube
 let player;
 let isPlaying = false;
+let apiLoaded = false;
+
 function onYouTubeIframeAPIReady() {
+    apiLoaded = true;
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
@@ -321,6 +317,7 @@ function onYouTubeIframeAPIReady() {
         playerVars: { 'loop': 1, 'playlist': 'eFQCPE9uDy0' }
     });
 }
+
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -328,7 +325,11 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
-    if (!player) return;
+    if (!apiLoaded || !player || typeof player.playVideo !== 'function') {
+        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
+        return;
+    }
+    
     if (isPlaying) {
         player.pauseVideo();
         btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
@@ -340,14 +341,12 @@ function toggleMusic() {
     }
 }
 
-// Conexão com o Google Gemini (IA Real e Pensante)
-import { GoogleGenAI } from "@google/genai";
-
-// Insira sua chave de API do Gemini aqui dentro das aspas caso queira que funcione online na web
-const ai = new GoogleGenAI({ apiKey: "COLOQUE_SUA_API_KEY_AQUI" });
-
+// IA do Gemini
 function handleKeyPress(event) {
-    if (event.key === 'Enter') { sendToGeminiAI(); }
+    if (event.key === 'Enter') { 
+        event.preventDefault();
+        sendToGeminiAI(); 
+    }
 }
 
 async function sendToGeminiAI() {
@@ -366,6 +365,9 @@ async function sendToGeminiAI() {
     chat.scrollTop = chat.scrollHeight;
 
     try {
+        const { GoogleGenAI } = window.GoogleGenAI;
+        const ai = new GoogleGenAI({ apiKey: "AQ.Ab8RN6Ijk8rWVrFvhEEwXBFPTj5OCBXBCsiGIwtioGfguEnZfg" });
+
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: text,
@@ -377,7 +379,8 @@ async function sendToGeminiAI() {
         document.getElementById(loadingId).innerText = response.text;
         chat.scrollTop = chat.scrollHeight;
     } catch (error) {
-        document.getElementById(loadingId).innerText = "Erro: Para usar a IA real, insira uma chave de API válida do Gemini no código.";
+        console.error(error);
+        document.getElementById(loadingId).innerText = "Erro ao conectar com a IA. Verifique sua chave ou conexão.";
     }
 }
 
