@@ -289,13 +289,37 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-#dinoCanvas {
-background: #000;
+/* Jogo Estilo Mario */
+#marioCanvas {
+background: #111;
 border: 1px solid rgba(0, 255, 65, 0.4);
 border-radius: 6px;
-cursor: pointer;
 margin-bottom: 6px;
-touch-action: manipulation;
+}
+
+.mario-controls {
+display: flex;
+gap: 5px;
+width: 100%;
+justify-content: center;
+margin-top: 4px;
+}
+
+.mario-ctrl-btn {
+flex: 1;
+padding: 6px;
+background: rgba(0, 50, 0, 0.8);
+border: 1px solid rgba(0, 255, 65, 0.4);
+color: #00ff41;
+border-radius: 5px;
+font-weight: bold;
+cursor: pointer;
+font-size: 11px;
+}
+
+.mario-ctrl-btn:active {
+background: #00ff41;
+color: #000;
 }
 
 @media (max-width: 1100px) {
@@ -369,17 +393,21 @@ body {
         <button class="reset-btn" id="reset-board" type="button">Reiniciar Jogo</button>
     </div>
 
-    <!-- Jogo do Diel -->
+    <!-- Jogo Estilo Mario -->
     <div class="game-card">
-        <div class="game-header">🎮 Jogo do Diel</div>
-        <canvas id="dinoCanvas" width="220" height="80"></canvas>
-        <div class="game-status" id="dino-status">Clique em Começar</div>
-        <button class="reset-btn" id="start-btn" type="button">▶ Começar / Pular</button>
+        <div class="game-header">🍄 Super Diel World</div>
+        <canvas id="marioCanvas" width="230" height="90"></canvas>
+        <div class="game-status" id="mario-status">Colete moedas e desvie dos bichos!</div>
+        <div class="mario-controls">
+            <button class="mario-ctrl-btn" id="btn-left" type="button">◀ ESQ</button>
+            <button class="mario-ctrl-btn" id="btn-jump" type="button">▲ PULAR</button>
+            <button class="mario-ctrl-btn" id="btn-right" type="button">DIR ▶</button>
+        </div>
     </div>
 </div>
 
 <script>
-// Efeito Matrix Verde Fluido
+// 1. Efeito Matrix Fluido e Seguro
 const canvasBg = document.getElementById("bg");
 const ctxBg = canvasBg.getContext("2d");
 
@@ -417,7 +445,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube para o Zeca Pagodinho
+// 2. API do YouTube Segura
 let player;
 let apiLoaded = false;
 
@@ -464,7 +492,7 @@ document.getElementById("music-toggle").addEventListener("click", function() {
     }
 });
 
-// Jogo da Velha (Diel vs Você)
+// 3. Jogo da Velha Robusto
 let tabuleiro = ['', '', '', '', '', '', '', '', ''];
 let jogoAtivo = true;
 
@@ -573,218 +601,201 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Jogo do Diel
-const dCanvas = document.getElementById("dinoCanvas");
-const dCtx = dCanvas.getContext("2d");
+// 4. Jogo Estilo Mario (Super Diel World) Otimizado
+const mCanvas = document.getElementById("marioCanvas");
+const mCtx = mCanvas.getContext("2d");
 
-let dino = {
+let mario = {
     x: 20,
-    y: 48,
-    width: 16,
+    y: 50,
+    width: 14,
     height: 18,
+    vx: 0,
     vy: 0,
-    gravity: 0.5,
-    jump: -7.5,
+    speed: 2.5,
+    jump: -7,
+    gravity: 0.45,
     isJumping: false
 };
 
-let obstaculo = {
-    x: 220,
-    y: 50,
-    width: 10,
-    height: 16,
-    speed: 3.5
+let moedas = [
+    { x: 90, y: 55, coletada: false },
+    { x: 150, y: 40, coletada: false },
+    { x: 200, y: 55, coletada: false }
+];
+
+let bicho = {
+    x: 130,
+    y: 57,
+    width: 12,
+    height: 12,
+    speed: 1.2,
+    dir: 1
 };
 
-let score = 0;
-let recorde = 0;
-let jogoRodando = false;
-let gameOver = false;
+let scoreMario = 0;
+let vidas = 3;
+let gameOverMario = false;
 
-function pularDino() {
-    if (!jogoRodando || gameOver) {
-        iniciarOuReiniciarJogoD();
-        return;
-    }
-    if (!dino.isJumping) {
-        dino.vy = dino.jump;
-        dino.isJumping = true;
-    }
-}
+let teclas = { esquerda: false, direita: false };
 
-document.addEventListener("keydown", function(e) {
-    if (e.code === "Space" || e.code === "ArrowUp") {
-        if (document.activeElement.id !== 'user-input') {
-            e.preventDefault();
-            pularDino();
-        }
+window.addEventListener('keydown', (e) => {
+    if (document.activeElement.id === 'user-input') return;
+    if (e.key === 'ArrowLeft' || e.key === 'a') teclas.esquerda = true;
+    if (e.key === 'ArrowRight' || e.key === 'd') teclas.direita = true;
+    if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') && !mario.isJumping) {
+        mario.vy = mario.jump;
+        mario.isJumping = true;
     }
 });
 
-dCanvas.addEventListener("click", pularDino);
-document.getElementById("start-btn").addEventListener("click", pularDino);
+window.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'a') teclas.esquerda = false;
+    if (e.key === 'ArrowRight' || e.key === 'd') teclas.direita = false;
+});
 
-function iniciarOuReiniciarJogoD() {
-    dino.y = 48;
-    dino.vy = 0;
-    dino.isJumping = false;
-    obstaculo.x = 220;
-    obstaculo.speed = 3.5;
-    score = 0;
-    gameOver = false;
-    jogoRodando = true;
-    document.getElementById("dino-status").innerText = "Pulando... Vamos lá!";
-    document.getElementById("start-btn").innerText = "Pular";
-}
+document.getElementById('btn-left').addEventListener('mousedown', () => teclas.esquerda = true);
+document.getElementById('btn-left').addEventListener('mouseup', () => teclas.esquerda = false);
+document.getElementById('btn-left').addEventListener('touchstart', (e) => { e.preventDefault(); teclas.esquerda = true; });
+document.getElementById('btn-left').addEventListener('touchend', (e) => { e.preventDefault(); teclas.esquerda = false; });
 
-function atualizarDino() {
-    if (!jogoRodando || gameOver) return;
+document.getElementById('btn-right').addEventListener('mousedown', () => teclas.direita = true);
+document.getElementById('btn-right').addEventListener('mouseup', () => teclas.direita = false);
+document.getElementById('btn-right').addEventListener('touchstart', (e) => { e.preventDefault(); teclas.direita = true; });
+document.getElementById('btn-right').addEventListener('touchend', (e) => { e.preventDefault(); teclas.direita = false; });
 
-    dino.vy += dino.gravity;
-    dino.y += dino.vy;
+document.getElementById('btn-jump').addEventListener('click', () => {
+    if (!mario.isJumping) {
+        mario.vy = mario.jump;
+        mario.isJumping = true;
+    }
+});
+document.getElementById('btn-jump').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (!mario.isJumping) {
+        mario.vy = mario.jump;
+        mario.isJumping = true;
+    }
+});
 
-    if (dino.y > 48) {
-        dino.y = 48;
-        dino.vy = 0;
-        dino.isJumping = false;
+function atualizarMario() {
+    if (gameOverMario) return;
+
+    mario.vx = 0;
+    if (teclas.esquerda) mario.vx = -mario.speed;
+    if (teclas.direita) mario.vx = mario.speed;
+    mario.x += mario.vx;
+
+    if (mario.x < 0) mario.x = 0;
+    if (mario.x > mCanvas.width - mario.width) mario.x = mCanvas.width - mario.width;
+
+    mario.vy += mario.gravity;
+    mario.y += mario.vy;
+
+    if (mario.y > 57) {
+        mario.y = 57;
+        mario.vy = 0;
+        mario.isJumping = false;
     }
 
-    obstaculo.x -= obstaculo.speed;
-    if (obstaculo.x < -20) {
-        obstaculo.x = 220;
-        score += 10;
-        obstaculo.speed = 3.5 + Math.floor(score / 50);
+    bicho.x += bicho.speed * bicho.dir;
+    if (bicho.x < 70 || bicho.x > 210) {
+        bicho.dir *= -1;
+    }
+
+    moedas.forEach(m => {
+        if (!m.coletada &&
+            mario.x < m.x + 10 && mario.x + mario.width > m.x &&
+            mario.y < m.y + 10 && mario.y + mario.height > m.y) {
+            m.coletada = true;
+            scoreMario += 100;
+            document.getElementById("mario-status").innerText = "💰 Moeda coletada! +100 pts";
+        }
+    });
+
+    if (moedas.every(m => m.coletada)) {
+        moedas.forEach(m => {
+            m.x = 60 + Math.random() * 140;
+            m.coletada = false;
+        });
     }
 
     if (
-        dino.x < obstaculo.x + obstaculo.width &&
-        dino.x + dino.width > obstaculo.x &&
-        dino.y < obstaculo.y + obstaculo.height &&
-        dino.y + dino.height > obstaculo.y
+        mario.x < bicho.x + bicho.width &&
+        mario.x + mario.width > bicho.x &&
+        mario.y < bicho.y + bicho.height &&
+        mario.y + mario.height > bicho.y
     ) {
-        gameOver = true;
-        jogoRodando = false;
-        if (score > recorde) recorde = score;
-        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score}`;
-        document.getElementById("start-btn").innerText = "Jogar de Novo";
+        if (mario.vy > 0 && mario.y + mario.height - mario.vy <= bicho.y + 6) {
+            scoreMario += 200;
+            bicho.x = 100 + Math.random() * 80;
+            mario.vy = -5;
+            document.getElementById("mario-status").innerText = "💥 Inimigo derrotado! +200 pts";
+        } else {
+            vidas--;
+            document.getElementById("mario-status").innerText = `⚠️ Perdeu vida! Restam: ${vidas}`;
+            mario.x = 20;
+            mario.y = 57;
+            if (vidas <= 0) {
+                gameOverMario = true;
+                document.getElementById("mario-status").innerText = "❌ Game Over! Clique para Reiniciar";
+            }
+        }
     }
 }
 
-function desenharDino() {
-    dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
+function desenharMario() {
+    mCtx.clearRect(0, 0, mCanvas.width, mCanvas.height);
 
-    dCtx.strokeStyle = "#00FF41";
-    dCtx.lineWidth = 2;
-    dCtx.beginPath();
-    dCtx.moveTo(0, 66);
-    dCtx.lineTo(220, 66);
-    dCtx.stroke();
+    mCtx.fillStyle = "#008800";
+    mCtx.fillRect(0, 75, mCanvas.width, 15);
+    mCtx.strokeStyle = "#00FF41";
+    mCtx.lineWidth = 2;
+    mCtx.beginPath();
+    mCtx.moveTo(0, 75);
+    mCtx.lineTo(mCanvas.width, 75);
+    mCtx.stroke();
 
-    dCtx.fillStyle = "#00FF41";
-    dCtx.font = "bold 18px monospace";
-    dCtx.fillText("D", dino.x, dino.y + 14);
+    moedas.forEach(m => {
+        if (!m.coletada) {
+            mCtx.fillStyle = "#FFD700";
+            mCtx.beginPath();
+            mCtx.arc(m.x + 4, m.y + 4, 5, 0, Math.PI * 2);
+            mCtx.fill();
+            mCtx.strokeStyle = "#FFA500";
+            mCtx.stroke();
+        }
+    });
 
-    dCtx.fillStyle = "#FF0000";
-    dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+    mCtx.fillStyle = "#FF4444";
+    mCtx.fillRect(bicho.x, bicho.y, bicho.width, bicho.height);
+    mCtx.fillStyle = "#FFF";
+    mCtx.fillRect(bicho.x + 2, bicho.y + 3, 2, 3);
+    mCtx.fillRect(bicho.x + 7, bicho.y + 3, 2, 3);
 
-    dCtx.fillStyle = "#FFFFFF";
-    dCtx.font = "9px monospace";
-    dCtx.fillText("PTS: " + score, 10, 15);
-    dCtx.fillText("TOP: " + recorde, 140, 15);
+    mCtx.fillStyle = "#FF0000";
+    mCtx.fillRect(mario.x, mario.y, mario.width, mario.height);
+    mCtx.fillStyle = "#00FF41";
+    mCtx.font = "bold 12px monospace";
+    mCtx.fillText("D", mario.x + 3, mario.y + 14);
 
-    if (!jogoRodando && !gameOver) {
-        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
-        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
-        dCtx.fillStyle = "#00FF41";
-        dCtx.font = "bold 11px monospace";
-        dCtx.textAlign = "center";
-        dCtx.fillText("CLIQUE EM COMEÇAR", dCanvas.width / 2, 45);
-        dCtx.textAlign = "left";
-    }
+    mCtx.fillStyle = "#FFFFFF";
+    mCtx.font = "9px monospace";
+    mCtx.fillText(`PTS: ${scoreMario}  ❤️ x${vidas}`, 10, 15);
 
-    if (gameOver) {
-        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
-        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
-        dCtx.fillStyle = "#FF4444";
-        dCtx.font = "bold 11px monospace";
-        dCtx.textAlign = "center";
-        dCtx.fillText("GAME OVER", dCanvas.width / 2, 38);
-        dCtx.fillStyle = "#00FF41";
-        dCtx.font = "8px monospace";
-        dCtx.fillText("Clique em Jogar de Novo", dCanvas.width / 2, 55);
-        dCtx.textAlign = "left";
+    if (gameOverMario) {
+        mCtx.fillStyle = "rgba(0, 0, 0, 0.8)";
+        mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+        mCtx.fillStyle = "#FF4444";
+        mCtx.font = "bold 12px monospace";
+        mCtx.textAlign = "center";
+        mCtx.fillText("GAME OVER", mCanvas.width / 2, 40);
+        mCtx.fillStyle = "#00FF41";
+        mCtx.font = "9px monospace";
+        mCtx.fillText("Clique aqui para jogar de novo", mCanvas.width / 2, 60);
+        mCtx.textAlign = "left";
     }
 }
 
-function loopJogoDino() {
-    atualizarDino();
-    desenharDino();
-    requestAnimationFrame(loopJogoDino);
-}
-
-loopJogoDino();
-
-// Sistema de IA do Chat Turbo (Muito mais inteligente e natural)
-document.getElementById("send-btn").addEventListener("click", sendMessage);
-document.getElementById("user-input").addEventListener("keypress", function(event) {
-    if (event.key === 'Enter') { 
-        event.preventDefault();
-        sendMessage(); 
-    }
-});
-
-function sendMessage() {
-    const input = document.getElementById('user-input');
-    const chat = document.getElementById('chat-messages');
-    const text = input.value.trim();
-
-    if (text === '') return;
-
-    chat.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
-    input.value = '';
-    chat.scrollTop = chat.scrollHeight;
-
-    const loadingId = 'loading-' + Date.now();
-    chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
-    chat.scrollTop = chat.scrollHeight;
-
-    setTimeout(() => {
-        let resposta = processarRespostaIA(text);
-        document.getElementById(loadingId).innerText = resposta;
-        chat.scrollTop = chat.scrollHeight;
-    }, 300);
-}
-
-function processarRespostaIA(texto) {
-    const t = texto.toLowerCase();
-    const agora = new Date();
-
-    // Dólar
-    if (t.includes('dólar') || t.includes('dolar') || t.includes('cotação') || t.includes('moeda')) {
-        return "O dólar comercial está cotado em média a R$ 5,50 hoje 💵 Quer saber alguma outra cotação?";
-    }
-
-    // Previsão do tempo
-    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover') || t.includes('sol')) {
-        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves e céu limpo 🌴☀️";
-    }
-
-    // Desabafo / Relacionamento / Tristeza
-    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado') || t.includes('deprê') || t.includes('mal')) {
-        return "Pô, mano... sinto muito mesmo por isso. Passar por uma situação dessas mexe muito com a cabeça e dói. Respira fundo, foca em você e em quem realmente te valoriza de verdade. Tô aqui se quiser trocar ideia!";
-    }
-
-    // Conselhos / Ajuda
-    if (t.includes('conselho') || t.includes('o que fazer') || t.includes('ajuda') || t.includes('dica')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso te derrube. Mantenha a cabeça erguida, foca nos seus corres e nos seus projetos!";
-    }
-
-    // Matemática / Contas
-    if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
-        try {
-            let expr = t.replace('quanto é', '')
-                        .replace('mais', '+')
-                        .replace('menos', '-')
-                        .replace('vezes', '*')
-                        .replace('dividido por', '/')
-                        .replace(/[^0-9
+mCanvas.addEventListener('click', () => {
+    if (gameO
