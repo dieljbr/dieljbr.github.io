@@ -107,16 +107,17 @@ border-radius: 12px;
 cursor: pointer;
 font-weight: bold;
 width: 100%;
-transition: .3s;
 font-size: 13px;
 outline: none;
 user-select: none;
+/* Impede que o botão fique travado com a cor clara ao tocar */
+-webkit-appearance: none;
 }
 
-.music-btn:hover {
-background: rgba(0, 255, 65, 0.2);
+.music-btn:hover, .music-btn:active, .music-btn:focus {
+background: rgba(0, 40, 0, 0.8);
+color: #00ff41;
 box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
-color: #fff;
 }
 
 /* Painel da IA */
@@ -329,7 +330,6 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Usando apenas onclick limpo sem duplicidade -->
         <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
         🎵 Tocar Visão de Águia
         </button>
@@ -432,7 +432,7 @@ let travadoAudio = false;
 function toggleMusic() {
     if (travadoAudio) return;
     travadoAudio = true;
-    setTimeout(() => { travadoAudio = false; }, 300); // Trava rápida anti-duplo clique
+    setTimeout(() => { travadoAudio = false; }, 300);
 
     const btn = document.getElementById("music-toggle");
     btn.blur();
