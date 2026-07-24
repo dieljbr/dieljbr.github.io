@@ -11,7 +11,7 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
--webkit-tap-highlight-color: transparent; /* Remove o destaque cinza ao tocar no celular */
+-webkit-tap-highlight-color: transparent;
 }
 
 body{
@@ -329,8 +329,8 @@ body {
         📷 Instagram
         </a>
 
-        <!-- Usando ontouchstart/onclick para responder instantaneamente no celular -->
-        <button class="music-btn" id="music-toggle" ontouchstart="toggleMusic(event)" onclick="toggleMusic(event)">
+        <!-- Usando apenas onclick limpo sem duplicidade -->
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
         🎵 Tocar Visão de Águia
         </button>
     </div>
@@ -427,13 +427,13 @@ tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-let tocandoPelaPrimeiraVez = false;
+let travadoAudio = false;
 
-function toggleMusic(event) {
-    if (event) {
-        event.preventDefault(); // Evita o atraso de clique duplo do touch no celular
-    }
-    
+function toggleMusic() {
+    if (travadoAudio) return;
+    travadoAudio = true;
+    setTimeout(() => { travadoAudio = false; }, 300); // Trava rápida anti-duplo clique
+
     const btn = document.getElementById("music-toggle");
     btn.blur();
 
