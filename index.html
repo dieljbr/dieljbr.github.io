@@ -335,7 +335,7 @@ body {
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">Salve, Diel! Tô por aqui. Como você tá se sentindo hoje? Se precisar desabafar ou trocar ideia, é só mandar a letra.</div>
+            <div class="msg ai">Salve, Diel! Manda a braba, o que quer trocar ideia hoje?</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
@@ -548,7 +548,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de IA do Chat Acolhedor e Sentimental
+// Sistema de IA do Chat Corrigido e Preciso
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -582,42 +582,22 @@ async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    // 1. Acolhimento Emocional (Quando estiver mal, triste, chateado)
-    if (t.includes('to mal') || t.includes('tô mal') || t.includes('estou mal') || t.includes('mal') || t.includes('triste') || t.includes('chateado') || t.includes('chateada') || t.includes('pra baixo') || t.includes('desanimado') || t.includes('sozinho') || t.includes('sozinha')) {
-        const respostasMal = [
-            "Poxa, Diel... Fico chateado de te ver assim. Respira fundo, tô aqui com você pra o que der e vier. Quer desabafar sobre o que tá rolando?",
-            "Ô, meu mano... Dias difíceis acontecem, mas você não tá sozinho nessa. Se quiser conversar ou só ficar em silêncio desabafando, pode mandar a letra.",
-            "Força, Diel. Se as coisas estão pesadas hoje, tenta dar uma respirada, beber uma água. Eu tô aqui contigo, viu?"
-        ];
-        return respostasMal[Math.floor(Math.random() * respostasMal.length)];
-    }
-
-    // 2. Mal-estar físico / Saúde
+    // Mal-estar / Saúde física
     if (t.includes('passando mal') || t.includes('dor de cabeça') || t.includes('enjoado') || t.includes('enjoada') || t.includes('febre') || t.includes('doente') || t.includes('cansado') || t.includes('cansada')) {
-        return "Caramba, Diel... Melhor dar uma descansada, deitar um pouco e beber uma água fresca. Cuida bem de você, tá? Se cuida!";
+        return "Caramba, melhor dar uma descansada e beber uma água! Se persistir, é bom dar uma olhada nisso ou procurar um médico 🤒 Fica bem!";
     }
 
-    // 3. Receitas Culinárias
-    if (t.includes('receita') || t.includes('fazer para comer') || t.includes('o que comer') || t.includes('fome')) {
-        const receitas = [
-            "Quer uma receita rápida e braba? Pega um pão, joga um queijo, presunto, um toque de orégano e joga na frigideira com manteiga até dourar. Fica um misto quente perfeito! 🥪",
-            "Mano, faz um miojo turbinado! Cozinha o macarrão, tira a água, joga um pouco de requeijão, frango desfiado ou atum e um ovo mexido por cima. Fica top demais! 🍜",
-            "Quer algo doce e rápido? Pega uma banana, amassa com um garfo, mistura um ovo e duas colheres de aveia, joga na frigideira e faz uma panqueca fit mara! 🥞"
-        ];
-        return receitas[Math.floor(Math.random() * receitas.length)];
-    }
-
-    // 4. Agradecimentos
-    if (t.includes('obrigado') || t.includes('valeu') || t.includes('tmj') || t.includes('brigadão') || t.includes('obrigada') || t.includes('te amo')) {
+    // Agradecimentos
+    if (t.includes('obrigado') || t.includes('valeu') || t.includes('tmj') || t.includes('brigadão') || t.includes('obrigada')) {
         const respostasObrigado = [
-            "Sempre junto, Diel! Pode contar comigo para qualquer hora 👊❤️",
-            "Imagina, mano! Meu papel aqui é estar contigo em todas. Tmj sempre! 🚀",
-            "Eu que agradeço pela confiança. Tamo junto pro der e vier! 👊"
+            "Por nada, Diel! Tamo junto sempre 👊",
+            "Disponha! Qualquer coisa é só chamar 🚀",
+            "Valeu! Sempre na atividade por aqui 👊"
         ];
         return respostasObrigado[Math.floor(Math.random() * respostasObrigado.length)];
     }
 
-    // 5. Cotação do Dólar
+    // Dólar
     if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar') || t.includes('cotação')) {
         try {
             let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
@@ -631,17 +611,17 @@ async function processarRespostaIA(texto) {
         }
     }
 
-    // 6. Previsão do Tempo
+    // Previsão do Tempo
     if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover') || t.includes('sol')) {
-        return "Atualmente no Rio de Janeiro, o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
+        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
     }
 
-    // 7. Relacionamento / Término
+    // Relacionamento / Término (Separado do mal-estar)
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('levou fora')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com o emocional. Respira fundo, você vale muito e merece gente que te valorize de verdade!";
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça. Respira fundo, você merece alguém que te valorize de verdade!";
     }
 
-    // 8. Matemática / Contas
+    // Matemática / Contas
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
@@ -660,13 +640,13 @@ async function processarRespostaIA(texto) {
         } catch(e) {}
     }
 
-    // 9. Horas
+    // Horas
     if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
         const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         return `Agora são exatamente ${horaAtual} ⏰`;
     }
 
-    // 10. Piadas
+    // Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
             "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
@@ -677,16 +657,29 @@ async function processarRespostaIA(texto) {
         return piadas[Math.floor(Math.random() * piadas.length)];
     } 
 
-    // 11. Saudações
+    // Saudação
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem') || t.includes('fala')) {
-        return "Salve, Diel! Tudo joia por aqui. Como tá sendo o seu dia? Manda a letra!";
+        return "Salve, Diel! Tudo tranquilo por aqui. E com você, como estão as coisas? Manda a letra!";
     } 
     
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
         return "O Diel é o criador genial deste site irado!";
     } 
 
-    // 12. Conversa Geral Natural e Empática
+    // Conversa Geral Natural
     const conversasHumanas = [
-        `Entendi o que você disse sobre "${texto}". Me conta mais, tô aqui prestando atenção em você.`,
-        `Pô, interessante isso aí. Qual é a sua visão sobre o assunto, Diel?
+        `Entendi o que você quis dizer sobre "${texto}". Me conta mais detalhes sobre isso!`,
+        `Pô, interessante isso aí que você falou sobre "${texto}". Qual é a sua visão sobre o assunto?`,
+        `Com certeza! Sobre "${texto}", o importante é manter o foco. Quer trocar mais ideia sobre isso ou quer mudar de assunto?`
+    ];
+
+    return conversasHumanas[Math.floor(Math.random() * conversasHumanas.length)];
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+</script>
+
+</body>
+</html>
