@@ -109,15 +109,13 @@ font-weight: bold;
 width: 100%;
 font-size: 13px;
 outline: none;
-user-select: none;
-/* Impede que o botão fique travado com a cor clara ao tocar */
--webkit-appearance: none;
+transition: .3s;
 }
 
-.music-btn:hover, .music-btn:active, .music-btn:focus {
-background: rgba(0, 40, 0, 0.8);
-color: #00ff41;
+.music-btn:hover {
+background: rgba(0, 255, 65, 0.2);
 box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+color: #fff;
 }
 
 /* Painel da IA */
@@ -314,7 +312,8 @@ body {
 
 <canvas id="bg"></canvas>
 
-<div id="youtube-player" style="display:none;"></div>
+<!-- Player de Áudio Nativo com link direto -->
+<audio id="meu-audio" src="https://www.bensound.com/bensound-music/bensound-epic.mp3"></audio>
 
 <div class="main-container">
     <!-- Perfil e Música -->
@@ -330,8 +329,8 @@ body {
         📷 Instagram
         </a>
 
-        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
-        🎵 Tocar Visão de Águia
+        <button class="music-btn" id="music-toggle" onclick="toggleAudio()">
+        🎵 Tocar Música
         </button>
     </div>
 
@@ -405,55 +404,18 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// API do YouTube para o Short (-yuqq_nbJjk)
-let player;
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: '-yuqq_nbJjk',
-        playerVars: { 
-            'autoplay': 0,
-            'controls': 0,
-            'loop': 1,
-            'playlist': '-yuqq_nbJjk'
-        }
-    });
-}
-
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-let travadoAudio = false;
-
-function toggleMusic() {
-    if (travadoAudio) return;
-    travadoAudio = true;
-    setTimeout(() => { travadoAudio = false; }, 300);
-
+// Controle do Áudio Nativo (1 clique só, pausa e volta do começo)
+function toggleAudio() {
+    const audio = document.getElementById("meu-audio");
     const btn = document.getElementById("music-toggle");
-    btn.blur();
-
-    if (!player || typeof player.getPlayerState !== 'function') {
-        return;
-    }
-
-    try {
-        let estado = player.getPlayerState();
-        if (estado === YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-            player.seekTo(0);
-            btn.innerHTML = "🎵 Tocar Visão de Águia";
-        } else {
-            player.playVideo();
-            btn.innerHTML = "🔇 Pausar Música";
-        }
-    } catch (e) {
-        player.playVideo();
+    
+    if (audio.paused) {
+        audio.play();
         btn.innerHTML = "🔇 Pausar Música";
+    } else {
+        audio.pause();
+        audio.currentTime = 0; // Volta do começo
+        btn.innerHTML = "🎵 Tocar Música";
     }
 }
 
