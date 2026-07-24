@@ -343,7 +343,7 @@ body {
         </div>
     </div>
 
-    <!-- 🎮 Jogo da Velha  (Diel vs Você) -->
+    <!-- Jogo da Velha  (Diel vs Você) -->
     <div class="game-card">
         <div class="game-header">🎮 Diel vs Você</div>
         <div class="game-status" id="game-status">Sua vez (X)</div>
@@ -529,7 +529,7 @@ function checarVitoria(jogador) {
 
 function verificarFimDeJogo(jogador) {
     if (checarVitoria(jogador)) {
-        document.getElementById('game-status').innerText = jogador === 'X' ? "Você venceu o Diel! 🎉" : "O Diel venceu! 😎";
+        document.getElementById('game-status').innerText = jogador === 'X' ? "Você venceu o Mestre! 🎉" : "O Mestre venceu! 😎";
         jogoAtivo = false;
         return true;
     }
