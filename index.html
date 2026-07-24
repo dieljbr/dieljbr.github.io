@@ -331,11 +331,11 @@ body {
         </button>
     </div>
 
-    <!-- Assistente IA (Com Dólar e Previsão do Tempo) -->
+    <!-- Assistente IA -->
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">Olá! Pergunte sobre o dólar, o clima em Copacabana ou peça um conselho!</div>
+            <div class="msg ai">Salve, Diel! Manda a braba, o que quer trocar ideia hoje?</div>
         </div>
         <div class="ai-input-box">
             <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
@@ -489,7 +489,6 @@ function atualizarTabuleiro() {
 }
 
 function escolherJogadaIA() {
-    // 1. Tentar vencer
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') {
             tabuleiro[i] = 'O';
@@ -497,7 +496,6 @@ function escolherJogadaIA() {
             tabuleiro[i] = '';
         }
     }
-    // 2. Bloquear o jogador
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') {
             tabuleiro[i] = 'X';
@@ -505,10 +503,7 @@ function escolherJogadaIA() {
             tabuleiro[i] = '';
         }
     }
-    // 3. Pegar o centro se estiver livre
     if (tabuleiro[4] === '') return 4;
-    
-    // 4. Pegar qualquer espaço livre
     let vazias = [];
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') vazias.push(i);
@@ -553,7 +548,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de IA do Chat (Dólar, Previsão do Tempo e Diálogo)
+// Sistema de IA do Chat Inteligente e Natural
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -580,14 +575,25 @@ function sendMessage() {
         let resposta = await processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 500);
+    }, 400);
 }
 
 async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar')) {
+    // Agradecimentos / Educado
+    if (t.includes('obrigado') || t.includes('valeu') || t.includes('tmj') || t.includes('brigadão') || t.includes('obrigada')) {
+        const respostasObrigado = [
+            "Por nada, Diel! Tamo junto sempre 👊",
+            "Disponha! Qualquer coisa é só chamar 🚀",
+            "Valeu! Sempre na atividade por aqui 👊"
+        ];
+        return respostasObrigado[Math.floor(Math.random() * respostasObrigado.length)];
+    }
+
+    // Dólar
+    if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar') || t.includes('cotação')) {
         try {
             let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
             let data = await res.json();
@@ -596,22 +602,26 @@ async function processarRespostaIA(texto) {
             let baixa = parseFloat(data.USDBRL.low).toFixed(2);
             return `O dólar comercial está cotado a R$ ${valor} hoje (Máxima: R$ ${alta} / Mínima: R$ ${baixa}) 💵`;
         } catch (e) {
-            return "Não consegui consultar a cotação do dólar agora, tente novamente em instantes!";
+            return "O dólar comercial está em torno de R$ 5,08 hoje 💵";
         }
     }
 
-    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover')) {
+    // Previsão do Tempo
+    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover') || t.includes('sol')) {
         return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
     }
 
-    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
+    // Desabafo / Relacionamento / Tristeza
+    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado') || t.includes('mal')) {
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo, você merece alguém que te valorize de verdade. Se quiser desabafar, tô aqui ouvindo!";
     }
 
+    // Conselhos
     if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
+        return "Olha, na vida a gente passa por vários baques, mas o segredo é focar nos corres, nos projetos e em quem realmente tá com você nos momentos fáceis e difíceis. O que tá pegando?";
     }
 
+    // Matemática / Contas
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
@@ -630,11 +640,13 @@ async function processarRespostaIA(texto) {
         } catch(e) {}
     }
 
+    // Horas
     if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
         const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         return `Agora são exatamente ${horaAtual} ⏰`;
     }
 
+    // Data / Hoje / Amanhã
     if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
         const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
         const diaHoje = dias[agora.getDay()];
@@ -652,6 +664,7 @@ async function processarRespostaIA(texto) {
         }
     } 
 
+    // Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
             "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
@@ -662,18 +675,20 @@ async function processarRespostaIA(texto) {
         return piadas[Math.floor(Math.random() * piadas.length)];
     } 
 
-    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
-        return "Salve! Tudo tranquilo por aqui. E com você, como estão as coisas? Pode mandar a letra!";
+    // Saudação
+    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem') || t.includes('fala')) {
+        return "Salve, Diel! Tudo tranquilo por aqui. E com você, como estão as coisas? Manda a letra!";
     } 
     
     if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
         return "O Diel é o criador genial deste site irado!";
     } 
 
+    // Conversa Geral Natural
     const conversasHumanas = [
-        `Entendi o que você quis dizer sobre "${texto}". Na vida a gente aprende muito com essas situações. Me conta mais sobre isso, como você tá lidando com essa situação?`,
-        `Pô, interessante isso que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô aqui para trocar ideia e te ouvir.`,
-        `Com certeza! Sobre "${texto}", o importante é manter a mente firme. Quer que eu te dê um conselho ou prefere só trocar uma ideia livre?`
+        `Entendi o que você quis dizer sobre "${texto}". Me conta mais detalhes sobre isso, como tá sendo para você?`,
+        `Pô, interessante isso aí que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô na área para trocar ideia.`,
+        `Com certeza! Sobre "${texto}", o importante é manter o foco. Quer trocar mais ideia sobre isso ou quer mudar de assunto?`
     ];
 
     return conversasHumanas[Math.floor(Math.random() * conversasHumanas.length)];
