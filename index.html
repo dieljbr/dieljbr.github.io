@@ -15,11 +15,11 @@ font-family:Arial,sans-serif;
 
 body{
 background:#000;
-overflow-x:hidden;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-min-height:100vh;
+height:100vh;
 color:#fff;
 }
 
@@ -35,21 +35,20 @@ pointer-events:none;
 
 .main-container {
 display: flex;
-gap: 15px;
+gap: 20px;
 align-items: center;
 z-index: 10;
 position: relative;
-padding: 20px;
 }
 
 .card{
 background:rgba(0,20,0,.85);
-padding:20px;
+padding:25px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter:blur(10px);
-width:260px;
+width:280px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -57,30 +56,30 @@ align-items: center;
 }
 
 h1{
-font-size:35px;
+font-size:40px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:3px;
+margin-bottom:5px;
 letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 12px;
+font-size: 13px;
 color: #bbb;
-margin-bottom: 12px;
+margin-bottom: 15px;
 }
 
 a{
 display:flex;
 align-items:center;
 justify-content:center;
-gap: 8px;
-margin:6px 0;
+gap: 10px;
+margin:8px 0;
 padding:10px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
-border-radius:10px;
+border-radius:12px;
 transition:.3s;
 font-weight:bold;
 width: 100%;
@@ -97,13 +96,13 @@ box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 display:flex;
 align-items:center;
 justify-content:center;
-gap: 8px;
-margin-top: 8px;
+gap: 10px;
+margin-top: 10px;
 padding: 10px;
 background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
 border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 10px;
+border-radius: 12px;
 cursor: pointer;
 font-weight: bold;
 width: 100%;
@@ -119,13 +118,13 @@ color: #fff;
 
 /* Painel da IA */
 .ai-card {
-background:rgba(0,20,0,.85);
-padding:15px;
-border-radius:20px;
-box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
-backdrop-filter:blur(10px);
-width:260px;
-height:390px;
+background: rgba(0, 20, 0, 0.85);
+padding: 20px;
+border-radius: 20px;
+box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter: blur(10px);
+width: 280px;
+height: 420px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -133,32 +132,32 @@ justify-content: space-between;
 }
 
 .ai-header {
-font-size: 14px;
+font-size: 15px;
 color: #00ff41;
 font-weight: bold;
 text-align: center;
-margin-bottom: 6px;
+margin-bottom: 8px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
 .ai-messages {
 flex: 1;
 background: rgba(0, 0, 0, 0.6);
-border-radius: 8px;
-padding: 6px;
+border-radius: 10px;
+padding: 8px;
 overflow-y: auto;
 display: flex;
 flex-direction: column;
-gap: 6px;
+gap: 8px;
 border: 1px solid rgba(0, 255, 65, 0.2);
 }
 
 .msg {
-padding: 6px 8px;
-border-radius: 6px;
+padding: 7px 10px;
+border-radius: 8px;
 font-size: 11px;
 max-width: 85%;
-line-height: 1.3;
+line-height: 1.4;
 word-break: break-word;
 }
 
@@ -178,14 +177,14 @@ border: 1px solid rgba(255, 0, 0, 0.3);
 
 .ai-input-box {
 display: flex;
-gap: 5px;
-margin-top: 8px;
+gap: 6px;
+margin-top: 10px;
 }
 
 .ai-input-box input {
 flex: 1;
 padding: 8px;
-border-radius: 6px;
+border-radius: 8px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 background: rgba(0, 0, 0, 0.8);
 color: #fff;
@@ -200,7 +199,7 @@ box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 
 .ai-input-box button {
 padding: 8px 10px;
-border-radius: 6px;
+border-radius: 8px;
 border: none;
 background: #00ff41;
 color: #000;
@@ -215,14 +214,14 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-/* Jogo da Velha */
+/* Jogo do Dinossauro */
 .game-card {
-background:rgba(0,20,0,.85);
-padding:15px;
-border-radius:20px;
-box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
-backdrop-filter:blur(10px);
-width:260px;
+background: rgba(0, 20, 0, 0.85);
+padding: 20px;
+border-radius: 20px;
+box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter: blur(10px);
+width: 300px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -230,83 +229,35 @@ align-items: center;
 }
 
 .game-header {
-font-size: 14px;
+font-size: 15px;
 color: #00ff41;
 font-weight: bold;
-margin-bottom: 6px;
+margin-bottom: 8px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 text-align: center;
-}
-
-.board {
-display: grid;
-grid-template-columns: repeat(3, 55px);
-grid-template-rows: repeat(3, 55px);
-gap: 5px;
-margin-bottom: 8px;
-}
-
-.cell {
-background: rgba(0, 0, 0, 0.8);
-border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 6px;
-font-size: 26px;
-font-weight: bold;
-color: #00ff41;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-user-select: none;
-}
-
-.cell.x {
-color: #ff4444;
-}
-
-.game-status {
-font-size: 11px;
-color: #fff;
-margin-bottom: 6px;
-height: 16px;
-text-align: center;
-}
-
-.reset-btn {
-padding: 7px 12px;
-border-radius: 6px;
-border: none;
-background: #00ff41;
-color: #000;
-font-weight: bold;
-cursor: pointer;
-font-size: 11px;
-transition: .3s;
-}
-
-.reset-btn:hover {
-background: #00cc33;
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
 #dinoCanvas {
 background: #000;
 border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 6px;
+border-radius: 8px;
 cursor: pointer;
-margin-bottom: 6px;
-touch-action: manipulation;
 }
 
-@media (max-width: 1100px) {
+.game-status {
+font-size: 11px;
+color: #bbb;
+margin-top: 8px;
+text-align: center;
+}
+
+@media (max-width: 1024px) {
 .main-container {
     flex-direction: column;
-    gap: 20px;
-    overflow-y: auto;
-    height: auto;
+    gap: 15px;
 }
 body {
-    overflow-y: auto;
+    overflow: auto;
     height: auto;
     padding: 20px 0;
 }
@@ -334,47 +285,28 @@ body {
         📷 Instagram
         </a>
 
-        <button class="music-btn" id="music-toggle" type="button">
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
         🎵 Tocar Música (Zeca Pagodinho)
         </button>
     </div>
 
-    <!-- Assistente IA -->
+    <!-- Assistente IA (Com Dólar e Previsão do Tempo) -->
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
             <div class="msg ai">Olá! Pergunte sobre o dólar, o clima em Copacabana ou peça um conselho!</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
-            <button id="send-btn" type="button">Enviar</button>
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
-    <!-- Jogo da Velha (Diel vs Você) -->
+    <!-- Jogo do Dinossauro -->
     <div class="game-card">
-        <div class="game-header">🎮 Diel vs Você</div>
-        <div class="game-status" id="game-status">Sua vez (X)</div>
-        <div class="board" id="board">
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
-        </div>
-        <button class="reset-btn" id="reset-board" type="button">Reiniciar Jogo</button>
-    </div>
-
-    <!-- Jogo do Diel -->
-    <div class="game-card">
-        <div class="game-header">🎮 Jogo do Diel</div>
-        <canvas id="dinoCanvas" width="220" height="80"></canvas>
-        <div class="game-status" id="dino-status">Clique em Começar</div>
-        <button class="reset-btn" id="start-btn" type="button">▶ Começar / Pular</button>
+        <div class="game-header">🦖 Jogo do Dinossauro</div>
+        <canvas id="dinoCanvas" width="260" height="130"></canvas>
+        <div class="game-status" id="dino-status">Pressione ESPAÇO ou Clique para Pular</div>
     </div>
 </div>
 
@@ -388,7 +320,7 @@ function resizeCanvas() {
     canvasBg.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.onresize = resizeCanvas;
 
 const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
 const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -443,10 +375,10 @@ tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-document.getElementById("music-toggle").addEventListener("click", function() {
-    const btn = this;
+function toggleMusic() {
+    const btn = document.getElementById("music-toggle");
     if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
-        alert("O player ainda está carregando, tente em 2 segundos!");
+        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
         return;
     }
     try {
@@ -462,148 +394,37 @@ document.getElementById("music-toggle").addEventListener("click", function() {
         player.playVideo();
         btn.innerHTML = "🔇 Pausar Música";
     }
-});
-
-// Jogo da Velha (Diel vs Você)
-let tabuleiro = ['', '', '', '', '', '', '', '', ''];
-let jogoAtivo = true;
-
-const cells = document.querySelectorAll('.cell');
-cells.forEach(cell => {
-    cell.addEventListener('click', function() {
-        let index = parseInt(this.getAttribute('data-index'));
-        fazerJogada(index);
-    });
-});
-
-document.getElementById('reset-board').addEventListener('click', reiniciarJogo);
-
-function fazerJogada(index) {
-    if (tabuleiro[index] === '' && jogoAtivo) {
-        tabuleiro[index] = 'X';
-        atualizarTabuleiro();
-        
-        if (verificarFimDeJogo('X')) return;
-        
-        document.getElementById('game-status').innerText = "Diel pensando...";
-        jogoAtivo = false;
-        
-        setTimeout(() => {
-            let jogadaIA = escolherJogadaIA();
-            if (jogadaIA !== -1) {
-                tabuleiro[jogadaIA] = 'O';
-            }
-            atualizarTabuleiro();
-            if (!verificarFimDeJogo('O')) {
-                document.getElementById('game-status').innerText = "Sua vez (X)";
-                jogoAtivo = true;
-            }
-        }, 400);
-    }
 }
 
-function atualizarTabuleiro() {
-    cells.forEach((cell, i) => {
-        cell.innerText = tabuleiro[i];
-        if (tabuleiro[i] === 'X') {
-            cell.classList.add('x');
-        } else {
-            cell.classList.remove('x');
-        }
-    });
-}
-
-function escolherJogadaIA() {
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') {
-            tabuleiro[i] = 'O';
-            if (checarVitoria('O')) { tabuleiro[i] = ''; return i; }
-            tabuleiro[i] = '';
-        }
-    }
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') {
-            tabuleiro[i] = 'X';
-            if (checarVitoria('X')) { tabuleiro[i] = ''; return i; }
-            tabuleiro[i] = '';
-        }
-    }
-    if (tabuleiro[4] === '') return 4;
-    let vazias = [];
-    for (let i = 0; i < 9; i++) {
-        if (tabuleiro[i] === '') vazias.push(i);
-    }
-    if (vazias.length > 0) {
-        return vazias[Math.floor(Math.random() * vazias.length)];
-    }
-    return -1;
-}
-
-function checarVitoria(jogador) {
-    const combinacoes = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
-    return combinacoes.some(comb => 
-        tabuleiro[comb[0]] === jogador && 
-        tabuleiro[comb[1]] === jogador && 
-        tabuleiro[comb[2]] === jogador
-    );
-}
-
-function verificarFimDeJogo(jogador) {
-    if (checarVitoria(jogador)) {
-        document.getElementById('game-status').innerText = jogador === 'X' ? "Você venceu o Diel! 🎉" : "O Diel venceu! 😎";
-        jogoAtivo = false;
-        return true;
-    }
-    if (!tabuleiro.includes('')) {
-        document.getElementById('game-status').innerText = "Empate! 🤝";
-        jogoAtivo = false;
-        return true;
-    }
-    return false;
-}
-
-function reiniciarJogo() {
-    tabuleiro = ['', '', '', '', '', '', '', '', ''];
-    jogoAtivo = true;
-    document.getElementById('game-status').innerText = "Sua vez (X)";
-    atualizarTabuleiro();
-}
-
-// Jogo do Diel
+// Jogo do Dinossauro (Estilo Google)
 const dCanvas = document.getElementById("dinoCanvas");
 const dCtx = dCanvas.getContext("2d");
 
 let dino = {
     x: 20,
-    y: 48,
-    width: 16,
-    height: 18,
+    y: 85,
+    width: 18,
+    height: 22,
     vy: 0,
-    gravity: 0.5,
-    jump: -7.5,
+    gravity: 0.6,
+    jump: -9,
     isJumping: false
 };
 
 let obstaculo = {
-    x: 220,
-    y: 50,
-    width: 10,
-    height: 16,
-    speed: 3.5
+    x: 280,
+    y: 90,
+    width: 12,
+    height: 18,
+    speed: 4
 };
 
 let score = 0;
-let recorde = 0;
-let jogoRodando = false;
 let gameOver = false;
 
 function pularDino() {
-    if (!jogoRodando || gameOver) {
-        iniciarOuReiniciarJogoD();
+    if (gameOver) {
+        reiniciarDino();
         return;
     }
     if (!dino.isJumping) {
@@ -614,48 +435,37 @@ function pularDino() {
 
 document.addEventListener("keydown", function(e) {
     if (e.code === "Space" || e.code === "ArrowUp") {
-        if (document.activeElement.id !== 'user-input') {
-            e.preventDefault();
-            pularDino();
-        }
+        e.preventDefault();
+        pularDino();
     }
 });
 
-dCanvas.addEventListener("click", pularDino);
-document.getElementById("start-btn").addEventListener("click", pularDino);
-
-function iniciarOuReiniciarJogoD() {
-    dino.y = 48;
-    dino.vy = 0;
-    dino.isJumping = false;
-    obstaculo.x = 220;
-    obstaculo.speed = 3.5;
-    score = 0;
-    gameOver = false;
-    jogoRodando = true;
-    document.getElementById("dino-status").innerText = "Pulando... Vamos lá!";
-    document.getElementById("start-btn").innerText = "Pular";
-}
+dCanvas.addEventListener("click", function() {
+    pularDino();
+});
 
 function atualizarDino() {
-    if (!jogoRodando || gameOver) return;
+    if (gameOver) return;
 
+    // Física do Pulo
     dino.vy += dino.gravity;
     dino.y += dino.vy;
 
-    if (dino.y > 48) {
-        dino.y = 48;
+    if (dino.y > 85) {
+        dino.y = 85;
         dino.vy = 0;
         dino.isJumping = false;
     }
 
+    // Movimento do Obstáculo
     obstaculo.x -= obstaculo.speed;
     if (obstaculo.x < -20) {
-        obstaculo.x = 220;
+        obstaculo.x = 280;
         score += 10;
-        obstaculo.speed = 3.5 + Math.floor(score / 50);
+        obstaculo.speed = 4 + Math.floor(score / 50); // Aumenta a velocidade progressivamente
     }
 
+    // Colisão
     if (
         dino.x < obstaculo.x + obstaculo.width &&
         dino.x + dino.width > obstaculo.x &&
@@ -663,55 +473,44 @@ function atualizarDino() {
         dino.y + dino.height > obstaculo.y
     ) {
         gameOver = true;
-        jogoRodando = false;
-        if (score > recorde) recorde = score;
-        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score}`;
-        document.getElementById("start-btn").innerText = "Jogar de Novo";
+        document.getElementById("dino-status").innerText = "Game Over! Clique para Reiniciar";
     }
 }
 
 function desenharDino() {
     dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
 
+    // Chão
     dCtx.strokeStyle = "#00FF41";
     dCtx.lineWidth = 2;
     dCtx.beginPath();
-    dCtx.moveTo(0, 66);
-    dCtx.lineTo(220, 66);
+    dCtx.moveTo(0, 108);
+    dCtx.lineTo(260, 108);
     dCtx.stroke();
 
+    // Dinossauro (Verde Fluido Matrix)
     dCtx.fillStyle = "#00FF41";
-    dCtx.font = "bold 18px monospace";
-    dCtx.fillText("D", dino.x, dino.y + 14);
+    dCtx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
+    // Obstáculo (Vermelho Matrix)
     dCtx.fillStyle = "#FF0000";
     dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
 
+    // Placar
     dCtx.fillStyle = "#FFFFFF";
-    dCtx.font = "9px monospace";
-    dCtx.fillText("PTS: " + score, 10, 15);
-    dCtx.fillText("TOP: " + recorde, 140, 15);
-
-    if (!jogoRodando && !gameOver) {
-        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
-        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
-        dCtx.fillStyle = "#00FF41";
-        dCtx.font = "bold 11px monospace";
-        dCtx.textAlign = "center";
-        dCtx.fillText("CLIQUE EM COMEÇAR", dCanvas.width / 2, 45);
-        dCtx.textAlign = "left";
-    }
+    dCtx.font = "11px monospace";
+    dCtx.fillText("SCORE: " + score, 190, 20);
 
     if (gameOver) {
-        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        dCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
         dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
         dCtx.fillStyle = "#FF4444";
-        dCtx.font = "bold 11px monospace";
+        dCtx.font = "bold 13px monospace";
         dCtx.textAlign = "center";
-        dCtx.fillText("GAME OVER", dCanvas.width / 2, 38);
+        dCtx.fillText("GAME OVER", dCanvas.width / 2, 55);
         dCtx.fillStyle = "#00FF41";
-        dCtx.font = "8px monospace";
-        dCtx.fillText("Clique em Jogar de Novo", dCanvas.width / 2, 55);
+        dCtx.font = "10px monospace";
+        dCtx.fillText("Clique para jogar de novo", dCanvas.width / 2, 75);
         dCtx.textAlign = "left";
     }
 }
@@ -722,16 +521,26 @@ function loopJogoDino() {
     requestAnimationFrame(loopJogoDino);
 }
 
+function reiniciarDino() {
+    dino.y = 85;
+    dino.vy = 0;
+    dino.isJumping = false;
+    obstaculo.x = 280;
+    obstaculo.speed = 4;
+    score = 0;
+    gameOver = false;
+    document.getElementById("dino-status").innerText = "Pressione ESPAÇO ou Clique para Pular";
+}
+
 loopJogoDino();
 
 // Sistema de IA do Chat
-document.getElementById("send-btn").addEventListener("click", sendMessage);
-document.getElementById("user-input").addEventListener("keypress", function(event) {
+function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
         sendMessage(); 
     }
-});
+}
 
 function sendMessage() {
     const input = document.getElementById('user-input');
@@ -748,31 +557,40 @@ function sendMessage() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    setTimeout(() => {
-        let resposta = processarRespostaIA(text);
+    setTimeout(async () => {
+        let resposta = await processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 300);
+    }, 500);
 }
 
-function processarRespostaIA(texto) {
+async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
     if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar')) {
-        return "O dólar comercial está cotado em média a R$ 5,50 hoje 💵";
+        try {
+            let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
+            let data = await res.json();
+            let valor = parseFloat(data.USDBRL.bid).toFixed(2);
+            let alta = parseFloat(data.USDBRL.high).toFixed(2);
+            let baixa = parseFloat(data.USDBRL.low).toFixed(2);
+            return `O dólar comercial está cotado a R$ ${valor} hoje (Máxima: R$ ${alta} / Mínima: R$ ${baixa}) 💵`;
+        } catch (e) {
+            return "Não consegui consultar a cotação do dólar agora, tente novamente em instantes!";
+        }
     }
 
     if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover')) {
-        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves e céu limpo 🌴☀️";
+        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
     }
 
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça. Tente respirar fundo, você merece alguém que te valorize de verdade. Se quiser desabafar, tô aqui!";
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
     }
 
     if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é focar nos corres, nos projetos e em quem tá com você de verdade!";
+        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
     }
 
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
@@ -789,4 +607,63 @@ function processarRespostaIA(texto) {
                 if (res !== undefined && !isNaN(res)) {
                     return `O resultado da conta é: ${res} 🔢`;
                 }
-           
+            }
+        } catch(e) {}
+    }
+
+    if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
+        const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Agora são exatamente ${horaAtual} ⏰`;
+    }
+
+    if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
+        const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        const diaHoje = dias[agora.getDay()];
+        const amanha = new Date(agora);
+        amanha.setDate(agora.getDate() + 1);
+        const diaAmanha = dias[amanha.getDay()];
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
+        
+        if (t.includes('amanhã')) {
+            return `Amanhã será ${diaAmanha}! 📅`;
+        } else if (t.includes('data') || t.includes('dia de hoje')) {
+            return `Hoje é ${diaHoje}, dia ${dataFormatada}! 🗓️`;
+        } else {
+            return `Hoje é ${diaHoje}! 🗓️`;
+        }
+    } 
+
+    if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
+        const piadas = [
+            "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
+            "O que o zero disse para o oito? — Belo cinto! 🤣",
+            "Por que a galeria de arte foi presa? Porque ela era suspeita de armação! 🖼️😂",
+            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑"
+        ];
+        return piadas[Math.floor(Math.random() * piadas.length)];
+    } 
+
+    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
+        return "Salve! Tudo tranquilo por aqui. E com você, como estão as coisas? Pode mandar a letra!";
+    } 
+    
+    if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
+        return "O Diel é o criador genial deste site irado!";
+    } 
+
+    const conversasHumanas = [
+        `Entendi o que você quis dizer sobre "${texto}". Na vida a gente aprende muito com essas situações. Me conta mais sobre isso, como você tá lidando com essa situação?`,
+        `Pô, interessante isso que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô aqui para trocar ideia e te ouvir.`,
+        `Com certeza! Sobre "${texto}", o importante é manter a mente firme. Quer que eu te dê um conselho ou prefere só trocar uma ideia livre?`
+    ];
+
+    return conversasHumanas[Math.floor(Math.random() * conversasHumanas.length)];
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+</script>
+
+</body>
+</html>
