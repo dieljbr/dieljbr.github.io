@@ -15,15 +15,15 @@ font-family:Arial,sans-serif;
 
 body{
 background:#000;
-overflow:hidden;
+overflow-x:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 color:#fff;
 }
 
-canvas{
+canvas.bg-matrix{
 position:fixed;
 top:0;
 left:0;
@@ -35,20 +35,21 @@ pointer-events:none;
 
 .main-container {
 display: flex;
-gap: 25px;
+gap: 15px;
 align-items: center;
 z-index: 10;
 position: relative;
+padding: 20px;
 }
 
 .card{
 background:rgba(0,20,0,.85);
-padding:25px;
+padding:20px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
 backdrop-filter:blur(10px);
-width:320px;
+width:260px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -56,35 +57,35 @@ align-items: center;
 }
 
 h1{
-font-size:45px;
+font-size:35px;
 color:#ff0000;
 text-shadow:0 0 25px rgba(255, 0, 0, 0.9);
-margin-bottom:5px;
+margin-bottom:3px;
 letter-spacing: 2px;
 }
 
 .subtitle {
-font-size: 14px;
+font-size: 12px;
 color: #bbb;
-margin-bottom: 15px;
+margin-bottom: 12px;
 }
 
 a{
 display:flex;
 align-items:center;
 justify-content:center;
-gap: 10px;
-margin:8px 0;
-padding:12px;
+gap: 8px;
+margin:6px 0;
+padding:10px;
 background:linear-gradient(135deg, #008000, #003300);
 color:#fff;
 text-decoration:none;
-border-radius:12px;
+border-radius:10px;
 transition:.3s;
 font-weight:bold;
 width: 100%;
 box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
-font-size: 13px;
+font-size: 12px;
 }
 
 a:hover{
@@ -96,18 +97,18 @@ box-shadow:0 0 25px rgba(0, 255, 65, 0.7);
 display:flex;
 align-items:center;
 justify-content:center;
-gap: 10px;
-margin-top: 10px;
-padding: 12px;
+gap: 8px;
+margin-top: 8px;
+padding: 10px;
 background: rgba(0, 40, 0, 0.8);
 color: #00ff41;
 border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 12px;
+border-radius: 10px;
 cursor: pointer;
 font-weight: bold;
 width: 100%;
 transition: .3s;
-font-size: 13px;
+font-size: 12px;
 }
 
 .music-btn:hover {
@@ -118,13 +119,13 @@ color: #fff;
 
 /* Painel da IA */
 .ai-card {
-background: rgba(0, 20, 0, 0.85);
-padding: 20px;
-border-radius: 20px;
-box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
-backdrop-filter: blur(10px);
-width: 320px;
-height: 440px;
+background:rgba(0,20,0,.85);
+padding:15px;
+border-radius:20px;
+box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter:blur(10px);
+width:260px;
+height:390px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -132,32 +133,32 @@ justify-content: space-between;
 }
 
 .ai-header {
-font-size: 16px;
+font-size: 14px;
 color: #00ff41;
 font-weight: bold;
 text-align: center;
-margin-bottom: 8px;
+margin-bottom: 6px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
 .ai-messages {
 flex: 1;
 background: rgba(0, 0, 0, 0.6);
-border-radius: 10px;
-padding: 8px;
+border-radius: 8px;
+padding: 6px;
 overflow-y: auto;
 display: flex;
 flex-direction: column;
-gap: 8px;
+gap: 6px;
 border: 1px solid rgba(0, 255, 65, 0.2);
 }
 
 .msg {
-padding: 7px 10px;
-border-radius: 8px;
-font-size: 12px;
+padding: 6px 8px;
+border-radius: 6px;
+font-size: 11px;
 max-width: 85%;
-line-height: 1.4;
+line-height: 1.3;
 word-break: break-word;
 }
 
@@ -177,19 +178,19 @@ border: 1px solid rgba(255, 0, 0, 0.3);
 
 .ai-input-box {
 display: flex;
-gap: 6px;
-margin-top: 10px;
+gap: 5px;
+margin-top: 8px;
 }
 
 .ai-input-box input {
 flex: 1;
-padding: 9px;
-border-radius: 8px;
+padding: 8px;
+border-radius: 6px;
 border: 1px solid rgba(0, 255, 65, 0.4);
 background: rgba(0, 0, 0, 0.8);
 color: #fff;
 outline: none;
-font-size: 12px;
+font-size: 11px;
 }
 
 .ai-input-box input:focus {
@@ -198,15 +199,15 @@ box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
 }
 
 .ai-input-box button {
-padding: 9px 12px;
-border-radius: 8px;
+padding: 8px 10px;
+border-radius: 6px;
 border: none;
 background: #00ff41;
 color: #000;
 font-weight: bold;
 cursor: pointer;
 transition: .3s;
-font-size: 12px;
+font-size: 11px;
 }
 
 .ai-input-box button:hover {
@@ -216,12 +217,12 @@ box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 
 /* Jogo da Velha */
 .game-card {
-background: rgba(0, 20, 0, 0.85);
-padding: 20px;
-border-radius: 20px;
-box-shadow: 0 0 35px rgba(0, 255, 65, 0.4);
-backdrop-filter: blur(10px);
-width: 300px;
+background:rgba(0,20,0,.85);
+padding:15px;
+border-radius:20px;
+box-shadow:0 0 35px rgba(0, 255, 65, 0.4);
+backdrop-filter:blur(10px);
+width:260px;
 border: 1px solid rgba(0, 255, 65, 0.3);
 display: flex;
 flex-direction: column;
@@ -229,39 +230,34 @@ align-items: center;
 }
 
 .game-header {
-font-size: 16px;
+font-size: 14px;
 color: #00ff41;
 font-weight: bold;
-margin-bottom: 10px;
+margin-bottom: 6px;
 text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 text-align: center;
 }
 
 .board {
 display: grid;
-grid-template-columns: repeat(3, 70px);
-grid-template-rows: repeat(3, 70px);
-gap: 6px;
-margin-bottom: 12px;
+grid-template-columns: repeat(3, 55px);
+grid-template-rows: repeat(3, 55px);
+gap: 5px;
+margin-bottom: 8px;
 }
 
 .cell {
 background: rgba(0, 0, 0, 0.8);
 border: 1px solid rgba(0, 255, 65, 0.4);
-border-radius: 8px;
-font-size: 32px;
+border-radius: 6px;
+font-size: 26px;
 font-weight: bold;
 color: #00ff41;
 display: flex;
 align-items: center;
 justify-content: center;
 cursor: pointer;
-transition: .2s;
-}
-
-.cell:hover {
-background: rgba(0, 50, 0, 0.8);
-box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+user-select: none;
 }
 
 .cell.x {
@@ -269,21 +265,22 @@ color: #ff4444;
 }
 
 .game-status {
-font-size: 12px;
+font-size: 11px;
 color: #fff;
-margin-bottom: 8px;
-height: 18px;
+margin-bottom: 6px;
+height: 16px;
+text-align: center;
 }
 
 .reset-btn {
-padding: 8px 15px;
-border-radius: 8px;
+padding: 7px 12px;
+border-radius: 6px;
 border: none;
 background: #00ff41;
 color: #000;
 font-weight: bold;
 cursor: pointer;
-font-size: 12px;
+font-size: 11px;
 transition: .3s;
 }
 
@@ -292,13 +289,24 @@ background: #00cc33;
 box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-@media (max-width: 1024px) {
+#dinoCanvas {
+background: #000;
+border: 1px solid rgba(0, 255, 65, 0.4);
+border-radius: 6px;
+cursor: pointer;
+margin-bottom: 6px;
+touch-action: manipulation;
+}
+
+@media (max-width: 1100px) {
 .main-container {
     flex-direction: column;
     gap: 20px;
+    overflow-y: auto;
+    height: auto;
 }
 body {
-    overflow: auto;
+    overflow-y: auto;
     height: auto;
     padding: 20px 0;
 }
@@ -308,7 +316,7 @@ body {
 
 <body>
 
-<canvas id="bg"></canvas>
+<canvas class="bg-matrix" id="bg"></canvas>
 
 <div id="youtube-player" style="display:none;"></div>
 
@@ -326,20 +334,20 @@ body {
         📷 Instagram
         </a>
 
-        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
+        <button class="music-btn" id="music-toggle" type="button">
         🎵 Tocar Música (Zeca Pagodinho)
         </button>
     </div>
 
-    <!-- Assistente IA (Com Dólar e Previsão do Tempo) -->
+    <!-- Assistente IA -->
     <div class="ai-card">
         <div class="ai-header">🤖 Assistente do Diel</div>
         <div class="ai-messages" id="chat-messages">
-            <div class="msg ai">Olá! Pergunte sobre o dólar, o clima em Copacabana ou peça um conselho!</div>
+            <div class="msg ai">E aí, Diel! Manda a braba, o que quer trocar ideia hoje?</div>
         </div>
         <div class="ai-input-box">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Enviar</button>
+            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+            <button id="send-btn" type="button">Enviar</button>
         </div>
     </div>
 
@@ -348,52 +356,60 @@ body {
         <div class="game-header">🎮 Diel vs Você</div>
         <div class="game-status" id="game-status">Sua vez (X)</div>
         <div class="board" id="board">
-            <div class="cell" onclick="fazerJogada(0)"></div>
-            <div class="cell" onclick="fazerJogada(1)"></div>
-            <div class="cell" onclick="fazerJogada(2)"></div>
-            <div class="cell" onclick="fazerJogada(3)"></div>
-            <div class="cell" onclick="fazerJogada(4)"></div>
-            <div class="cell" onclick="fazerJogada(5)"></div>
-            <div class="cell" onclick="fazerJogada(6)"></div>
-            <div class="cell" onclick="fazerJogada(7)"></div>
-            <div class="cell" onclick="fazerJogada(8)"></div>
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
         </div>
-        <button class="reset-btn" onclick="reiniciarJogo()">Reiniciar Jogo</button>
+        <button class="reset-btn" id="reset-board" type="button">Reiniciar Jogo</button>
+    </div>
+
+    <!-- Jogo do Diel -->
+    <div class="game-card">
+        <div class="game-header">🎮 Jogo do Diel</div>
+        <canvas id="dinoCanvas" width="220" height="80"></canvas>
+        <div class="game-status" id="dino-status">Clique em Começar</div>
+        <button class="reset-btn" id="start-btn" type="button">▶ Começar / Pular</button>
     </div>
 </div>
 
 <script>
 // Efeito Matrix Verde Fluido
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
+const canvasBg = document.getElementById("bg");
+const ctxBg = canvasBg.getContext("2d");
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvasBg.width = window.innerWidth;
+    canvasBg.height = window.innerHeight;
 }
 resizeCanvas();
-window.onresize = resizeCanvas;
+window.addEventListener('resize', resizeCanvas);
 
 const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
 const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const alphabet = katakana + latin;
 
 const fontSize = 16;
-let columns = canvas.width / fontSize;
+let columns = canvasBg.width / fontSize;
 const rainDrops = [];
 for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
 
 function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00FF41';
-    ctx.font = fontSize + 'px monospace';
+    ctxBg.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctxBg.fillRect(0, 0, canvasBg.width, canvasBg.height);
+    ctxBg.fillStyle = '#00FF41';
+    ctxBg.font = fontSize + 'px monospace';
 
     for (let i = 0; i < rainDrops.length; i++) {
         const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+        ctxBg.fillText(text, i * fontSize, rainDrops[i] * fontSize);
 
-        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        if (rainDrops[i] * fontSize > canvasBg.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
         rainDrops[i]++;
@@ -427,10 +443,10 @@ tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-function toggleMusic() {
-    const btn = document.getElementById("music-toggle");
+document.getElementById("music-toggle").addEventListener("click", function() {
+    const btn = this;
     if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
-        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
+        alert("O player ainda está carregando, tente em 2 segundos!");
         return;
     }
     try {
@@ -446,11 +462,21 @@ function toggleMusic() {
         player.playVideo();
         btn.innerHTML = "🔇 Pausar Música";
     }
-}
+});
 
-// Lógica do Jogo da Velha (Diel vs Você)
+// Jogo da Velha (Diel vs Você)
 let tabuleiro = ['', '', '', '', '', '', '', '', ''];
 let jogoAtivo = true;
+
+const cells = document.querySelectorAll('.cell');
+cells.forEach(cell => {
+    cell.addEventListener('click', function() {
+        let index = parseInt(this.getAttribute('data-index'));
+        fazerJogada(index);
+    });
+});
+
+document.getElementById('reset-board').addEventListener('click', reiniciarJogo);
 
 function fazerJogada(index) {
     if (tabuleiro[index] === '' && jogoAtivo) {
@@ -477,19 +503,17 @@ function fazerJogada(index) {
 }
 
 function atualizarTabuleiro() {
-    const cells = document.getElementsByClassName('cell');
-    for (let i = 0; i < cells.length; i++) {
-        cells[i].innerText = tabuleiro[i];
+    cells.forEach((cell, i) => {
+        cell.innerText = tabuleiro[i];
         if (tabuleiro[i] === 'X') {
-            cells[i].classList.add('x');
+            cell.classList.add('x');
         } else {
-            cells[i].classList.remove('x');
+            cell.classList.remove('x');
         }
-    }
+    });
 }
 
 function escolherJogadaIA() {
-    // 1. Tentar vencer
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') {
             tabuleiro[i] = 'O';
@@ -497,7 +521,6 @@ function escolherJogadaIA() {
             tabuleiro[i] = '';
         }
     }
-    // 2. Bloquear o jogador
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') {
             tabuleiro[i] = 'X';
@@ -505,10 +528,7 @@ function escolherJogadaIA() {
             tabuleiro[i] = '';
         }
     }
-    // 3. Pegar o centro se estiver livre
     if (tabuleiro[4] === '') return 4;
-    
-    // 4. Pegar qualquer espaço livre
     let vazias = [];
     for (let i = 0; i < 9; i++) {
         if (tabuleiro[i] === '') vazias.push(i);
@@ -553,13 +573,165 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de IA do Chat (Dólar, Previsão do Tempo e Diálogo)
-function handleKeyPress(event) {
+// Jogo do Diel
+const dCanvas = document.getElementById("dinoCanvas");
+const dCtx = dCanvas.getContext("2d");
+
+let dino = {
+    x: 20,
+    y: 48,
+    width: 16,
+    height: 18,
+    vy: 0,
+    gravity: 0.5,
+    jump: -7.5,
+    isJumping: false
+};
+
+let obstaculo = {
+    x: 220,
+    y: 50,
+    width: 10,
+    height: 16,
+    speed: 3.5
+};
+
+let score = 0;
+let recorde = 0;
+let jogoRodando = false;
+let gameOver = false;
+
+function pularDino() {
+    if (!jogoRodando || gameOver) {
+        iniciarOuReiniciarJogoD();
+        return;
+    }
+    if (!dino.isJumping) {
+        dino.vy = dino.jump;
+        dino.isJumping = true;
+    }
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space" || e.code === "ArrowUp") {
+        if (document.activeElement.id !== 'user-input') {
+            e.preventDefault();
+            pularDino();
+        }
+    }
+});
+
+dCanvas.addEventListener("click", pularDino);
+document.getElementById("start-btn").addEventListener("click", pularDino);
+
+function iniciarOuReiniciarJogoD() {
+    dino.y = 48;
+    dino.vy = 0;
+    dino.isJumping = false;
+    obstaculo.x = 220;
+    obstaculo.speed = 3.5;
+    score = 0;
+    gameOver = false;
+    jogoRodando = true;
+    document.getElementById("dino-status").innerText = "Pulando... Vamos lá!";
+    document.getElementById("start-btn").innerText = "Pular";
+}
+
+function atualizarDino() {
+    if (!jogoRodando || gameOver) return;
+
+    dino.vy += dino.gravity;
+    dino.y += dino.vy;
+
+    if (dino.y > 48) {
+        dino.y = 48;
+        dino.vy = 0;
+        dino.isJumping = false;
+    }
+
+    obstaculo.x -= obstaculo.speed;
+    if (obstaculo.x < -20) {
+        obstaculo.x = 220;
+        score += 10;
+        obstaculo.speed = 3.5 + Math.floor(score / 50);
+    }
+
+    if (
+        dino.x < obstaculo.x + obstaculo.width &&
+        dino.x + dino.width > obstaculo.x &&
+        dino.y < obstaculo.y + obstaculo.height &&
+        dino.y + dino.height > obstaculo.y
+    ) {
+        gameOver = true;
+        jogoRodando = false;
+        if (score > recorde) recorde = score;
+        document.getElementById("dino-status").innerText = `Game Over! Pontos: ${score}`;
+        document.getElementById("start-btn").innerText = "Jogar de Novo";
+    }
+}
+
+function desenharDino() {
+    dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
+
+    dCtx.strokeStyle = "#00FF41";
+    dCtx.lineWidth = 2;
+    dCtx.beginPath();
+    dCtx.moveTo(0, 66);
+    dCtx.lineTo(220, 66);
+    dCtx.stroke();
+
+    dCtx.fillStyle = "#00FF41";
+    dCtx.font = "bold 18px monospace";
+    dCtx.fillText("D", dino.x, dino.y + 14);
+
+    dCtx.fillStyle = "#FF0000";
+    dCtx.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+
+    dCtx.fillStyle = "#FFFFFF";
+    dCtx.font = "9px monospace";
+    dCtx.fillText("PTS: " + score, 10, 15);
+    dCtx.fillText("TOP: " + recorde, 140, 15);
+
+    if (!jogoRodando && !gameOver) {
+        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+        dCtx.fillStyle = "#00FF41";
+        dCtx.font = "bold 11px monospace";
+        dCtx.textAlign = "center";
+        dCtx.fillText("CLIQUE EM COMEÇAR", dCanvas.width / 2, 45);
+        dCtx.textAlign = "left";
+    }
+
+    if (gameOver) {
+        dCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+        dCtx.fillStyle = "#FF4444";
+        dCtx.font = "bold 11px monospace";
+        dCtx.textAlign = "center";
+        dCtx.fillText("GAME OVER", dCanvas.width / 2, 38);
+        dCtx.fillStyle = "#00FF41";
+        dCtx.font = "8px monospace";
+        dCtx.fillText("Clique em Jogar de Novo", dCanvas.width / 2, 55);
+        dCtx.textAlign = "left";
+    }
+}
+
+function loopJogoDino() {
+    atualizarDino();
+    desenharDino();
+    requestAnimationFrame(loopJogoDino);
+}
+
+loopJogoDino();
+
+// Sistema de IA do Chat Turbo (Muito mais inteligente e natural)
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("user-input").addEventListener("keypress", function(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
         sendMessage(); 
     }
-}
+});
 
 function sendMessage() {
     const input = document.getElementById('user-input');
@@ -576,42 +748,38 @@ function sendMessage() {
     chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    setTimeout(async () => {
-        let resposta = await processarRespostaIA(text);
+    setTimeout(() => {
+        let resposta = processarRespostaIA(text);
         document.getElementById(loadingId).innerText = resposta;
         chat.scrollTop = chat.scrollHeight;
-    }, 500);
+    }, 300);
 }
 
-async function processarRespostaIA(texto) {
+function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar')) {
-        try {
-            let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
-            let data = await res.json();
-            let valor = parseFloat(data.USDBRL.bid).toFixed(2);
-            let alta = parseFloat(data.USDBRL.high).toFixed(2);
-            let baixa = parseFloat(data.USDBRL.low).toFixed(2);
-            return `O dólar comercial está cotado a R$ ${valor} hoje (Máxima: R$ ${alta} / Mínima: R$ ${baixa}) 💵`;
-        } catch (e) {
-            return "Não consegui consultar a cotação do dólar agora, tente novamente em instantes!";
-        }
+    // Dólar
+    if (t.includes('dólar') || t.includes('dolar') || t.includes('cotação') || t.includes('moeda')) {
+        return "O dólar comercial está cotado em média a R$ 5,50 hoje 💵 Quer saber alguma outra cotação?";
     }
 
-    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover')) {
-        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
+    // Previsão do tempo
+    if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover') || t.includes('sol')) {
+        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves e céu limpo 🌴☀️";
     }
 
-    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo e colocar sua cabeça no lugar agora. Você merece alguém que te valorize de verdade. Se quiser desabafar ou conversar sobre isso, tô aqui ouvindo!";
+    // Desabafo / Relacionamento / Tristeza
+    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado') || t.includes('deprê') || t.includes('mal')) {
+        return "Pô, mano... sinto muito mesmo por isso. Passar por uma situação dessas mexe muito com a cabeça e dói. Respira fundo, foca em você e em quem realmente te valoriza de verdade. Tô aqui se quiser trocar ideia!";
     }
 
-    if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso defina quem você é. Foque nos seus corres, nos seus projetos e em quem realmente tá com você nos momentos fáceis e difíceis. Quer conversar mais sobre o que tá pegando?";
+    // Conselhos / Ajuda
+    if (t.includes('conselho') || t.includes('o que fazer') || t.includes('ajuda') || t.includes('dica')) {
+        return "Olha, na vida a gente passa por vários baques, mas o segredo é não deixar que isso te derrube. Mantenha a cabeça erguida, foca nos seus corres e nos seus projetos!";
     }
 
+    // Matemática / Contas
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
@@ -619,70 +787,4 @@ async function processarRespostaIA(texto) {
                         .replace('menos', '-')
                         .replace('vezes', '*')
                         .replace('dividido por', '/')
-                        .replace(/[^0-9+\-*/().]/g, '')
-                        .trim();
-            if (expr.length > 0) {
-                let res = Function('"use strict";return (' + expr + ')')();
-                if (res !== undefined && !isNaN(res)) {
-                    return `O resultado da conta é: ${res} 🔢`;
-                }
-            }
-        } catch(e) {}
-    }
-
-    if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
-        const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        return `Agora são exatamente ${horaAtual} ⏰`;
-    }
-
-    if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
-        const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-        const diaHoje = dias[agora.getDay()];
-        const amanha = new Date(agora);
-        amanha.setDate(agora.getDate() + 1);
-        const diaAmanha = dias[amanha.getDay()];
-        const dataFormatada = agora.toLocaleDateString('pt-BR');
-        
-        if (t.includes('amanhã')) {
-            return `Amanhã será ${diaAmanha}! 📅`;
-        } else if (t.includes('data') || t.includes('dia de hoje')) {
-            return `Hoje é ${diaHoje}, dia ${dataFormatada}! 🗓️`;
-        } else {
-            return `Hoje é ${diaHoje}! 🗓️`;
-        }
-    } 
-
-    if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
-        const piadas = [
-            "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
-            "O que o zero disse para o oito? — Belo cinto! 🤣",
-            "Por que a galeria de arte foi presa? Porque ela era suspeita de armação! 🖼️😂",
-            "Qual é o rei dos queijos? O Reiqueijo! 🧀👑"
-        ];
-        return piadas[Math.floor(Math.random() * piadas.length)];
-    } 
-
-    if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem')) {
-        return "Salve! Tudo tranquilo por aqui. E com você, como estão as coisas? Pode mandar a letra!";
-    } 
-    
-    if (t.includes('diel') || t.includes('criador') || t.includes('quem é')) {
-        return "O Diel é o criador genial deste site irado!";
-    } 
-
-    const conversasHumanas = [
-        `Entendi o que você quis dizer sobre "${texto}". Na vida a gente aprende muito com essas situações. Me conta mais sobre isso, como você tá lidando com essa situação?`,
-        `Pô, interessante isso que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô aqui para trocar ideia e te ouvir.`,
-        `Com certeza! Sobre "${texto}", o importante é manter a mente firme. Quer que eu te dê um conselho ou prefere só trocar uma ideia livre?`
-    ];
-
-    return conversasHumanas[Math.floor(Math.random() * conversasHumanas.length)];
-}
-
-function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-</script>
-
-</body>
-</html>
+                        .replace(/[^0-9
