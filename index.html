@@ -108,6 +108,7 @@ font-weight: bold;
 width: 100%;
 transition: .3s;
 font-size: 13px;
+outline: none; /* Remove marca de foco indesejada no celular */
 }
 
 .music-btn:hover {
@@ -425,6 +426,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
+    btn.blur(); // Remove o foco do botão imediatamente no primeiro toque
+
     if (!player || typeof player.getPlayerState !== 'function') {
         return;
     }
@@ -432,7 +435,7 @@ function toggleMusic() {
         let estado = player.getPlayerState();
         if (estado === YT.PlayerState.PLAYING) {
             player.pauseVideo();
-            player.seekTo(0); // Reseta a música para o começo ao pausar
+            player.seekTo(0); // Volta pro começo ao pausar
             btn.innerHTML = "🎵 Tocar Visão de Águia";
         } else {
             player.playVideo();
