@@ -322,7 +322,7 @@ body {
         💬 Discord
         </a>
 
-        <a href="https://www.instagram.com/_eitaakaah?igsh=MWtneXJlbzgzbmJk" target="_blank">
+        <a href="https://www.instagram.com/diel_ofcx7?igsh=MTFlNnRiczdnMmR3Nw==" target="_blank">
         📷 Instagram
         </a>
 
@@ -331,9 +331,9 @@ body {
         </button>
     </div>
 
-    <!-- Assistente IA -->
+    <!-- Assistente Virtual -->
     <div class="ai-card">
-        <div class="ai-header">🤖 Assistente do Diel</div>
+        <div class="ai-header">Assistente Virtual</div>
         <div class="ai-messages" id="chat-messages">
             <div class="msg ai">Salve, Diel! Manda a braba, o que quer trocar ideia hoje?</div>
         </div>
@@ -548,7 +548,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de IA do Chat Corrigido e Preciso
+// Sistema da Assistente Virtual
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -582,12 +582,10 @@ async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    // Mal-estar / Saúde física
     if (t.includes('passando mal') || t.includes('dor de cabeça') || t.includes('enjoado') || t.includes('enjoada') || t.includes('febre') || t.includes('doente') || t.includes('cansado') || t.includes('cansada')) {
         return "Caramba, melhor dar uma descansada e beber uma água! Se persistir, é bom dar uma olhada nisso ou procurar um médico 🤒 Fica bem!";
     }
 
-    // Agradecimentos
     if (t.includes('obrigado') || t.includes('valeu') || t.includes('tmj') || t.includes('brigadão') || t.includes('obrigada')) {
         const respostasObrigado = [
             "Por nada, Diel! Tamo junto sempre 👊",
@@ -597,7 +595,6 @@ async function processarRespostaIA(texto) {
         return respostasObrigado[Math.floor(Math.random() * respostasObrigado.length)];
     }
 
-    // Dólar
     if (t.includes('dólar') || t.includes('dolar') || t.includes('valor do dólar') || t.includes('cotação')) {
         try {
             let res = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
@@ -611,17 +608,14 @@ async function processarRespostaIA(texto) {
         }
     }
 
-    // Previsão do Tempo
     if (t.includes('tempo') || t.includes('clima') || t.includes('previsão') || t.includes('vai chover') || t.includes('sol')) {
-        return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
+        return "Atualmente no Rio de Janeiro, o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
     }
 
-    // Relacionamento / Término (Separado do mal-estar)
     if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('levou fora')) {
         return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça. Respira fundo, você merece alguém que te valorize de verdade!";
     }
 
-    // Matemática / Contas
     if (t.includes('quanto é') || t.includes('mais') || t.includes('menos') || t.includes('vezes') || t.includes('dividido') || t.includes('+') || t.includes('-') || t.includes('*') || t.includes('/')) {
         try {
             let expr = t.replace('quanto é', '')
@@ -640,13 +634,11 @@ async function processarRespostaIA(texto) {
         } catch(e) {}
     }
 
-    // Horas
     if (t.includes('hora') || t.includes('horas') || t.includes('que horas são')) {
         const horaAtual = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         return `Agora são exatamente ${horaAtual} ⏰`;
     }
 
-    // Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
             "Por que o programador usa óculos escuros? Porque ele não consegue lidar com C++! 👓😂",
@@ -657,7 +649,6 @@ async function processarRespostaIA(texto) {
         return piadas[Math.floor(Math.random() * piadas.length)];
     } 
 
-    // Saudação
     if (t.includes('olá') || t.includes('eae') || t.includes('salve') || t.includes('oi') || t.includes('tudo bem') || t.includes('fala')) {
         return "Salve, Diel! Tudo tranquilo por aqui. E com você, como estão as coisas? Manda a letra!";
     } 
@@ -666,7 +657,6 @@ async function processarRespostaIA(texto) {
         return "O Diel é o criador genial deste site irado!";
     } 
 
-    // Conversa Geral Natural
     const conversasHumanas = [
         `Entendi o que você quis dizer sobre "${texto}". Me conta mais detalhes sobre isso!`,
         `Pô, interessante isso aí que você falou sobre "${texto}". Qual é a sua visão sobre o assunto?`,
