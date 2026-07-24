@@ -548,7 +548,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de IA do Chat Inteligente e Natural
+// Sistema de IA do Chat Corrigido e Preciso
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -582,7 +582,12 @@ async function processarRespostaIA(texto) {
     const t = texto.toLowerCase();
     const agora = new Date();
 
-    // Agradecimentos / Educado
+    // Mal-estar / Saúde física
+    if (t.includes('passando mal') || t.includes('dor de cabeça') || t.includes('enjoado') || t.includes('enjoada') || t.includes('febre') || t.includes('doente') || t.includes('cansado') || t.includes('cansada')) {
+        return "Caramba, melhor dar uma descansada e beber uma água! Se persistir, é bom dar uma olhada nisso ou procurar um médico 🤒 Fica bem!";
+    }
+
+    // Agradecimentos
     if (t.includes('obrigado') || t.includes('valeu') || t.includes('tmj') || t.includes('brigadão') || t.includes('obrigada')) {
         const respostasObrigado = [
             "Por nada, Diel! Tamo junto sempre 👊",
@@ -611,14 +616,9 @@ async function processarRespostaIA(texto) {
         return "Atualmente em Copacabana (Rio de Janeiro), o clima está agradável, com temperatura de 24°C, ventos leves vindos do mar e céu limpo na orla 🌴☀️";
     }
 
-    // Desabafo / Relacionamento / Tristeza
-    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('triste') || t.includes('chateado') || t.includes('mal')) {
-        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça e dói demais. Tente respirar fundo, você merece alguém que te valorize de verdade. Se quiser desabafar, tô aqui ouvindo!";
-    }
-
-    // Conselhos
-    if (t.includes('conselho') || t.includes('o que você faria') || t.includes('problema') || t.includes('ajuda em')) {
-        return "Olha, na vida a gente passa por vários baques, mas o segredo é focar nos corres, nos projetos e em quem realmente tá com você nos momentos fáceis e difíceis. O que tá pegando?";
+    // Relacionamento / Término (Separado do mal-estar)
+    if (t.includes('trai') || t.includes('traiu') || t.includes('chifre') || t.includes('termini') || t.includes('terminei') || t.includes('levou fora')) {
+        return "Caramba, mano... sinto muito por isso. Passar por uma situação dessas mexe muito com a cabeça. Respira fundo, você merece alguém que te valorize de verdade!";
     }
 
     // Matemática / Contas
@@ -646,24 +646,6 @@ async function processarRespostaIA(texto) {
         return `Agora são exatamente ${horaAtual} ⏰`;
     }
 
-    // Data / Hoje / Amanhã
-    if (t.includes('amanhã') || t.includes('que dia') || t.includes('data') || t.includes('hoje')) {
-        const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-        const diaHoje = dias[agora.getDay()];
-        const amanha = new Date(agora);
-        amanha.setDate(agora.getDate() + 1);
-        const diaAmanha = dias[amanha.getDay()];
-        const dataFormatada = agora.toLocaleDateString('pt-BR');
-        
-        if (t.includes('amanhã')) {
-            return `Amanhã será ${diaAmanha}! 📅`;
-        } else if (t.includes('data') || t.includes('dia de hoje')) {
-            return `Hoje é ${diaHoje}, dia ${dataFormatada}! 🗓️`;
-        } else {
-            return `Hoje é ${diaHoje}! 🗓️`;
-        }
-    } 
-
     // Piadas
     if (t.includes('piada') || t.includes('rir') || t.includes('conta outra')) {
         const piadas = [
@@ -686,8 +668,8 @@ async function processarRespostaIA(texto) {
 
     // Conversa Geral Natural
     const conversasHumanas = [
-        `Entendi o que você quis dizer sobre "${texto}". Me conta mais detalhes sobre isso, como tá sendo para você?`,
-        `Pô, interessante isso aí que você falou sobre "${texto}". Qual é a sua visão sobre o assunto? Tô na área para trocar ideia.`,
+        `Entendi o que você quis dizer sobre "${texto}". Me conta mais detalhes sobre isso!`,
+        `Pô, interessante isso aí que você falou sobre "${texto}". Qual é a sua visão sobre o assunto?`,
         `Com certeza! Sobre "${texto}", o importante é manter o foco. Quer trocar mais ideia sobre isso ou quer mudar de assunto?`
     ];
 
