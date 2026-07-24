@@ -426,13 +426,13 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 function toggleMusic() {
     const btn = document.getElementById("music-toggle");
     if (!player || typeof player.getPlayerState !== 'function') {
-        // Se apertar antes de carregar, ele tenta dar play direto sem dar erro
         return;
     }
     try {
         let estado = player.getPlayerState();
         if (estado === YT.PlayerState.PLAYING) {
             player.pauseVideo();
+            player.seekTo(0); // Reseta a música para o começo ao pausar
             btn.innerHTML = "🎵 Tocar Visão de Águia";
         } else {
             player.playVideo();
