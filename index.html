@@ -310,8 +310,7 @@ body {
 
 <canvas id="bg"></canvas>
 
-<!-- Elemento de Áudio MP3 -->
-<audio id="audio-player" src="musica.mp3" loop></audio>
+<div id="youtube-player" style="display:none;"></div>
 
 <div class="main-container">
     <!-- Perfil e Música -->
@@ -327,7 +326,7 @@ body {
         📷 Instagram
         </a>
 
-        <button class="music-btn" id="music-toggle" onclick="toggleAudio()">
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
         🎵 Tocar Visão de Águia
         </button>
     </div>
@@ -402,20 +401,50 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Controle do Áudio MP3 (Visão de Águia)
-function toggleAudio() {
-    const audio = document.getElementById("audio-player");
+// API do YouTube configurada com o seu Short "Visão de Águia" (-yuqq_nbJjk)
+let player;
+let apiLoaded = false;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: '-yuqq_nbJjk',
+        playerVars: { 
+            'autoplay': 0,
+            'controls': 0,
+            'loop': 1,
+            'playlist': '-yuqq_nbJjk'
+        },
+        events: {
+            'onReady': () => { apiLoaded = true; }
+        }
+    });
+}
+
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function toggleMusic() {
     const btn = document.getElementById("music-toggle");
-    
-    if (audio.paused) {
-        audio.play().then(() => {
+    if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
+        alert("O player do YouTube ainda está carregando, aguarde um segundo e tente de novo!");
+        return;
+    }
+    try {
+        let estado = player.getPlayerState();
+        if (estado === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+            btn.innerHTML = "🎵 Tocar Visão de Águia";
+        } else {
+            player.playVideo();
             btn.innerHTML = "🔇 Pausar Música";
-        }).catch(err => {
-            alert("Erro ao tocar o áudio. Certifique-se de que o arquivo 'musica.mp3' está na mesma pasta!");
-        });
-    } else {
-        audio.pause();
-        btn.innerHTML = "🎵 Tocar Visão de Águia";
+        }
+    } catch (e) {
+        player.playVideo();
+        btn.innerHTML = "🔇 Pausar Música";
     }
 }
 
