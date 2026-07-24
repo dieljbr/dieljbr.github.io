@@ -331,9 +331,9 @@ body {
         </button>
     </div>
 
-    <!-- Assistente IA -->
+    <!-- Assistente Virtual -->
     <div class="ai-card">
-        <div class="ai-header">Assistente do Diel</div>
+        <div class="ai-header">Assistente Virtual</div>
         <div class="ai-messages" id="chat-messages">
             <div class="msg ai">Salve, Diel! Tô por aqui. Como você tá se sentindo hoje? Se precisar desabafar ou trocar ideia, é só mandar a letra.</div>
         </div>
@@ -363,7 +363,7 @@ body {
 </div>
 
 <script>
-// Efeito Matrix Verde Fluido
+// Efeito Matrix Verde Fluido (Corrigido e Funcionando)
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -548,7 +548,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// Sistema de Assistente Acolhedor e Sentimental
+// Sistema da Assistente Virtual Sentimental e Acolhedora
 function handleKeyPress(event) {
     if (event.key === 'Enter') { 
         event.preventDefault();
@@ -689,5 +689,4 @@ async function processarRespostaIA(texto) {
     // 12. Conversa Geral Natural e Empática
     const conversasHumanas = [
         `Entendi o que você disse sobre "${texto}". Me conta mais, tô aqui prestando atenção em você.`,
-        `Pô, interessante isso aí. Qual é a sua visão sobre o assunto, Diel?`,
-    
+        `Pô, interessante isso aí. Qual
