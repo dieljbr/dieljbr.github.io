@@ -342,10 +342,8 @@ body {
 
 <canvas class="bg-matrix" id="bg"></canvas>
 
-<div id="youtube-player" style="display:none;"></div>
-
 <div class="main-container">
-    <!-- Perfil e Música -->
+    <!-- Perfil e Links -->
     <div class="card">
         <h1>DIEL</h1>
         <p class="subtitle">Bem-vindo ao meu site</p>
@@ -359,7 +357,7 @@ body {
         </a>
 
         <button class="music-btn" id="music-toggle" type="button">
-        🎵 Tocar Música (Zeca Pagodinho)
+        🎵 Zeca Pagodinho (YouTube)
         </button>
     </div>
 
@@ -407,7 +405,7 @@ body {
 </div>
 
 <script>
-// 1. Efeito Matrix Fluido e Seguro
+// 1. Efeito Matrix Fluido
 const canvasBg = document.getElementById("bg");
 const ctxBg = canvasBg.getContext("2d");
 
@@ -445,51 +443,9 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// 2. API do YouTube Segura
-let player;
-let apiLoaded = false;
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: 'eFQCPE9uDy0',
-        playerVars: { 
-            'autoplay': 0,
-            'controls': 0,
-            'loop': 1,
-            'playlist': 'eFQCPE9uDy0'
-        },
-        events: {
-            'onReady': () => { apiLoaded = true; }
-        }
-    });
-}
-
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+// 2. Botão de Música Seguro (Abre o Zeca Pagodinho no YouTube Direto)
 document.getElementById("music-toggle").addEventListener("click", function() {
-    const btn = this;
-    if (!apiLoaded || !player || typeof player.getPlayerState !== 'function') {
-        alert("O player ainda está carregando, tente em 2 segundos!");
-        return;
-    }
-    try {
-        let estado = player.getPlayerState();
-        if (estado === YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-            btn.innerHTML = "🎵 Tocar Música (Zeca Pagodinho)";
-        } else {
-            player.playVideo();
-            btn.innerHTML = "🔇 Pausar Música";
-        }
-    } catch (e) {
-        player.playVideo();
-        btn.innerHTML = "🔇 Pausar Música";
-    }
+    window.open("https://www.youtube.com/watch?v=eFQCPE9uDy0", "_blank");
 });
 
 // 3. Jogo da Velha Robusto
@@ -601,7 +557,7 @@ function reiniciarJogo() {
     atualizarTabuleiro();
 }
 
-// 4. Jogo Estilo Mario (Super Diel World) Otimizado
+// 4. Jogo Estilo Mario (Super Diel World)
 const mCanvas = document.getElementById("marioCanvas");
 const mCtx = mCanvas.getContext("2d");
 
@@ -798,4 +754,47 @@ function desenharMario() {
 }
 
 mCanvas.addEventListener('click', () => {
-    if (gameO
+    if (gameOverMario) {
+        scoreMario = 0;
+        vidas = 3;
+        gameOverMario = false;
+        mario.x = 20;
+        mario.y = 57;
+        document.getElementById("mario-status").innerText = "Novo jogo iniciado!";
+    }
+});
+
+function loopMario() {
+    atualizarMario();
+    desenharMario();
+    requestAnimationFrame(loopMario);
+}
+
+loopMario();
+
+// 5. Sistema de IA do Chat Fluido
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("user-input").addEventListener("keypress", function(event) {
+    if (event.key === 'Enter') { 
+        event.preventDefault();
+        sendMessage(); 
+    }
+});
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const chat = document.getElementById('chat-messages');
+    const text = input.value.trim();
+
+    if (text === '') return;
+
+    chat.innerHTML += `<div class="msg user">${escapeHtml(text)}</div>`;
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    const loadingId = 'loading-' + Date.now();
+    chat.innerHTML += `<div class="msg ai" id="${loadingId}">Pensando...</div>`;
+    chat.scrollTop = chat.scrollHeight;
+
+    setTimeout(() => {
+        let resposta = processarRes
